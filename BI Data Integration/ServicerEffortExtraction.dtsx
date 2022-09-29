@@ -1,0 +1,2684 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/30/2016 12:05:13 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-SHETE"
+  DTS:CreatorName="CMGMI\dshete"
+  DTS:DTSID="{8F2DF379-A844-43F9-AA4D-E5F33C195C23}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ServicerEffortExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="766"
+  DTS:VersionGUID="{03419EEC-1C44-4997-8E19-8FD21D97D0EF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{50DA91BB-F1E5-4783-AAF7-1ADF96A6B659}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(YEAR( DATEADD( &quot;day&quot;,-15, getdate() ) ) * 10000 + MONTH (DATEADD( &quot;day&quot;,-15, getdate() ) ) * 100 + DAY(DATEADD( &quot;day&quot;,-15, getdate() ) ))"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Variable">
+      <DTS:VariableValue
+        DTS:DataType="3">20220719</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Claims and Delinquency Extraction"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F550CFBD-96D9-4401-BFF5-0C9D354545C1}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Claims and Delinquency Extraction">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{8E9FCCA9-3107-4B44-BA93-E7CA941D6C0B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STG_SERVICER_EFFORT"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:DTSID="{44FFC512-5036-4CF1-972B-01D079EE62D3}"
+              DTS:IncludeInDebugDump="2345"
+              DTS:Namespace="User"
+              DTS:ObjectName="vCDCMax_Audit_Timestamp">
+              <DTS:VariableValue
+                DTS:DataType="8"
+                xml:space="preserve"></DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.EventHandlers[OnPreExecute]"
+              DTS:CreationName="OnPreExecute"
+              DTS:DTSID="{72E60BD5-51B4-4143-8933-F8A59CEA68AD}"
+              DTS:EventID="0"
+              DTS:EventName="OnPreExecute"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="The propagate property of the event"
+                  DTS:DTSID="{67419A08-6DCC-4A3B-AF2E-C1DA87BFF2E8}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.EventHandlers[OnPreExecute]\Get CDC Dates"
+                  DTS:CreationName="Microsoft.ExecuteSQLTask"
+                  DTS:Description="Execute SQL Task"
+                  DTS:DTSID="{33147D00-EB4A-47B7-BF95-B7FFB2860F5D}"
+                  DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Get CDC Dates"
+                  DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <SQLTask:SqlTaskData
+                      SQLTask:Connection="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+                      SQLTask:SqlStatementSource="Select cast(isnull(max(cast(Audit_Timestamp as datetime2)), '1900/01/01') as datetime2)  as MaxAuditTimestamp  from dbo.STG_SERVICER_EFFORT"
+                      SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                      <SQLTask:ResultBinding
+                        SQLTask:ResultName="MaxAuditTimestamp"
+                        SQLTask:DtsVariableName="User::vCDCMax_Audit_Timestamp" />
+                    </SQLTask:SqlTaskData>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="dt_conv_NVARCHAR_TO_VARCHAR"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input].Columns[TEXT]"
+                          cachedDataType="wstr"
+                          cachedLength="1024"
+                          cachedName="TEXT"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[TEXT]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input].Columns[AUDIT_USER]"
+                          cachedDataType="wstr"
+                          cachedLength="160"
+                          cachedName="AUDIT_USER"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_USER]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input].Columns[AUDIT_LDAP_DN]"
+                          cachedDataType="wstr"
+                          cachedLength="200"
+                          cachedName="AUDIT_LDAP_DN"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_LDAP_DN]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input].Columns[SCHEMA_SOURCE]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="SCHEMA_SOURCE"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SCHEMA_SOURCE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input].Columns[DB_INSTANCE]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="DB_INSTANCE"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DB_INSTANCE]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[TEXT]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="1024"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[TEXT]"
+                          name="TEXT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[TEXT]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_USER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="160"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_USER]"
+                          name="AUDIT_USER"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_USER]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_LDAP_DN]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="200"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_LDAP_DN]"
+                          name="AUDIT_LDAP_DN"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_LDAP_DN]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[SCHEMA_SOURCE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="20"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[SCHEMA_SOURCE]"
+                          name="SCHEMA_SOURCE"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SCHEMA_SOURCE]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[DB_INSTANCE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="2"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[DB_INSTANCE]"
+                          name="DB_INSTANCE"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DB_INSTANCE]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="Lookup"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select SERVICER_EFFORT_ID
+from dbo.STG_SERVICER_EFFORT</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select SERVICER_EFFORT_ID
+from dbo.STG_SERVICER_EFFORT) [refTable]
+where [refTable].[SERVICER_EFFORT_ID] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="SERVICER_EFFORT_ID" dataType="DT_I8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input].Columns[SERVICER_EFFORT_ID]"
+                          cachedDataType="i8"
+                          cachedName="SERVICER_EFFORT_ID"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">SERVICER_EFFORT_ID</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;10"
+                  description="Removes non printable characters from TEXT column"
+                  name="Remove NonPrintable Chars"
+                  version="10">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Stores the source code of the component"
+                      isArray="true"
+                      name="SourceCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="30">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[My Project\Settings.Designer.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA['------------------------------------------------------------------------------
+' <autogenerated>
+'     This code was generated by a tool.
+'
+'     Changes to this file may cause incorrect behavior and will be lost if
+'     the code is regenerated.
+' </autogenerated>
+'------------------------------------------------------------------------------
+
+Option Strict Off
+Option Explicit On
+
+
+
+Partial Friend NotInheritable Class MySettings
+    Inherits System.Configuration.ApplicationSettingsBase
+
+    Private Shared m_Value As MySettings
+
+    Private Shared m_SyncObject As Object = New Object
+
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Public Shared ReadOnly Property Value() As MySettings
+        Get
+            If (MySettings.m_Value Is Nothing) Then
+                System.Threading.Monitor.Enter(MySettings.m_SyncObject)
+                If (MySettings.m_Value Is Nothing) Then
+                    Try
+                        MySettings.m_Value = New MySettings
+                    Finally
+                        System.Threading.Monitor.Exit(MySettings.m_SyncObject)
+                    End Try
+                End If
+            End If
+            Return MySettings.m_Value
+        End Get
+    End Property
+End Class
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_ef3d4e484f7a4e35b2d22c78c10daed1.vbproj]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{a212568b-0b1e-45f4-a526-04c82817012f}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>My Project</AppDesignerFolder><RootNamespace>SC_ef3d4e484f7a4e35b2d22c78c10daed1</RootNamespace><AssemblyName>SC_C74BBB8E57A040F3A9C3B6FFD7FF8775</AssemblyName><TargetFrameworkVersion>v4.5</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>true</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>false</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><!-- This sections specifies references for the project. --><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Compile Include="main.vb" /><Compile Include="BufferWrapper.vb" /><Compile Include="ComponentWrapper.vb" /></ItemGroup><!-- Visual Basic supports Importing namespaces (equivalent to using statements in C#).--><ItemGroup><Import Include="Microsoft.VisualBasic" /><Import Include="System" /><Import Include="System.Collections" /><Import Include="System.Data" /><Import Include="System.Diagnostics" /><Import Include="System.Windows.Forms" /></ItemGroup><ItemGroup><AppDesigner Include="My Project\" /><Compile Include="My Project\AssemblyInfo.vb"><SubType>Code</SubType></Compile><EmbeddedResource Include="My Project\Resources.resx"><Generator>VbMyResourcesResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.vb</LastGenOutput><CustomToolNamespace>My.Resources</CustomToolNamespace></EmbeddedResource><Compile Include="My Project\Resources.Designer.vb"><AutoGen>True</AutoGen><DesignTime>True</DesignTime><DependentUpon>Resources.resx</DependentUpon><SubType>Code</SubType></Compile><None Include="My Project\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.vb</LastGenOutput></None><Compile Include="My Project\Settings.Designer.vb"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon><SubType>Code</SubType></Compile></ItemGroup><!-- Include the build rules for a VB project.--><Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /><!-- This section defines VSTA properties that describe the host-changable project properties. --><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="SSIS_SC130" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" /><Host Name="SSIS_SC130" IconIndex=""></Host><ProjectClient><HostIdentifier>SSIS_SC130</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[ComponentWrapper.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[' THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+' Microsoft SQL Server Integration Services component wrapper
+' This module defines the base class for your component
+' THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+
+Imports System
+Imports System.Data
+Imports Microsoft.SqlServer.Dts.Pipeline
+Imports Microsoft.SqlServer.Dts.Pipeline.Wrapper
+Imports Microsoft.SqlServer.Dts.Runtime.Wrapper
+
+<CLSCompliant(False)> _
+Public Class UserComponent
+    Inherits ScriptComponent
+
+    Public Connections As New Connections(Me)
+    Public Variables As New Variables(Me)
+
+    Public Overrides Sub ProcessInput(ByVal InputID As Integer, ByVal InputName As String, ByVal Buffer As PipelineBuffer, ByVal OutputMap As OutputNameMap)
+
+        If InputName.Equals("Input 0", StringComparison.Ordinal) Then
+            Input0_ProcessInput(New Input0Buffer(Buffer, GetColumnIndexes(InputID), OutputMap))
+        End If
+
+    End Sub
+
+    Public Overridable Sub Input0_ProcessInput(ByVal Buffer As Input0Buffer)
+
+        While Buffer.NextRow()
+            Input0_ProcessInputRow(Buffer)
+        End While
+
+    End Sub
+
+    Public Overridable Sub Input0_ProcessInputRow(ByVal Row As Input0Buffer)
+
+    End Sub
+
+End Class
+
+<CLSCompliant(False)> _
+Public Class Connections
+
+    Dim ParentComponent As ScriptComponent
+
+    <CLSCompliant(False)> _
+    Public Sub New(ByVal Component As ScriptComponent)
+        ParentComponent = Component
+    End Sub
+
+End Class
+
+<CLSCompliant(False)> _
+Public Class Variables
+
+    Dim ParentComponent As ScriptComponent
+
+    <CLSCompliant(False)> _
+    Public Sub New(ByVal Component As ScriptComponent)
+        ParentComponent = Component
+    End Sub
+
+End Class
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[My Project\Settings.settings]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)" GeneratedClassNamespace="" GeneratedClassName="MySettings">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[My Project\AssemblyInfo.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Imports System
+Imports System.Reflection
+Imports System.Runtime.InteropServices
+
+' General Information about an assembly is controlled through the following 
+' set of attributes. Change these attribute values to modify the information
+' associated with an assembly.
+
+' Review the values of the assembly attributes
+
+<Assembly: AssemblyTitle("SC_ef3d4e484f7a4e35b2d22c78c10daed1")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("SC_ef3d4e484f7a4e35b2d22c78c10daed1")> 
+<Assembly: AssemblyCopyright("Copyright @  2017")> 
+<Assembly: AssemblyTrademark("")> 
+<Assembly: CLSCompliant(True)> 
+
+<Assembly: ComVisible(False)> 
+
+'The following GUID is for the ID of the typelib if this project is exposed to COM
+<Assembly: Guid("b1edb3a9-0b44-4069-b77a-2db77da93103")> 
+
+' Version information for an assembly consists of the following four values:
+'
+'      Major Version
+'      Minor Version 
+'      Build Number
+'      Revision
+'
+' You can specify all the values or you can default the Build and Revision Numbers 
+' by using the '*' as shown below:
+' <Assembly: AssemblyVersion("1.0.*")>
+
+<Assembly: AssemblyVersion("1.0.0.0")> 
+<Assembly: AssemblyFileVersion("1.0.0.0")> 
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[main.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[#Region "Help:  Introduction to the Script Component"
+' The Script Component allows you to perform virtually any operation that can be accomplished in
+' a .Net application within the context of an Integration Services data flow.
+
+' Expand the other regions which have "Help" prefixes for examples of specific ways to use
+' Integration Services features within this script component.
+#End Region
+
+#Region "Imports"
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Pipeline.Wrapper
+Imports Microsoft.SqlServer.Dts.Runtime.Wrapper
+Imports System.Text.RegularExpressions
+#End Region
+
+' This is the class to which to add your code.  Do not change the name, attributes, or parent
+' of this class.
+<Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute> _
+<CLSCompliant(False)> _
+Public Class ScriptMain
+    Inherits UserComponent
+
+#Region "Help:  Using Integration Services variables and parameters"
+    'To use a variable in this script, first ensure that the variable has been added to
+    'either the list contained in the ReadOnlyVariables property or the list contained in
+    'the ReadWriteVariables property of this script component, according to whether or not your
+    'code needs to write into the variable.  To do so, save this script, close this instance of
+    'Visual Studio, and update the ReadOnlyVariables and ReadWriteVariables properties.
+    'To use a parameter in this script, follow the same steps. Parameters are always read-only.
+
+    'Example of reading from a variable or parameter:
+    ' startTime = Variables.MyStartTime;
+
+    'Example of writing to a variable:
+    ' Variables.myStringVariable = "new value";
+#End Region
+
+#Region "Help:  Using Integration Services Connnection Managers"
+    'Some types of connection managers can be used in this script component.  See the help topic
+    '"Working with Connection Managers Programatically" for details.
+
+    'To use a connection manager in this script, first ensure that the connection manager has
+    'been added to either the list of connection managers on the Connection Managers page of the
+    'script component editor.  To add the connection manager, save this script, close this instance of
+    ' Visual Studio, and add the Connection Manager to the list.
+
+    'If the component needs to hold a connection open while processing rows, override the
+    'AcquireConnections and ReleaseConnections methods.
+
+    'Example of using an ADO.Net connection manager to acquire a SqlConnection:
+    ' Dim rawConnection As Object = Connections.SalesDB.AcquireConnection(Transaction)
+    ' Dim salesDBConn As SqlConnection = CType(rawConnection, SqlConnection)
+
+    'Example of using a File connection manager to acquire a file path:
+    ' Dim rawConnection As Object = Connections.Prices_zip.AcquireConnection(Transaction)
+    ' Dim filePath As String = CType(rawConnection, String)
+
+    'Example of releasing a connection manager:
+    ' Connections.SalesDB.ReleaseConnection(rawConnection)
+#End Region
+
+#Region "Help:  Firing Integration Services Events"
+    'This script component can fire events.
+
+    'Example of firing an error event:
+    ' ComponentMetaData.FireError(10, "Process Values", "Bad value", "", 0, cancel)
+
+    'Example of firing an information event:
+    ' ComponentMetaData.FireInformation(10, "Process Values", "Processing has started", "", 0, fireAgain)
+
+    'Example of firing a warning event:
+    ' ComponentMetaData.FireWarning(10, "Process Values", "No rows were received", "", 0)
+
+#End Region
+
+    'This method is called once, before rows begin to be processed in the data flow.
+    '
+    'You can remove this method if you don't need to do anything here.
+    Public Overrides Sub PreExecute()
+        MyBase.PreExecute()
+        '
+        ' Add your code here
+        '
+    End Sub
+
+    ' This method is called after all the rows have passed through this component.
+    '
+    ' You can delete this method if you don't need to do anything here.
+    Public Overrides Sub PostExecute()
+        MyBase.PostExecute()
+        '
+        ' Add your code here
+        '
+    End Sub
+
+    'This method is called once for every row that passes through the component from Input0.
+    '
+    'Example of reading a value from a column in the the row:
+    ' zipCode = Row.ZipCode
+    '
+    'Example of writing a value to a column in the row:
+    ' Row.ZipCode = zipCode
+    Public Overrides Sub Input0_ProcessInputRow(ByVal Row As Input0Buffer)
+        If Row.TEXT_IsNull = False Then
+            Dim pattern_forTEXT As String = String.Empty
+            Dim r As Regex = Nothing
+            pattern_forTEXT = "[^ -~]"
+            r = New Regex(pattern_forTEXT, RegexOptions.Compiled)
+            Row.TEXT = Regex.Replace(Row.TEXT, pattern_forTEXT, "")
+        End If
+
+    End Sub
+
+End Class
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[BufferWrapper.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[' THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+' Microsoft SQL Server Integration Services buffer wrappers
+' This module defines classes for accessing data flow buffers
+' THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+
+
+Option Strict Off   ' This allows usage of PipelineBuffer typed accessors.
+
+Imports System
+Imports System.Data
+Imports Microsoft.SqlServer.Dts.Pipeline
+Imports Microsoft.SqlServer.Dts.Pipeline.Wrapper
+
+<CLSCompliant(False)> _
+Public Class Input0Buffer
+    Inherits ScriptBuffer
+
+    Public Sub New(ByVal Buffer As PipelineBuffer, ByVal BufferColumnIndexes As Integer(), ByVal OutputMap As OutputNameMap)
+        MyBase.New(Buffer, BufferColumnIndexes, OutputMap)
+    End Sub
+
+    Public ReadOnly Property [SERVICEREFFORTID]() As Int64
+        Get
+            Return Buffer.GetInt64(Me.BufferColumnIndexes(0))
+        End Get
+    End Property
+    Public ReadOnly Property [SERVICEREFFORTID_IsNull] As Boolean
+        Get
+            Return IsNull(0)
+        End Get
+    End Property
+
+    Public ReadOnly Property [DELINQUENCYID]() As Int64
+        Get
+            Return Buffer.GetInt64(Me.BufferColumnIndexes(1))
+        End Get
+    End Property
+    Public ReadOnly Property [DELINQUENCYID_IsNull] As Boolean
+        Get
+            Return IsNull(1)
+        End Get
+    End Property
+
+    Public ReadOnly Property [CHANNELTYPEID]() As Int64
+        Get
+            Return Buffer.GetInt64(Me.BufferColumnIndexes(2))
+        End Get
+    End Property
+    Public ReadOnly Property [CHANNELTYPEID_IsNull] As Boolean
+        Get
+            Return IsNull(2)
+        End Get
+    End Property
+
+    Public Property [TEXT]() As String
+        Get
+            Return Buffer.GetString(Me.BufferColumnIndexes(3))
+        End Get
+        Set
+            Me(3) = Value
+        End Set
+    End Property
+    Public Property [TEXT_IsNull] As Boolean
+        Get
+            Return IsNull(3)
+        End Get
+        Set
+            If (value)
+                SetNull(3)
+            Else
+                Throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.")
+            End If
+        End Set
+    End Property
+
+    Public ReadOnly Property [BPAAUDITTRAILID]() As Int64
+        Get
+            Return Buffer.GetInt64(Me.BufferColumnIndexes(4))
+        End Get
+    End Property
+    Public ReadOnly Property [BPAAUDITTRAILID_IsNull] As Boolean
+        Get
+            Return IsNull(4)
+        End Get
+    End Property
+
+    Public ReadOnly Property [AUDITUSER]() As String
+        Get
+            Return Buffer.GetString(Me.BufferColumnIndexes(5))
+        End Get
+    End Property
+    Public ReadOnly Property [AUDITUSER_IsNull] As Boolean
+        Get
+            Return IsNull(5)
+        End Get
+    End Property
+
+    Public ReadOnly Property [AUDITLDAPDN]() As String
+        Get
+            Return Buffer.GetString(Me.BufferColumnIndexes(6))
+        End Get
+    End Property
+    Public ReadOnly Property [AUDITLDAPDN_IsNull] As Boolean
+        Get
+            Return IsNull(6)
+        End Get
+    End Property
+
+    Public ReadOnly Property [AUDITTIMESTAMP]() As DateTime
+        Get
+            Return Buffer.GetDateTime(Me.BufferColumnIndexes(7))
+        End Get
+    End Property
+    Public ReadOnly Property [AUDITTIMESTAMP_IsNull] As Boolean
+        Get
+            Return IsNull(7)
+        End Get
+    End Property
+
+    Public ReadOnly Property [EXTRACTTIMESTAMP]() As DateTime
+        Get
+            Return Buffer.GetDateTime(Me.BufferColumnIndexes(8))
+        End Get
+    End Property
+    Public ReadOnly Property [EXTRACTTIMESTAMP_IsNull] As Boolean
+        Get
+            Return IsNull(8)
+        End Get
+    End Property
+
+    Public ReadOnly Property [EXTRACTDATE]() As Int32
+        Get
+            Return Buffer.GetInt32(Me.BufferColumnIndexes(9))
+        End Get
+    End Property
+    Public ReadOnly Property [EXTRACTDATE_IsNull] As Boolean
+        Get
+            Return IsNull(9)
+        End Get
+    End Property
+
+    Public ReadOnly Property [SCHEMASOURCE]() As String
+        Get
+            Return Buffer.GetString(Me.BufferColumnIndexes(10))
+        End Get
+    End Property
+    Public ReadOnly Property [SCHEMASOURCE_IsNull] As Boolean
+        Get
+            Return IsNull(10)
+        End Get
+    End Property
+
+    Public ReadOnly Property [DBINSTANCE]() As String
+        Get
+            Return Buffer.GetString(Me.BufferColumnIndexes(11))
+        End Get
+    End Property
+    Public ReadOnly Property [DBINSTANCE_IsNull] As Boolean
+        Get
+            Return IsNull(11)
+        End Get
+    End Property
+
+    Public Overloads Function NextRow() As Boolean
+        NextRow = MyBase.NextRow()
+    End Function
+
+    Public Overloads Function EndOfRowset() As Boolean
+        EndOfRowset = MyBase.EndOfRowset
+    End Function
+
+End Class
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Project]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>SC_ef3d4e484f7a4e35b2d22c78c10daed1</msb:CodeName>
+		<msb:DisplayName>SC_ef3d4e484f7a4e35b2d22c78c10daed1</msb:DisplayName>
+		<msb:ProjectId>{43DFF02F-CB27-4848-B91C-803FC517DE28}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_ef3d4e484f7a4e35b2d22c78c10daed1.vbproj"/>
+		<msb:File Include="My Project\AssemblyInfo.vb"/>
+		<msb:File Include="ComponentWrapper.vb"/>
+		<msb:File Include="My Project\Resources.resx"/>
+		<msb:File Include="My Project\Resources.Designer.vb"/>
+		<msb:File Include="My Project\Settings.settings"/>
+		<msb:File Include="BufferWrapper.vb"/>
+		<msb:File Include="main.vb"/>
+		<msb:File Include="My Project\Settings.Designer.vb"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[My Project\Resources.resx]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[My Project\Resources.Designer.vb]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA['------------------------------------------------------------------------------
+' <autogenerated>
+'     This code was generated by a tool.
+'
+'     Changes to this file may cause incorrect behavior and will be lost if
+'     the code is regenerated.
+' </autogenerated>
+'------------------------------------------------------------------------------
+
+Option Strict Off
+Option Explicit On
+
+
+Namespace My.Resources
+    
+    '''<summary>
+    '''   A strongly-typed resource class, for looking up localized strings, etc.
+    '''</summary>
+    'This class was auto-generated by the Strongly Typed Resource Builder
+    'class via a tool like ResGen or Visual Studio.NET.
+    'To add or remove a member, edit your .ResX file then rerun ResGen
+    'with the /str option, or rebuild your VS project.
+    Class MyResources
+        
+        Private Shared _resMgr As System.Resources.ResourceManager
+        
+        Private Shared _resCulture As System.Globalization.CultureInfo
+        
+        Friend Sub New()
+            MyBase.New
+        End Sub
+        
+        '''<summary>
+        '''   Returns the cached ResourceManager instance used by this class.
+        '''</summary>
+        <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
+        Public Shared ReadOnly Property ResourceManager() As System.Resources.ResourceManager
+            Get
+                If (_resMgr Is Nothing) Then
+                    Dim temp As System.Resources.ResourceManager = New System.Resources.ResourceManager("My.Resources.MyResources", GetType(MyResources).Assembly)
+                    _resMgr = temp
+                End If
+                Return _resMgr
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   Overrides the current thread's CurrentUICulture property for all
+        '''   resource lookups using this strongly typed resource class.
+        '''</summary>
+        <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
+        Public Shared Property Culture() As System.Globalization.CultureInfo
+            Get
+                Return _resCulture
+            End Get
+            Set
+                _resCulture = value
+            End Set
+        End Property
+    End Class
+End Namespace
+]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Stores the binary representation of the component"
+                      isArray="true"
+                      name="BinaryCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="2">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_C74BBB8E57A040F3A9C3B6FFD7FF8775.dll]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAGsGx14AAAAAAAAAAOAAIiALAVAAACQAAAAIAAAAAAAAAkMA
+AAAgAAAAYAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACgAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAALBCAABPAAAAAGAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAIAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAACCMAAAAgAAAAJAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAYAAAAAYAAAAmAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAIAAAAACAAAALAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAADk
+QgAAAAAAAEgAAAACAAUArCQAAEwdAAABAAAAAAAAAPhBAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKCIAAAYqHgIoGAAACioeAigZAAAKKhMwBAA0AAAAAQAA
+EQNvDgAABi0rfhoAAAoKcgEAAHAKBh5zGwAACiYDA28MAAAGBnIPAABwKBwAAApvDQAABioqAgME
+BSgdAAAKKlICex4AAAoCex8AAAoWlG8gAAAKKiICFighAAAKKlICex4AAAoCex8AAAoXlG8gAAAK
+KiICFyghAAAKKlICex4AAAoCex8AAAoYlG8gAAAKKiICGCghAAAKKlICex4AAAoCex8AAAoZlG8i
+AAAKKiYCGQMoIwAACioiAhkoIQAACipaAywIAhkoJAAACipyEQAAcHMlAAAKelICex4AAAoCex8A
+AAoalG8gAAAKKiICGighAAAKKlICex4AAAoCex8AAAoblG8iAAAKKiICGyghAAAKKlICex4AAAoC
+ex8AAAoclG8iAAAKKiICHCghAAAKKlICex4AAAoCex8AAAodlG8mAAAKKiICHSghAAAKKlICex4A
+AAoCex8AAAoelG8mAAAKKiICHighAAAKKlYCex4AAAoCex8AAAofCZRvJwAACiomAh8JKCEAAAoq
+VgJ7HgAACgJ7HwAACh8KlG8iAAAKKiYCHwooIQAACipWAnseAAAKAnsfAAAKHwuUbyIAAAoqJgIf
+CyghAAAKKgAAEzABAAkAAAACAAARAigoAAAKCgYqAAAAEzABAAkAAAACAAARAigpAAAKCgYqfgIo
+KgAACgICcyYAAAZ9AQAABAICcycAAAZ9AgAABCqSBHKuAABwGm8rAAAKLBUCBQIDKCwAAAoOBHMF
+AAAGbyQAAAYqSisHAgNvJQAABgNvIAAABi3xKgYqOgIoLQAACgIDfQMAAAQqOgIoLQAACgIDfQQA
+AAQqHgIoLQAACiqufgUAAAQtHnK+AABw0AcAAAIoLgAACm8vAAAKczAAAAqABQAABH4FAAAEKhp+
+BgAABCoeAoAGAAAEKh4CKDEAAAoqHgIoMgAACioufgcAAARvMwAACioufggAAARvNAAACioufgkA
+AARvNQAACioufgoAAARvNgAACiqmczcAAAqABwAABHM4AAAKgAgAAARzOQAACoAJAAAEczoAAAqA
+CgAABCpCcy0AAAooOwAACoAMAAAEKh4CKDwAAAoqABswAQA/AAAAAAAAAH4LAAAELTJ+DAAABCg7
+AAAKKD0AAAp+CwAABC0cczQAAAaACwAABN4QfgwAAAQoOwAACig+AAAK3H4LAAAEKgABEAAAAgAd
+AAwpABAAAAAANgIDKDsAAAooPwAACioeAihAAAAKKi7QDAAAAiguAAAKKh4CKEEAAAoqAAATMAEA
+FAAAAAMAABECjAUAABstCCgBAAArCisCAgoGKiID/hUFAAAbKgAAABMwAgAoAAAABAAAEQJ7QwAA
+Cm9EAAAKCgaMCAAAGy0SKAIAACsKAntDAAAKBm9FAAAKBipKAigtAAAKAnNGAAAKfUMAAAoqAEJT
+SkIBAAEAAAAAAAwAAAB2NC4wLjMwMzE5AAAAAAUAbAAAAPALAAAjfgAAXAwAABAMAAAjU3RyaW5n
+cwAAAABsGAAA8AAAACNVUwBcGQAAEAAAACNHVUlEAAAAbBkAAOADAAAjQmxvYgAAAAAAAAACAAAB
+VxWiCQkPAAAA+gEzABYAAAEAAAAyAAAADQAAAA0AAAA+AAAAEgAAAEYAAAA9AAAABAAAAAUAAAAg
+AAAAIwAAAAgAAAABAAAABQAAAAEAAAACAAAAAwAAAAIAAAAAAL4FAQAAAAAABgAxBMEJBgDbBMEJ
+BgAIAwIJDwBnCgAABgBJA54HBgAUBJ4HBgDCBJ4HBgBRBJ4HBgBqBJ4HBgCQA54HBgCFBCcHBgA1
+A3sJBgCxAnsJBgDcA54HBgCrA0wFCgCbBCcCBgB5BScHCgB7CCcCDgBsCCcCCgDnBycCBgAeAicH
+CgBECycCBgAECycHBgCMCOEJBgDbB4kHEgCcAqgFEgAcA6gFEgDUApwIFgB0AlEJFgDSCBUJBgDE
+AwIJFgBgA5oJFgB4A5sBFgC4CFEJFgD5A5sBBgBLAicHFgABAH4FEgC/Ai4HEgCEAnQHBgDrAgIJ
+BgByBScHEgDPC7cKEgDiCrcKBgCwBycHBgDKBycHBgDtAScHBgAADJ4HBgDvCsEJBgD6CDsFBgDj
+CCcHAAAAAIUAAAAAAAEAAQABAAAASwcrABAAAQABAAEAAABfCCsASQABAAUAAQAAACYLKwBZAAEA
+IgABAAAA1gorAF0AAwAmAAEAAAB2CisAXQAEACcAAAAAACMK8gldAAUAKAAAAAAAZgfVC3UABwAs
+AAAAAADQCNULeQAHAC0AAAEQAAsL1QtdAAcALgAAARAApQorAJ0ACwAzAAUBAABDCQAAXQANADYA
+BQEAABAAAABdAA0APQAGANYKNQEGAHYKOQEBADQLPQEBADQLPQERANsIQQERAGgCRQExACgISQEx
+AP8HUQExABMIWQExAEEIYgERABAFagERAP4KbgEhAKYL+wBQIAAAAAAGGO0IBgABAFggAAAAAMYC
++QQGAAEAYCAAAAAAxgIEBQYAAQBoIAAAAADGArALcQEBAKggAAAAAAYY7QhEAAIAsyAAAAAABgi0
+AHcBBQDIIAAAAAAGCBoGegAFANEgAAAAAAYIyQB3AQUA5iAAAAAABgg2BnoABQDvIAAAAAAGCI4A
+dwEFAAQhAAAAAAYI5gV6AAUADSEAAAAABghZAdgABQAiIQAAAAAGCGIBEAAFACwhAAAAAAYI9gZ6
+AAYANSEAAAAABggGBxUABgBMIQAAAAAGCKAAdwEHAGEhAAAAAAYI/wV6AAcAaiEAAAAABghLAdgA
+BwB/IQAAAAAGCOEGegAHAIghAAAAAAYIEwHYAAcAnSEAAAAABgiUBnoABwCmIQAAAAAGCDgBewEH
+ALshAAAAAAYIxwZ6AAcAxCEAAAAABggjAXsBBwDZIQAAAAAGCKsGegAHAOIhAAAAAAYIAwHUAAcA
++CEAAAAABgh9BnoABwACIgAAAAAGCPIA2AAHABgiAAAAAAYIZQZ6AAcAIiIAAAAABgjjANgABwA4
+IgAAAAAGCE8GegAHAEQiAAAAAIYAxwt6AAcAXCIAAAAAhgAVC3oABwBxIgAAAAAGGO0IBgAHAJEi
+AAAAAMYCmQuAAQcAtiIAAAAARgOSC3EBCwDJIgAAAABGA7ALcQEMAMsiAAAAAAYY7QiKAQ0A2iIA
+AAAABhjtCIoBDgDpIgAAAAADGO0IBgAPAPEiAAAAABYIiAiQAQ8AHSMAAAAAFghQApUBDwAkIwAA
+AAAWCFwCmgEPACwjAAAAAAYY7QgGABAANCMAAAAABhjtCAYAEAA8IwAAAAATCMMIoAEQAEgjAAAA
+ABMIVgelARAAVCMAAAAAEwi0CKoBEABgIwAAAAATCDMJsAEQAGwjAAAAABEY8wi1ARAAliMAAAAA
+ERjzCLUBEACnIwAAAAAGGO0IBgAQALAjAAAAABYIGAW5ARAADCQAAAAAxgKwCs8AEAAaJAAAAADG
+AuEB1AARACIkAAAAAIMASAK+AREALiQAAAAAxgJmBdgAEQA4JAAAAAARAH8BxAERAFgkAAAAAAEA
+awHMARIA6SIAAAAABhjtCAYAEwBkJAAAAAADCMgBqgATAJgkAAAAAAYY7QgGABMAAAABAMsLAAAB
+AIEIAAACAIAKAAADAPUHAAABADUFAAABADUFAAABANsAAAACABECAAADAIEIAAAEAPUHAAABAIEI
+AAABAMsLAAABAEoLAAABAEoLAAABADUFAAABAOUHAAABANgBAAABANgBCQDtCAEAEQDtCAYAGQDt
+CAoAKQDtCBAAMQDtCBAAOQDtCBAAQQDtCBAASQDtCBAAUQDtCBAAWQDtCBUAYQDtCBUAaQDtCBAA
+cQDtCBAAeQDtCBAAgQDtCAYA2QDtCBoA4QDtCCAA+QDtCAYAAQHtCAYACQHtCAYAGQHtCCYAMQHt
+CBAAQQHtCAYAsQD5BAYAsQAEBQYASQEJDDIAUQHtCDUAUQGxAT0AkQDtCEQAkQCBCE4AkQCAClIA
+mQBYAFYAkQAPB1sAmQBvBWAAkQAeB2UAkQAWBwEAYQHtCBAAmQAbAmsAmQBPAHEAkQDHC3oAkQAV
+C3oAsQDtCAYASQGwCn4AsQCUCoYAuQDtCAYAIQH/AYwAIQH8C5UAwQDtCJsA6QDtCAYA8QDtCAYA
+DADIAaoAFADIAaoAHADIAaoAJADIAaoADADtCAYAFADtCAYAHADtCAYAJADtCAYAgQEsBcUAOQHt
+CAYAiQG9CMoAiQEhC8oAuQCwCs8AuQDhAdQAuQBmBdgAkQG5AeQANACmC/sAPAAYBaoAPAAiBRQB
+PADtCAYALgALABICLgATABsCLgAbADoCLgAjAEMCLgArAGwCLgAzAGwCLgA7AEMCLgBDAHICLgBL
+AGwCLgBTAIkCLgBbAGwCLgBjAI8CLgBrALkCLgBzAMYCQwB7ABADQwBTAGwCYwBTAGwCgwBTAGwC
+owBTAGwCwwBTAGwCAwGLAB4DAwGDABUDIwGLAB4DIwGDABUDQwGbABADQwGjABADQwGLAB4DgwGD
+ABUDgwGrADcDowGDABUDowFbAGwCKQODADoCSQODADoCaQOzAJkDiQOzAKoDqQOzAL4DyQOzAMsD
+6QO7ABADwARTAGwC4ARTAGwCoAWTABADoAWDABUDwAWTABAD4AWTABADAAaTABADIAaTABADwAaD
+ABUDwAaTABAD4AaDABUD4AaTABADAAeDABUDAAeTABADIAeDABUDIAeTABADQAeTABADYAeTABAD
+gAeTABADgAeDABUDoAeTABADwAeTABADwAeDABUDLgB2ANwA7wADAAEABwAZAAoAGwALAB8ADQAg
+AAAAuADUAQAAHgbYAQAAzQDUAQAAOgbYAQAAkgDUAQAA6gXYAQAAZgHcAQAACgfYAQAApADUAQAA
+AwbYAQAATwHcAQAA5QbYAQAAFwHcAQAAmAbYAQAAPAHgAQAAywbYAQAAJwHgAQAArwbYAQAABwHl
+AQAAgQbYAQAA9gDcAQAAaQbYAQAA5wDcAQAAUwbYAQAAjAjpAQAAbALuAQAA0gjzAQAAaAf4AQAA
+uAj9AQAARQkDAgAANQUIAgAAzAENAgIABgADAAIABwAFAAIACAAHAAIACQAJAAIACgALAAIACwAN
+AAIADAAPAAEADQAPAAIADgARAAEADwARAAIAEAATAAIAEQAVAAIAEgAXAAIAEwAZAAIAFAAbAAIA
+FQAdAAIAFgAfAAIAFwAhAAIAGAAjAAIAGQAlAAIAGgAnAAIAGwApAAIAHAArAAIAHQAtAAIAHgAv
+AAIAHwAxAAIAKQAzAAIAKgA1AAEAKwA1AAIALgA3AAIALwA5AAIAMAA7AAIAMQA9AAIANQA/AAIA
+PQBBAKMArwC2AL4A4QD0AAQBDAEEgAAAAQAAAAAAAAAAAAAAAABhAAAABAAAAAAAAAAAAAAAGgGS
+AQAAAAANAAAAAAAAAAAAAAAjAVQLAAAAAA0AAAAAAAAAAAAAACMBcQsAAAAABAAAAAAAAAAAAAAA
+GgEnBwAAAAAKAAAAAAAAAAAAAAAsAZsBAAAAAAAAAAABAAAALwoAAAwACgANAAoAAAAQABoAaQEA
+ABAAdQBpAQAAAAB3AGkBhQDqAIUADwEAAAAAAENvbnRleHRWYWx1ZWAxAFRocmVhZFNhZmVPYmpl
+Y3RQcm92aWRlcmAxAFNDX2VmM2Q0ZTQ4NGY3YTRlMzViMmQyMmM3OGMxMGRhZWQxAEdldEludDMy
+AEdldEludDY0AFNDX0M3NEJCQjhFNTdBMDQwRjNBOUMzQjZGRkQ3RkY4Nzc1ADxNb2R1bGU+AGdl
+dF9DSEFOTkVMVFlQRUlEAGdldF9CUEFBVURJVFRSQUlMSUQAZ2V0X1NFUlZJQ0VSRUZGT1JUSUQA
+Z2V0X0RFTElOUVVFTkNZSUQASW5wdXRJRABnZXRfREJJTlNUQU5DRQBnZXRfU0NIRU1BU09VUkNF
+AGdldF9FWFRSQUNUREFURQBnZXRfQVVESVRMREFQRE4AZ2V0X0VYVFJBQ1RUSU1FU1RBTVAAZ2V0
+X0FVRElUVElNRVNUQU1QAGdldF9BVURJVFVTRVIAZ2V0X1RFWFQAc2V0X1RFWFQARGlzcG9zZV9f
+SW5zdGFuY2VfXwBDcmVhdGVfX0luc3RhbmNlX18AbXNjb3JsaWIATWljcm9zb2Z0LlZpc3VhbEJh
+c2ljAFJlcGxhY2UAQ3JlYXRlSW5zdGFuY2UAZ2V0X0dldEluc3RhbmNlAGluc3RhbmNlAEdldEhh
+c2hDb2RlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFuZGxlAElucHV0TmFtZQBHZXRE
+YXRlVGltZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBHZXRUeXBlAGdldF9DdWx0
+dXJlAHNldF9DdWx0dXJlAF9yZXNDdWx0dXJlAEFwcGxpY2F0aW9uQmFzZQBBcHBsaWNhdGlvblNl
+dHRpbmdzQmFzZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBHdWlkQXR0cmlidXRlAEhlbHBLZXl3b3Jk
+QXR0cmlidXRlAEdlbmVyYXRlZENvZGVBdHRyaWJ1dGUARGVidWdnZXJOb25Vc2VyQ29kZUF0dHJp
+YnV0ZQBEZWJ1Z2dhYmxlQXR0cmlidXRlAEVkaXRvckJyb3dzYWJsZUF0dHJpYnV0ZQBDb21WaXNp
+YmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAU3RhbmRhcmRNb2R1bGVBdHRyaWJ1
+dGUASGlkZU1vZHVsZU5hbWVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUAVGFy
+Z2V0RnJhbWV3b3JrQXR0cmlidXRlAERlYnVnZ2VySGlkZGVuQXR0cmlidXRlAEFzc2VtYmx5Rmls
+ZVZlcnNpb25BdHRyaWJ1dGUATXlHcm91cENvbGxlY3Rpb25BdHRyaWJ1dGUAQXNzZW1ibHlEZXNj
+cmlwdGlvbkF0dHJpYnV0ZQBDb21waWxhdGlvblJlbGF4YXRpb25zQXR0cmlidXRlAEFzc2VtYmx5
+UHJvZHVjdEF0dHJpYnV0ZQBBc3NlbWJseUNvcHlyaWdodEF0dHJpYnV0ZQBDTFNDb21wbGlhbnRB
+dHRyaWJ1dGUAU1NJU1NjcmlwdENvbXBvbmVudEVudHJ5UG9pbnRBdHRyaWJ1dGUAQXNzZW1ibHlD
+b21wYW55QXR0cmlidXRlAFJ1bnRpbWVDb21wYXRpYmlsaXR5QXR0cmlidXRlAFByZUV4ZWN1dGUA
+UG9zdEV4ZWN1dGUAbV9WYWx1ZQBnZXRfVmFsdWUAc2V0X1ZhbHVlAEdldE9iamVjdFZhbHVlAFN5
+c3RlbS5UaHJlYWRpbmcAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBUb1N0cmluZwBHZXRTdHJp
+bmcATWF0aABNaWNyb3NvZnQuVmlzdWFsQmFzaWMuTXlTZXJ2aWNlcy5JbnRlcm5hbABTeXN0ZW0u
+Q29tcG9uZW50TW9kZWwAU0NfQzc0QkJCOEU1N0EwNDBGM0E5QzNCNkZGRDdGRjg3NzUuZGxsAGdl
+dF9DSEFOTkVMVFlQRUlEX0lzTnVsbABnZXRfQlBBQVVESVRUUkFJTElEX0lzTnVsbABnZXRfU0VS
+VklDRVJFRkZPUlRJRF9Jc051bGwAZ2V0X0RFTElOUVVFTkNZSURfSXNOdWxsAGdldF9EQklOU1RB
+TkNFX0lzTnVsbABnZXRfU0NIRU1BU09VUkNFX0lzTnVsbABnZXRfRVhUUkFDVERBVEVfSXNOdWxs
+AGdldF9BVURJVExEQVBETl9Jc051bGwAZ2V0X0VYVFJBQ1RUSU1FU1RBTVBfSXNOdWxsAGdldF9B
+VURJVFRJTUVTVEFNUF9Jc051bGwAZ2V0X0FVRElUVVNFUl9Jc051bGwAZ2V0X1RFWFRfSXNOdWxs
+AHNldF9URVhUX0lzTnVsbABTZXROdWxsAHNldF9JdGVtAFN5c3RlbQBTeXN0ZW0uQ29tcG9uZW50
+TW9kZWwuRGVzaWduAFNjcmlwdE1haW4AZ2V0X0FwcGxpY2F0aW9uAE15QXBwbGljYXRpb24AU3lz
+dGVtLkNvbmZpZ3VyYXRpb24AU3lzdGVtLkdsb2JhbGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24A
+SW52YWxpZE9wZXJhdGlvbkV4Y2VwdGlvbgBTdHJpbmdDb21wYXJpc29uAEN1bHR1cmVJbmZvAE91
+dHB1dE5hbWVNYXAAT3V0cHV0TWFwAG1fQXBwT2JqZWN0UHJvdmlkZXIAbV9Vc2VyT2JqZWN0UHJv
+dmlkZXIAbV9Db21wdXRlck9iamVjdFByb3ZpZGVyAG1fTXlXZWJTZXJ2aWNlc09iamVjdFByb3Zp
+ZGVyAElucHV0MEJ1ZmZlcgBQaXBlbGluZUJ1ZmZlcgBTY3JpcHRCdWZmZXIAZ2V0X1Jlc291cmNl
+TWFuYWdlcgBTeXN0ZW0uQ29kZURvbS5Db21waWxlcgBnZXRfVXNlcgBFbnRlcgBnZXRfQ29tcHV0
+ZXIATXlDb21wdXRlcgBfcmVzTWdyAEFjdGl2YXRvcgAuY3RvcgAuY2N0b3IATW9uaXRvcgBTeXN0
+ZW0uRGlhZ25vc3RpY3MATWljcm9zb2Z0LlZpc3VhbEJhc2ljLkRldmljZXMAZ2V0X1dlYlNlcnZp
+Y2VzAE15V2ViU2VydmljZXMATWljcm9zb2Z0LlZpc3VhbEJhc2ljLkFwcGxpY2F0aW9uU2Vydmlj
+ZXMAU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5D
+b21waWxlclNlcnZpY2VzAFN5c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMAU3lzdGVtLlJl
+c291cmNlcwBTQ19lZjNkNGU0ODRmN2E0ZTM1YjJkMjJjNzhjMTBkYWVkMS5NeS5SZXNvdXJjZXMA
+TXlSZXNvdXJjZXMAU0NfZWYzZDRlNDg0ZjdhNGUzNWIyZDIyYzc4YzEwZGFlZDEuUmVzb3VyY2Vz
+LnJlc291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBWYXJpYWJsZXMAQnVmZmVyQ29sdW1uSW5kZXhlcwBH
+ZXRDb2x1bW5JbmRleGVzAE15U2V0dGluZ3MARXF1YWxzAFN5c3RlbS5UZXh0LlJlZ3VsYXJFeHBy
+ZXNzaW9ucwBDb25uZWN0aW9ucwBSZWdleE9wdGlvbnMAUnVudGltZUhlbHBlcnMAbV9TeW5jT2Jq
+ZWN0AE15UHJvamVjdABFbmRPZlJvd3NldABFeGl0AFVzZXJDb21wb25lbnQAUGFyZW50Q29tcG9u
+ZW50AFNjcmlwdENvbXBvbmVudABNaWNyb3NvZnQuU3FsU2VydmVyLlR4U2NyaXB0AE1pY3Jvc29m
+dC5TcWxTZXJ2ZXIuUGlwZWxpbmVIb3N0AElucHV0MF9Qcm9jZXNzSW5wdXQAbV9Db250ZXh0AElu
+cHV0MF9Qcm9jZXNzSW5wdXRSb3cATmV4dFJvdwBSZWdleABTQ19lZjNkNGU0ODRmN2E0ZTM1YjJk
+MjJjNzhjMTBkYWVkMS5NeQBnZXRfQXNzZW1ibHkARW1wdHkAAAANWwBeACAALQB+AF0AAQEAgJtJ
+AHMATgB1AGwAbAAgAHAAcgBvAHAAZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQA
+IAB0AG8AIABGAGEAbABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAg
+AHQAaABlACAAYwBvAGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AAA9JAG4AcAB1AHQAIAAwAAAx
+TQB5AC4AUgBlAHMAbwB1AHIAYwBlAHMALgBNAHkAUgBlAHMAbwB1AHIAYwBlAHMAAJ3pbLHUcTtJ
+kAkKUlE4KTAABCABAQgDIAABBSABARERBCABAQ4EIAEBAgUgAQERaQUgAgEODgcgBAEODg4OAwcB
+DgIGDgcgAgEOEYCtBgADDg4ODgkgAwESTR0IElEDBhJNAwYdCAQgAQoIBCABAggEIAEOCAUgAgEI
+HAUgARFVCAQgAQgIAwcBAgMgAAIHIAICDhGAtQUgAR0ICAgAARKAkRGAuQUgABKAvQcgAgEOEoC9
+BhUSNAESJAQgABMABhUSNAESIAcVEjQBEoCJBhUSNAESMAQAARwcBAABARwEIAECHAMgAAgDIAAO
+BAcBHgACHgAFEAEAHgAECgEeAAQHARMABhUSNAETAAgGFRKAlQETAAcVEoCVARMAAhMABAoBEwAF
+IAEBEwAIt3pcVhk04IkIiYRdzYCAzJEIsD9ffxHVCjoDBhIUAwYSGAMGElkDBhJhAwYSZQcGFRI0
+ARIkBwYVEjQBEiAIBhUSNAESgIkHBhUSNAESMAMGEiwCBhwFIAEBEgwDIAAKBCAAEVUJIAQBCA4S
+TRJRBSABARJZBAAAEmEEAAASZQUAAQESZQQAABIkBAAAEiAFAAASgIkEAAASMAMAAAEEAAASLAUg
+ABKAkQcQAQEeAB4ABzABAQEQHgADKAAKAygAAgMoAA4EKAARVQMoAAgECAASYQQIABJlBAgAEiQE
+CAASIAUIABKAiQQIABIwBAgAEiwEKAATAAgBAAgAAAAAAB4BAAEAVAIWV3JhcE5vbkV4Y2VwdGlv
+blRocm93cwEIAQACAAAAAAAoAQAjU0NfZWYzZDRlNDg0ZjdhNGUzNWIyZDIyYzc4YzEwZGFlZDEA
+AAUBAAAAABYBABFDb3B5cmlnaHQgQCAgMjAxNwAABQEAAQAAKQEAJGIxZWRiM2E5LTBiNDQtNDA2
+OS1iNzdhLTJkYjc3ZGE5MzEwMwAADAEABzEuMC4wLjAAAEkBABouTkVURnJhbWV3b3JrLFZlcnNp
+b249djQuNQEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUSLk5FVCBGcmFtZXdvcmsgNC41BAEAAAAI
+AQABAAAAAAAYAQAKTXlUZW1wbGF0ZQgxMS4wLjAuMAAAYQEANFN5c3RlbS5XZWIuU2VydmljZXMu
+UHJvdG9jb2xzLlNvYXBIdHRwQ2xpZW50UHJvdG9jb2wSQ3JlYXRlX19JbnN0YW5jZV9fE0Rpc3Bv
+c2VfX0luc3RhbmNlX18AAAAQAQALTXkuQ29tcHV0ZXIAABMBAA5NeS5BcHBsaWNhdGlvbgAADAEA
+B015LlVzZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAAALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJl
+c291cmNlcy5SZXNvdXJjZVJlYWRlciwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVy
+ZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJj
+ZXMuUnVudGltZVJlc291cmNlU2V0AgAAAAAAAAAAAAAAUEFEUEFEULQAAADYQgAAAAAAAAAAAADy
+QgAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5EIAAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2Nv
+cmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAA
+ABgAAIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgAAABYYAAA
+7AMAAAAAAAAAAAAA7AM0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAAAL0E7/4A
+AAEAAAABAAAAAAAAAAEAAAAAAD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAAAQBWAGEA
+cgBGAGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAAAAAAAACw
+BEwDAAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAACgDAAABADAAMAAwADAAMAA0AGIA
+MAAAABoAAQABAEMAbwBtAG0AZQBuAHQAcwAAAAAAAAAiAAEAAQBDAG8AbQBwAGEAbgB5AE4AYQBt
+AGUAAAAAAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBDAF8A
+ZQBmADMAZAA0AGUANAA4ADQAZgA3AGEANABlADMANQBiADIAZAAyADIAYwA3ADgAYwAxADAAZABh
+AGUAZAAxAAAAMAAIAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADAALgAwAAAA
+cAAoAAEASQBuAHQAZQByAG4AYQBsAE4AYQBtAGUAAABTAEMAXwBDADcANABCAEIAQgA4AEUANQA3
+AEEAMAA0ADAARgAzAEEAOQBDADMAQgA2AEYARgBEADcARgBGADgANwA3ADUALgBkAGwAbAAAAEgA
+EgABAEwAZQBnAGEAbABDAG8AcAB5AHIAaQBnAGgAdAAAAEMAbwBwAHkAcgBpAGcAaAB0ACAAQAAg
+ACAAMgAwADEANwAAACoAAQABAEwAZQBnAGEAbABUAHIAYQBkAGUAbQBhAHIAawBzAAAAAAAAAAAA
+eAAoAAEATwByAGkAZwBpAG4AYQBsAEYAaQBsAGUAbgBhAG0AZQAAAFMAQwBfAEMANwA0AEIAQgBC
+ADgARQA1ADcAQQAwADQAMABGADMAQQA5AEMAMwBCADYARgBGAEQANwBGAEYAOAA3ADcANQAuAGQA
+bABsAAAAaAAkAAEAUAByAG8AZAB1AGMAdABOAGEAbQBlAAAAAABTAEMAXwBlAGYAMwBkADQAZQA0
+ADgANABmADcAYQA0AGUAMwA1AGIAMgBkADIAMgBjADcAOABjADEAMABkAGEAZQBkADEAAAA0AAgA
+AQBQAHIAbwBkAHUAYwB0AFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAOAAIAAEAQQBz
+AHMAZQBtAGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAADAAAAAQzAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                      name="VSTAProjectName"
+                      typeConverter="NOTBROWSABLE">SC_c74bbb8e57a040f3a9c3b6ffd7ff8775</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the programming language used by the script."
+                      name="ScriptLanguage"
+                      typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">VisualBasic</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read-only variables."
+                      name="ReadOnlyVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read/write variables."
+                      name="ReadWriteVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="List of breakpoints present on the script."
+                      isArray="true"
+                      name="BreakpointCollection"
+                      typeConverter="NOTBROWSABLE">
+                      <arrayElements
+                        arrayElementCount="0" />
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Checksum to match component metedata against compiled codes."
+                      name="MetadataChecksum"
+                      typeConverter="NOTBROWSABLE">f3c2cbf0dbca5010cb67f14f9acd9ea9</property>
+                    <property
+                      dataType="System.String"
+                      description="Checksum to match component metedata against compiled codes."
+                      name="MetadataShaChecksum"
+                      typeConverter="NOTBROWSABLE">4fa09c891c426534759024107a2ebe8ea7be41a7</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0]"
+                      hasSideEffects="true"
+                      name="Input 0">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[SERVICER_EFFORT_ID]"
+                          cachedDataType="i8"
+                          cachedName="SERVICER_EFFORT_ID"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[DELINQUENCY_ID]"
+                          cachedDataType="i8"
+                          cachedName="DELINQUENCY_ID"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[CHANNEL_TYPE_ID]"
+                          cachedDataType="i8"
+                          cachedName="CHANNEL_TYPE_ID"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[CHANNEL_TYPE_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[TEXT]"
+                          cachedDataType="wstr"
+                          cachedLength="1024"
+                          cachedName="TEXT"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[TEXT]"
+                          usageType="readWrite" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[BPA_AUDIT_TRAIL_ID]"
+                          cachedDataType="i8"
+                          cachedName="BPA_AUDIT_TRAIL_ID"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[BPA_AUDIT_TRAIL_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[AUDIT_USER]"
+                          cachedDataType="wstr"
+                          cachedLength="160"
+                          cachedName="AUDIT_USER"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_USER]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[AUDIT_LDAP_DN]"
+                          cachedDataType="wstr"
+                          cachedLength="200"
+                          cachedName="AUDIT_LDAP_DN"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_LDAP_DN]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[AUDIT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="AUDIT_TIMESTAMP"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[EXTRACT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EXTRACT_TIMESTAMP"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[EXTRACT_DATE]"
+                          cachedDataType="i4"
+                          cachedName="EXTRACT_DATE"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[SCHEMA_SOURCE]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="SCHEMA_SOURCE"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SCHEMA_SOURCE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0].Columns[DB_INSTANCE]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="DB_INSTANCE"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DB_INSTANCE]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Outputs[Output 0]"
+                      name="Output 0"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_STG_SERVICER_EFFORT"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	"SERVICER_EFFORT_ID",
+	"DELINQUENCY_ID",
+	"CHANNEL_TYPE_ID",
+	cast( "TEXT" as varchar(1024)) as TEXT,
+	"BPA_AUDIT_TRAIL_ID",
+	cast( "AUDIT_USER" as varchar(160)) as AUDIT_USER,
+	cast( "AUDIT_LDAP_DN" as varchar(200)) as AUDIT_LDAP_DN,
+	"AUDIT_TIMESTAMP",
+	CURRENT TIMESTAMP as EXTRACT_TIMESTAMP,
+	year( CURRENT DATE ) * 10000 +
+	month( CURRENT DATE ) * 100 +
+	day( CURRENT DATE ) as EXTRACT_DATE,
+	'PMICNTRL_DELINQUENCY' as SCHEMA_SOURCE,
+	'US' as DB_INSTANCE
+FROM   "PMICNTRL_DELINQUENCY"."SERVICER_EFFORT"
+where  AUDIT_TIMESTAMP &gt;= ?</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping">"Parameter0:Input",{44FFC512-5036-4CF1-972B-01D079EE62D3};</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Connections[OleDbConnection]"
+                      connectionManagerID="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      connectionManagerRefId="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[SERVICER_EFFORT_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]"
+                          name="SERVICER_EFFORT_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]"
+                          name="DELINQUENCY_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[CHANNEL_TYPE_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[CHANNEL_TYPE_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[CHANNEL_TYPE_ID]"
+                          name="CHANNEL_TYPE_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[TEXT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[TEXT]"
+                          length="1024"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[TEXT]"
+                          name="TEXT"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[BPA_AUDIT_TRAIL_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[BPA_AUDIT_TRAIL_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[BPA_AUDIT_TRAIL_ID]"
+                          name="BPA_AUDIT_TRAIL_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_USER]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_USER]"
+                          length="160"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_USER]"
+                          name="AUDIT_USER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_LDAP_DN]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_LDAP_DN]"
+                          length="200"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_LDAP_DN]"
+                          name="AUDIT_LDAP_DN"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_TIMESTAMP]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_TIMESTAMP]"
+                          name="AUDIT_TIMESTAMP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_TIMESTAMP]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_TIMESTAMP]"
+                          name="EXTRACT_TIMESTAMP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_DATE]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]"
+                          name="EXTRACT_DATE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SCHEMA_SOURCE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[SCHEMA_SOURCE]"
+                          length="20"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SCHEMA_SOURCE]"
+                          name="SCHEMA_SOURCE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DB_INSTANCE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[DB_INSTANCE]"
+                          length="2"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DB_INSTANCE]"
+                          name="DB_INSTANCE"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[SERVICER_EFFORT_ID]"
+                          dataType="i8"
+                          name="SERVICER_EFFORT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          name="DELINQUENCY_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[CHANNEL_TYPE_ID]"
+                          dataType="i8"
+                          name="CHANNEL_TYPE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[TEXT]"
+                          dataType="wstr"
+                          length="1024"
+                          name="TEXT" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[BPA_AUDIT_TRAIL_ID]"
+                          dataType="i8"
+                          name="BPA_AUDIT_TRAIL_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_USER]"
+                          dataType="wstr"
+                          length="160"
+                          name="AUDIT_USER" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_LDAP_DN]"
+                          dataType="wstr"
+                          length="200"
+                          name="AUDIT_LDAP_DN" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[AUDIT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="AUDIT_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="EXTRACT_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_DATE]"
+                          dataType="i4"
+                          name="EXTRACT_DATE" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[SCHEMA_SOURCE]"
+                          dataType="wstr"
+                          length="20"
+                          name="SCHEMA_SOURCE" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].ExternalColumns[DB_INSTANCE]"
+                          dataType="wstr"
+                          length="2"
+                          name="DB_INSTANCE" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[SERVICER_EFFORT_ID]"
+                          dataType="i8"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[SERVICER_EFFORT_ID]"
+                          name="SERVICER_EFFORT_ID" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_ID]"
+                          name="DELINQUENCY_ID" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[CHANNEL_TYPE_ID]"
+                          dataType="i8"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[CHANNEL_TYPE_ID]"
+                          name="CHANNEL_TYPE_ID" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[TEXT]"
+                          dataType="wstr"
+                          length="1024"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[TEXT]"
+                          name="TEXT" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[BPA_AUDIT_TRAIL_ID]"
+                          dataType="i8"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[BPA_AUDIT_TRAIL_ID]"
+                          name="BPA_AUDIT_TRAIL_ID" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_USER]"
+                          dataType="wstr"
+                          length="160"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_USER]"
+                          name="AUDIT_USER" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_LDAP_DN]"
+                          dataType="wstr"
+                          length="200"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_LDAP_DN]"
+                          name="AUDIT_LDAP_DN" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[AUDIT_TIMESTAMP]"
+                          name="AUDIT_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[EXTRACT_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[EXTRACT_TIMESTAMP]"
+                          name="EXTRACT_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[EXTRACT_DATE]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[EXTRACT_DATE]"
+                          name="EXTRACT_DATE" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[SCHEMA_SOURCE]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[SCHEMA_SOURCE]"
+                          name="SCHEMA_SOURCE" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[DB_INSTANCE]"
+                          dataType="wstr"
+                          length="2"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[DB_INSTANCE]"
+                          name="DB_INSTANCE" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+                  name="trg2_STG_SERVICER_EFFORT"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE dbo.STG_SERVICER_EFFORT
+SET
+	 DELINQUENCY_ID=?
+	,CHANNEL_TYPE_ID=?
+	,TEXT=?
+	,BPA_AUDIT_TRAIL_ID=?
+	,AUDIT_USER=?
+	,AUDIT_LDAP_DN=?
+	,AUDIT_TIMESTAMP=?
+	,EXTRACT_TIMESTAMP=?
+	,EXTRACT_DATE=?
+	,SCHEMA_SOURCE=?
+	,DB_INSTANCE=?
+WHERE
+	SERVICER_EFFORT_ID=?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[SERVICER_EFFORT_ID]"
+                          cachedDataType="i8"
+                          cachedName="SERVICER_EFFORT_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_11]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[DELINQUENCY_ID]"
+                          cachedDataType="i8"
+                          cachedName="DELINQUENCY_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[CHANNEL_TYPE_ID]"
+                          cachedDataType="i8"
+                          cachedName="CHANNEL_TYPE_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[CHANNEL_TYPE_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[TEXT]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="1024"
+                          cachedName="TEXT"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[TEXT]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[BPA_AUDIT_TRAIL_ID]"
+                          cachedDataType="i8"
+                          cachedName="BPA_AUDIT_TRAIL_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[BPA_AUDIT_TRAIL_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[AUDIT_USER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="160"
+                          cachedName="AUDIT_USER"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_USER]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[AUDIT_LDAP_DN]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="200"
+                          cachedName="AUDIT_LDAP_DN"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_LDAP_DN]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[AUDIT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="AUDIT_TIMESTAMP"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[EXTRACT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EXTRACT_TIMESTAMP"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[EXTRACT_DATE]"
+                          cachedDataType="i4"
+                          cachedName="EXTRACT_DATE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[SCHEMA_SOURCE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="SCHEMA_SOURCE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[SCHEMA_SOURCE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].Columns[DB_INSTANCE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="2"
+                          cachedName="DB_INSTANCE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_10]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[DB_INSTANCE]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                          dataType="i8"
+                          name="Param_0">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                          dataType="i8"
+                          name="Param_1">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1024"
+                          name="Param_2">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                          dataType="i8"
+                          name="Param_3">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                          codePage="1252"
+                          dataType="str"
+                          length="160"
+                          name="Param_4">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                          codePage="1252"
+                          dataType="str"
+                          length="200"
+                          name="Param_5">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                          dataType="dbTimeStamp2"
+                          name="Param_6"
+                          scale="7">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">1073741889</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                          dataType="dbTimeStamp2"
+                          name="Param_7"
+                          scale="7">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">1073741889</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                          dataType="i4"
+                          name="Param_8">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="Param_9">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_10]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="Param_10">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input].ExternalColumns[Param_11]"
+                          dataType="i8"
+                          name="Param_11">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_STG_SERVICER_EFFORT"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_SERVICER_EFFORT]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[SERVICER_EFFORT_ID]"
+                          cachedDataType="i8"
+                          cachedName="SERVICER_EFFORT_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[SERVICER_EFFORT_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[SERVICER_EFFORT_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[DELINQUENCY_ID]"
+                          cachedDataType="i8"
+                          cachedName="DELINQUENCY_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[CHANNEL_TYPE_ID]"
+                          cachedDataType="i8"
+                          cachedName="CHANNEL_TYPE_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[CHANNEL_TYPE_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[CHANNEL_TYPE_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[BPA_AUDIT_TRAIL_ID]"
+                          cachedDataType="i8"
+                          cachedName="BPA_AUDIT_TRAIL_ID"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[BPA_AUDIT_TRAIL_ID]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[BPA_AUDIT_TRAIL_ID]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[AUDIT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="AUDIT_TIMESTAMP"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_TIMESTAMP]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[AUDIT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[EXTRACT_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EXTRACT_TIMESTAMP"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_TIMESTAMP]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[EXTRACT_DATE]"
+                          cachedDataType="i4"
+                          cachedName="EXTRACT_DATE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_DATE]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[TEXT]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="1024"
+                          cachedName="TEXT"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[TEXT]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[TEXT]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[AUDIT_USER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="160"
+                          cachedName="AUDIT_USER"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_USER]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_USER]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[AUDIT_LDAP_DN]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="200"
+                          cachedName="AUDIT_LDAP_DN"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_LDAP_DN]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[AUDIT_LDAP_DN]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[SCHEMA_SOURCE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="SCHEMA_SOURCE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[SCHEMA_SOURCE]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[SCHEMA_SOURCE]" />
+                        <inputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].Columns[DB_INSTANCE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="2"
+                          cachedName="DB_INSTANCE"
+                          externalMetadataColumnId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[DB_INSTANCE]"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output].Columns[DB_INSTANCE]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[SERVICER_EFFORT_ID]"
+                          dataType="i8"
+                          name="SERVICER_EFFORT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          name="DELINQUENCY_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[CHANNEL_TYPE_ID]"
+                          dataType="i8"
+                          name="CHANNEL_TYPE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[TEXT]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1024"
+                          name="TEXT" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[BPA_AUDIT_TRAIL_ID]"
+                          dataType="i8"
+                          name="BPA_AUDIT_TRAIL_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_USER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="160"
+                          name="AUDIT_USER" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_LDAP_DN]"
+                          codePage="1252"
+                          dataType="str"
+                          length="200"
+                          name="AUDIT_LDAP_DN" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[AUDIT_TIMESTAMP]"
+                          dataType="dbTimeStamp2"
+                          name="AUDIT_TIMESTAMP"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_TIMESTAMP]"
+                          dataType="dbTimeStamp2"
+                          name="EXTRACT_TIMESTAMP"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_DATE]"
+                          dataType="i4"
+                          name="EXTRACT_DATE" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[SCHEMA_SOURCE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="SCHEMA_SOURCE" />
+                        <externalMetadataColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input].ExternalColumns[DB_INSTANCE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="DB_INSTANCE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Data Conversion Output]"
+                  endId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Inputs[Lookup Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Lookup Match Output]"
+                  endId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT.Inputs[OLE DB Command Input]"
+                  name="Lookup Match Output"
+                  startId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup Match Output]" />
+                <path
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Lookup No Match Output]"
+                  endId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT.Inputs[OLE DB Destination Input]"
+                  name="Lookup No Match Output"
+                  startId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup.Outputs[Lookup No Match Output]" />
+                <path
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[OLE DB Source Output]"
+                  endId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Inputs[Input 0]"
+                  name="OLE DB Source Output"
+                  startId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Output 0]"
+                  endId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR.Inputs[Data Conversion Input]"
+                  name="Output 0"
+                  startId="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars.Outputs[Output 0]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT"
+          TopLeft="35.9973544973547,22.7142857142857" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="352,139"
+          Size="352,182"
+          Id="Package\Claims and Delinquency Extraction"
+          TopLeft="217.328042328046,124.452380952338" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup"
+          TopLeft="340.773395823807,288" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg2_STG_SERVICER_EFFORT"
+          TopLeft="536,437" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT"
+          TopLeft="350.773395823807,13" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT"
+          TopLeft="125,434" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\dt_conv_NVARCHAR_TO_VARCHAR"
+          TopLeft="342.773395823807,169" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Remove NonPrintable Chars"
+          TopLeft="369,93" />
+        <EdgeLayout
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Output 0]"
+          TopLeft="471.136697911904,135">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[OLE DB Source Output]"
+          TopLeft="475.136697911904,55">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Lookup No Match Output]"
+          TopLeft="425.10672915714,330">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-175.60672915714,104"
+              Start="0,0"
+              End="-175.60672915714,96.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.9984038308061" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.9984038308061"
+                    Point2="0,41.9984038308061"
+                    Point3="-4,41.9984038308061" />
+                  <mssgle:LineSegment
+                    End="-171.60672915714,41.9984038308061" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-171.60672915714,41.9984038308061"
+                    Point2="-175.60672915714,41.9984038308061"
+                    Point3="-175.60672915714,45.9984038308061" />
+                  <mssgle:LineSegment
+                    End="-175.60672915714,96.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-143.60975129732,46.9984038308061,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Lookup Match Output]"
+          TopLeft="505.440062490474,330">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="155.059937509526,107"
+              Start="0,0"
+              End="155.059937509526,99.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.2098962490024" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.2098962490024"
+                    Point2="0,43.2098962490024"
+                    Point3="4,43.2098962490024" />
+                  <mssgle:LineSegment
+                    End="151.059937509526,43.2098962490024" />
+                  <mssgle:CubicBezierSegment
+                    Point1="151.059937509526,43.2098962490024"
+                    Point2="155.059937509526,43.2098962490024"
+                    Point3="155.059937509526,47.2098962490024" />
+                  <mssgle:LineSegment
+                    End="155.059937509526,99.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="29.338582036013,48.2098962490024,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.Paths[Data Conversion Output]"
+          TopLeft="466.273395823807,211">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77"
+              Start="0,0"
+              End="0,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.EventHandlers[OnPreExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT.EventHandlers[OnPreExecute]\Get CDC Dates"
+          TopLeft="79,51" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <PipelineComponentMetadata
+    design-time-name="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\src_STG_SERVICER_EFFORT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Claims and Delinquency Extraction\STG_SERVICER_EFFORT\trg_STG_SERVICER_EFFORT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

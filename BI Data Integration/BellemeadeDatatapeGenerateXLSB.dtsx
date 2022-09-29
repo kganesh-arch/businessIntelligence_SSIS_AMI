@@ -1,0 +1,2889 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/9/2022 11:43:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVDI-DVM180"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{DE353B35-4470-423D-BD1B-D6BEBBC1799E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BellemeadeDatatapeGenerateXLSB"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="204"
+  DTS:VersionGUID="{7F9EDD83-F746-48B3-8CE8-28F8C59052D5}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection XLSB]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{9A73B8DA-9828-47B0-B31A-D7611EA971D0}"
+      DTS:ObjectName="Excel Connection XLSB">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::vSourceDirectory_BNYM] + @[User::vExcelFileName_BNYM]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D0A7F280-1BD6-4912-82FF-394AA99E9ED8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_SourceFolder_BNYM] + &quot;\\ConvertCSVtoXLSB.xlsm&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RunMacro">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\ConvertCSVtoXLSB.xlsm</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{51B606D8-98DF-4B6F-BED2-B840E7A568B7}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_SourceFolder_BNYM] + &quot;\\TransposeRetentionXLSB.xlsm&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RunTransposeMacro">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\TransposeRetentionXLSB.xlsm</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3F69033C-752D-4F87-B73D-34723C84C4B3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_SourceFolder] + &quot;\\Output\\Archive\\&quot; +  SUBSTRING(@[User::vExcelFileName_BNYM],19,4) + &quot;-&quot; + SUBSTRING(@[User::vExcelFileName_BNYM],13,2) + &quot;-&quot; + SUBSTRING(@[User::vExcelFileName_BNYM],16,2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vBackupDirectory_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sharepoint\cts\bi\BI Reports\Riskshare Reports\Bellemeade\Output\Archive\--</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1F109343-DADD-4216-947E-D61F934E7A38}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;Bmir&quot; + REPLACE(SUBSTRING(@[User::vExcelFileName_BNYM],6,6),&quot;-&quot;,&quot;_&quot;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vCatbondDeal_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">Bmir</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B162D25-B403-452B-A8C2-6DEE0FA03C88}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vEmailMessage">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6D278E2C-6456-4152-833D-6BB7B224DEAD}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vExcelFileName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D8E3573D-2DDC-44B5-B7F4-CFEA2ACDC035}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vExcelFileName_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2C850A2B-1F82-43F1-ABD0-B3CF700B5234}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_ReinsuranceFolder] + (DT_WSTR, 30)YEAR((DT_DBDATE)DATEADD(&quot;d&quot;, -DAY(GETDATE()), DATEADD(&quot;m&quot;, 0, GETDATE())))  +  RIGHT(&quot;0&quot; + (DT_WSTR, 30)(MONTH((DT_DBDATE)DATEADD(&quot;d&quot;, -DAY(GETDATE()), DATEADD(&quot;m&quot;, 0, GETDATE())))),2) + &quot;\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vReinsuranceTargetDirectory">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\development\Bellemeade\REINSURANCE DATASETS\202208\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E1AA10F4-BDA4-4B5A-B87E-C1FDD0B3E526}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="SUBSTRING(@[User::vExcelFileName_BNYM],19,4) + SUBSTRING(@[User::vExcelFileName_BNYM],13,2) + SUBSTRING(@[User::vExcelFileName_BNYM],16,2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vReportingMonth_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BC130D2C-F0AB-42F3-B209-1FAF95C5AB9B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_SourceFolder] + &quot;\\Output\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vSourceDirectory">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sharepoint\cts\bi\BI Reports\Riskshare Reports\Bellemeade\Output\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{262F6B6A-4BA6-43AE-8BD7-21969E6AAC42}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_SourceFolder_BNYM] + &quot;\\Output\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vSourceDirectory_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{01B1E9B7-B717-4085-9F1B-057C8B44FEC5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::vSourceDirectory] +  @[User::vExcelFileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vSourceFileFullPath">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sharepoint\cts\bi\BI Reports\Riskshare Reports\Bellemeade\Output\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B8DB1D8B-5D80-4109-8F0C-440073328EAA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::vSourceDirectory_BNYM] +  @[User::vExcelFileName_BNYM]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vSourceFileFullPath_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1C30DA3F-7826-4270-ACE6-7600E83A4566}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_Belleameade_DealReport_NASDirectory]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vTargetDirectory_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\development\Bellemeade\Bank of New York Mellon\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9EA76921-402F-4EB8-BE5A-160AF942B84F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::vTargetDirectory_BNYM]  + SUBSTRING(@[User::vExcelFileName_BNYM],6,6)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vTargetFileFullPath_BNYM">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\development\Bellemeade\Bank of New York Mellon\</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Backup BNYM Files"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{73A3C8CF-13F5-4346-A741-80E9EA355901}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup BNYM Files">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{543A9E1F-E562-43FE-9700-05A8E7958675}"
+        DTS:ObjectName="{3724F02F-1FD8-4EB7-9561-8D706650748B}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::vSourceDirectory_BNYM]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\" />
+            <FEFEProperty
+              FileSpec="*.*" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Backup BNYM Files\Create Catbond Deal Folder to Backup Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{47AC4B9C-2B7A-4039-BDC2-97476F7E90BD}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Catbond Deal Folder to Backup Directory"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vBackupDirectory_BNYM"
+              TaskIsSourceVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Backup BNYM Files\Move Catbond Deal File to Backup Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{A97B286A-D7CC-4C89-A096-817ED247B8C7}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Move Catbond Deal File to Backup Directory"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vSourceFileFullPath_BNYM"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::vBackupDirectory_BNYM"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Backup BNYM Files.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{03D6566B-3541-463D-BEAE-369A3227B346}"
+          DTS:Expression="@[User::vReportingMonth] != (DT_WSTR, 200)(DT_DBDATE)DATEADD(&quot;d&quot;, -DAY(GETDATE()), DATEADD(&quot;m&quot;, 0, GETDATE()))"
+          DTS:From="Package\Backup BNYM Files\Create Catbond Deal Folder to Backup Directory"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Backup BNYM Files\Move Catbond Deal File to Backup Directory" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{A57209F7-53C8-4256-9518-E3B05932CE16}"
+          DTS:ObjectName="{A57209F7-53C8-4256-9518-E3B05932CE16}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::vExcelFileName_BNYM" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Convert csv to xlsb using macro script"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{EE577A51-D0EB-426C-98A9-DB3CDA4EA222}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Convert csv to xlsb using macro script"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_03ae853d9eb549dfa8357238e15afeaa"
+          VSTAMajorVersion="15"
+          VSTAMinorVersion="0"
+          Language="CSharp"
+          ReadOnlyVariables="User::RunMacro">
+          <ProjectItem
+            Name="Properties\AssemblyInfo.cs"
+            Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_8312954d1fbb4a8cab5b76f095a0b3f1")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_8312954d1fbb4a8cab5b76f095a0b3f1")]
+[assembly: AssemblyCopyright("Copyright @  2022")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.resx"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></ProjectItem>
+          <ProjectItem
+            Name="ScriptMain.cs"
+            Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
+/* The Script Task allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services control flow. 
+ * 
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script task. */
+#endregion
+
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+using System.IO;
+using System.Data.OleDb;
+#endregion
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1
+{
+    /// <summary>
+    /// ScriptMain is the entry point class of the script.  Do not change the name, attributes,
+    /// or parent of this class.
+    /// </summary>
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+	public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+	{
+        #region Help:  Using Integration Services variables and parameters in a script
+        /* To use a variable in this script, first ensure that the variable has been added to 
+         * either the list contained in the ReadOnlyVariables property or the list contained in 
+         * the ReadWriteVariables property of this script task, according to whether or not your
+         * code needs to write to the variable.  To add the variable, save this script, close this instance of
+         * Visual Studio, and update the ReadOnlyVariables and 
+         * ReadWriteVariables properties in the Script Transformation Editor window.
+         * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+         * 
+         * Example of reading from a variable:
+         *  DateTime startTime = (DateTime) Dts.Variables["System::StartTime"].Value;
+         * 
+         * Example of writing to a variable:
+         *  Dts.Variables["User::myStringVariable"].Value = "new value";
+         * 
+         * Example of reading from a package parameter:
+         *  int batchId = (int) Dts.Variables["$Package::batchId"].Value;
+         *  
+         * Example of reading from a project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].Value;
+         * 
+         * Example of reading from a sensitive project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].GetSensitiveValue();
+         * */
+
+        #endregion
+
+        #region Help:  Firing Integration Services events from a script
+        /* This script task can fire events for logging purposes.
+         * 
+         * Example of firing an error event:
+         *  Dts.Events.FireError(18, "Process Values", "Bad value", "", 0);
+         * 
+         * Example of firing an information event:
+         *  Dts.Events.FireInformation(3, "Process Values", "Processing has started", "", 0, ref fireAgain)
+         * 
+         * Example of firing a warning event:
+         *  Dts.Events.FireWarning(14, "Process Values", "No values received for input", "", 0);
+         * */
+        #endregion
+
+        #region Help:  Using Integration Services connection managers in a script
+        /* Some types of connection managers can be used in this script task.  See the topic 
+         * "Working with Connection Managers Programatically" for details.
+         * 
+         * Example of using an ADO.Net connection manager:
+         *  object rawConnection = Dts.Connections["Sales DB"].AcquireConnection(Dts.Transaction);
+         *  SqlConnection myADONETConnection = (SqlConnection)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Sales DB"].ReleaseConnection(rawConnection);
+         *
+         * Example of using a File connection manager
+         *  object rawConnection = Dts.Connections["Prices.zip"].AcquireConnection(Dts.Transaction);
+         *  string filePath = (string)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Prices.zip"].ReleaseConnection(rawConnection);
+         * */
+        #endregion
+
+
+        /// <summary>
+        /// This method is called when this script task executes in the control flow.
+        /// Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+        /// To open Help, press F1.
+        /// </summary>
+        public void Main()
+		{
+            string filename = (String) Dts.Variables["User::RunMacro"].Value;
+
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(filename);
+            xlApp.Visible = false;
+            xlApp.Run("ConvertToXlsb");
+            xlWorkBook.Close(true);
+            xlApp.Quit();
+
+            Dts.TaskResult = (int)ScriptResults.Success;
+            
+          
+        }
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+
+	}
+}]]></ProjectItem>
+          <ProjectItem
+            Name="ST_03ae853d9eb549dfa8357238e15afeaa.csproj"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{25FE62C6-26B5-45D0-812C-0D4F8B07A098}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_8312954d1fbb4a8cab5b76f095a0b3f1</RootNamespace>
+    <AssemblyName>ST_03ae853d9eb549dfa8357238e15afeaa</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=15.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=15.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptTask" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST150</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+  <msb:PropertyGroup>
+    <msb:CodeName>ST_03ae853d9eb549dfa8357238e15afeaa</msb:CodeName>
+    <msb:Language>msBuild</msb:Language>
+    <msb:DisplayName>ST_03ae853d9eb549dfa8357238e15afeaa</msb:DisplayName>
+    <msb:ProjectId>{073EA4F2-C2BC-4D97-AF0E-C29BD7C2D8B2}</msb:ProjectId>
+  </msb:PropertyGroup>
+  <msb:ItemGroup>
+    <msb:Project Include="ST_03ae853d9eb549dfa8357238e15afeaa.csproj" />
+    <msb:File Include="Properties\Settings.Designer.cs" />
+    <msb:File Include="Properties\Settings.settings" />
+    <msb:File Include="Properties\AssemblyInfo.cs" />
+    <msb:File Include="Properties\Resources.resx" />
+    <msb:File Include="Properties\Resources.Designer.cs" />
+    <msb:File Include="ScriptMain.cs" />
+  </msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Settings.get_Default():ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Sett" +
+    "ings")]
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.settings"
+            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <BinaryItem
+            Name="ST_03ae853d9eb549dfa8357238e15afeaa.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAO3U/2IAAAAAAAAAAOAAIiALATAAABwAAAAIAAAAAAAA7jsA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAJw7AABPAAAAAEAAAHgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAA9BsAAAAgAAAAHAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAHgEAAAAQAAAAAYAAAAeAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAJAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAADQ
+OwAAAAAAAEgAAAACAAUAICIAAMQYAAABAAAAAAAAAOQ6AAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABMwIQBdAQAAAQAAEQIoGQAACm8aAAAKcgEAAHBvGwAACm8c
+AAAKdCUAAAEKch8AAHBzHQAACigeAAAKKB8AAAp0BwAAAiVvDwAABgZ+IAAACn4gAAAKfiAAAAp+
+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKbwsA
+AAYLJRZvFgAABiVyaQAAcH4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+
+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAA
+AAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACm8NAAAG
+JgcXjCkAAAF+IAAACn4gAAAKbxgAAAZvEwAABgIoGQAAChZvIQAACioeAigiAAAKKh4CKCMAAAoq
+rn4BAAAELR5yhQAAcNADAAACKCQAAApvJQAACnMmAAAKgAEAAAR+AQAABCoafgIAAAQqHgKAAgAA
+BCoafgMAAAQqHgIoJwAACioucwgAAAaAAwAABCoAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkA
+AAAABQBsAAAALAkAACN+AACYCQAAKAkAACNTdHJpbmdzAAAAAMASAAD4AAAAI1VTALgTAAAQAAAA
+I0dVSUQAAADIEwAA/AQAACNCbG9iAAAAAAAAAAIAAAFXP6IBCQMAAAD6ATMAFgAAAQAAACsAAAAO
+AAAABgAAABgAAAA3AAAABQAAACcAAAACAAAAQAAAADUAAAABAAAAAwAAAAYAAAAIAAAAAQAAAAQA
+AAABAAAAAQAAAAAALgYBAAAAAAAGAIIEZgcGACIFZgcGAHADNAcPANoHAAAGAJ0DzQYGADYEzQYG
+ABcEzQYGAAkFzQYGALMEzQYGAMwEzQYGAMsDzQYGAOYDUAUKAOcEsAUKALACsAUGAGYGXwYGAFMD
+NAcGAKYIXwYGAPkGhgcGAOMGuAYOAOoCGAYOAIQDGAYOAMwCowYGAA8DZgcGALQDRwcGACoDRwcG
+AGoERwcGAHsCXwYGADgDRwcGAKIERwcGAFMEzQYGAAECVQgGAP8CRwcGAP8DRwcKAAYGsAUSACgI
+WwISAPgBWwIGAGoFXwYGAMMBXwYGAN8FRwcGAB0HXwYGAHcGXwYGAC4CXwYGABMJzQYAAAAAKwEA
+AAAAAQABAAEAEACEBkYAOQABAAEAAAAQAI0H9QdFAAEAAwAAARAAMgj1B1kAAwAHAKEQAACVCOcF
+AAAEAAoAoRAAAO8I5wUAAAQACgChEAAAlwbnBQAABAAKAKEQAACIBecFAAAEAAoAoRAAAIYI5wUA
+AAQACgChEAAA2gjnBQAABAAKAKEQAABLCOcFAAAEAAoAoRAAAJYG5wUAAAQADAChEAAAeQXnBQAA
+BAAXAAMBAAB4CAAAPQAEABkAEQBrBpoAEQCgAp4AEQDoAaIABgZoAaYAVoBoCKkAVoCAAqkAUCAA
+AAAAhgCKBgYAAQC5IQAAAACGGCcHBgABAMEhAAAAAIMYJwcGAAEAySEAAAAAkwj1Bq0AAQD1IQAA
+AACTCIgCsgABAPwhAAAAAJMIlAK3AAEABCIAAAAAlgi/CL0AAgALIgAAAACGGCcHBgACABMiAAAA
+AJEYLQfCAAIAAAAAAAMABhhvAAYAAgAAAAAAAxDGBX8GxgACAAAAAAADAAYYuwAGABIAAAAAAAMQ
+xgXfBtoAEgAAAAAAAwAGGBoBBgAyAAAAAAADEMYNRwj9ADIAAAAAAAMABhggAAYAMwAAAAAAAxDG
+DbIIAgEzAAAAAAADAAYYzQAGADQAAAAAAAMQxgWtCAYANAAAAAAAAwAGGDkABgA0AAAAAAADEMYN
+FgIGATQAAAAAAAMQxg0iAgoBNAAAAAAAAwAGGAcABgA1AAAAAAADEMYF5AIPATUAAAABAEoFACAA
+AAAAASABAFICESACADsIESADABwJESAEAJ8IESAFANABESAGAMgBESAHAKkBESAIAI8GESAJAAkH
+ESAKAA0CESALAAgJESAMABMHESANAP8IESAOANkFESAPAJ0BACAAAAAAESABAO8GESACAGoAESAD
+AIgAESAEAJkAESAFAKoAESAGAMgAESAHAOcAESAIAPgAESAJAAkBESAKACYBESALAAEAESAMAC0A
+ESANAHwAESAOAI0AESAPAJ4AESAQAK8AESARANsAESASAOwAESATAP0AESAUAA4BESAVABQAESAW
+ADMAESAXAIIAESAYAJMAESAZAKQAESAaALUAESAbAOEAESAcAPIAESAdAAMBESAeABQBESAfABoA
+ACAAAAAAACAAAAAAAQABAEUBESABAOkHESACAFICESADAIMFBwAwAAcAGAAIADQACAAoAAsAfQAJ
+ACcHAQARACcHBgAZACcHCgApACcHEAAxACcHEAA5ACcHEABBACcHEABJACcHEABRACcHEABZACcH
+EABhACcHEABpACcHBgCBACcHBgCpACcHFQC5ACcHBgDBACcHGwDJACcHEADRACcHBgDhACcHIADR
+ACcHKADpACcHLgDxACcHEAABAScHAQAJAScHAQBxAHAIOgARASQIQAAZAVYGRgAhAUAFTQAxAScH
+EAA5ATQBUQBBAdkBWQDZAHEFXwARAcsIAQBxACcHBgCJACcHBgDZAEACYgDZAA8JagCRACcHcACx
+ACcHBgAIABQAigAIABgAjwApAHMAWgEuAAsAMgEuABMAOwEuABsAWgEuACMAYwEuACsAjAEuADMA
+jAEuADsAjAEuAEMAYwEuAEsAkgEuAFMAjAEuAFsAqQFDAGMAjwBJAHMAWgFhAHsAjwBjAGsAjwCJ
+ALsADgKjAHsAjwCjAIMARAKjAIsASwKjAJMAjwCpALsAFwLDAHsAjwDDAJsAdQLDAKMAzALJALsA
+KQLjAHsAjwDjAIsAJQPjAKsATwPjAJMAjwADAXsAjwADAYsArwMDAasATwMDAZMAjwAjAXsAjwAj
+AYsA2QMjAYMARAIjAZMAjwBDAXsAjwBDAZsAAwRDAaMAZARgAbsA8wFgAcMA/AFjAXsAjwBjAYsA
+wgRjAbMA7ARjAZMAjwCDAXsAjwCDAbMA7ASDAYsAJQODAZMAjwCgAbsABQKjAXsAjwCjAYsArwOj
+AZMAjwDgAbsADgIgArsAFwJgArsAIAKgAsMAFwKgArsAKQLAAsMAFwLAArsAKQIAA8MAMgIAA7sA
+OwIFAJQABwCWAAkAmAALAJgADQCYAA8AmAARAJgAEwCYABUAmAAXAJgAGQCYABsAmAAdAJgAHwCY
+ACEAmAAjAJgAJQCYACcAmAApAJgAKwCYAC0AmAAvAJgAMQCYADMAmAA1AJgANwCYADkAmAA7AJgA
+PQCYAD8AmABBAJgAQwCYAEUAmABHAJgASQCYAEsAmABNAJgATwCYAFEAmABTAJgAVQCYAFcAmABZ
+AJgAWwCYAF0AmABfAJgAYQCYAGMAmABlAJQAZwCWAGsAmABtAJgAbwCYADQAAwABAAQAAwAMAAQA
+AAD5BhYBAACoAhsBAADDCCABAABLCCUBAADCCCoBAAAmAi4BAgAEAAMAAgAFAAUAAQAGAAUAAgAH
+AAcAAgAPAAkAAgARAAsAAgAVAA0AAQAWAA0ABIAAAAEAAABKIP5PAAAAAAAAcAEAAAQAAAAAAAAA
+AAAAAHgAlAEAAAAADwAAAAAAAAAAAAAAgQCRBQAAAAAEAAAAAAAAAAAAAAB4AF8GAAAAAA8AAAAA
+AAAAAAAAAIEASQEAAAAAAAAAAAEAAACXBwAADgACAAAAAAAAQXJnMTAAX1Z0YmxHYXAxXzIwAEFy
+ZzIwAEFyZzMwAF9WdGJsR2FwM182MABBcmcxMQBBcmcyMQBfVnRibEdhcDVfNTEAU1RfODMxMjk1
+NGQxZmJiNGE4Y2FiNWI3NmYwOTVhMGIzZjEAQXJnMQBfVnRibEdhcDFfMTIAQXJnMTIAQXJnMjIA
+QXJnMgBBcmcxMwBBcmcyMwBBcmczAEFyZzE0AEFyZzI0AEFyZzQAQXJnMTUAQXJnMjUAX1Z0YmxH
+YXAxXzM1AEFyZzUAX1Z0YmxHYXA0XzExNgBBcmcxNgBBcmcyNgBBcmc2AEFyZzE3AEFyZzI3AEFy
+ZzcAQXJnMTgAQXJnMjgAQXJnOABBcmcxOQBBcmcyOQBfVnRibEdhcDJfOQBBcmc5ADxNb2R1bGU+
+AEdldFR5cGVGcm9tQ0xTSUQAUkhTAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuTWFuYWdlZERUUwB2YWx1
+ZV9fAFNUXzAzYWU4NTNkOWViNTQ5ZGZhODM1NzIzOGUxNWFmZWFhAG1zY29ybGliAENvcnJ1cHRM
+b2FkAElnbm9yZVJlYWRPbmx5UmVjb21tZW5kZWQAR3VpZABXcml0ZVJlc1Bhc3N3b3JkAENyZWF0
+ZUluc3RhbmNlAGRlZmF1bHRJbnN0YW5jZQBWYXJpYWJsZQBJRW51bWVyYWJsZQBFZGl0YWJsZQBn
+ZXRfVmlzaWJsZQBzZXRfVmlzaWJsZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRs
+ZQBGaWxlbmFtZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5SdW50aW1lAFR5cGUARmFpbHVyZQBn
+ZXRfQ3VsdHVyZQBzZXRfQ3VsdHVyZQByZXNvdXJjZUN1bHR1cmUAVlNUQVJUU2NyaXB0T2JqZWN0
+TW9kZWxCYXNlAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAENsb3NlAEVkaXRvckJyb3dzYWJsZVN0
+YXRlAERpc3BJZEF0dHJpYnV0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBHdWlkQXR0cmli
+dXRlAENvbUV2ZW50SW50ZXJmYWNlQXR0cmlidXRlAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRyaWJ1
+dGUARGVidWdnYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1dGUAQXNzZW1ibHlU
+aXRsZUF0dHJpYnV0ZQBJbnRlcmZhY2VUeXBlQXR0cmlidXRlAEFzc2VtYmx5VHJhZGVtYXJrQXR0
+cmlidXRlAFRhcmdldEZyYW1ld29ya0F0dHJpYnV0ZQBMQ0lEQ29udmVyc2lvbkF0dHJpYnV0ZQBB
+c3NlbWJseUNvbmZpZ3VyYXRpb25BdHRyaWJ1dGUAQXNzZW1ibHlEZXNjcmlwdGlvbkF0dHJpYnV0
+ZQBEZWZhdWx0TWVtYmVyQXR0cmlidXRlAFR5cGVJZGVudGlmaWVyQXR0cmlidXRlAENvbXBpbGF0
+aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQ29DbGFzc0F0dHJpYnV0ZQBBc3NlbWJseVByb2R1Y3RB
+dHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAU1NJU1NjcmlwdFRhc2tFbnRyeVBv
+aW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0
+eUF0dHJpYnV0ZQBnZXRfVmFsdWUAdmFsdWUAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBTdHJp
+bmcATWlzc2luZwBfV29ya2Jvb2sAUm91dGVXb3JrYm9vawBNaWNyb3NvZnQuU3FsU2VydmVyLlNj
+cmlwdFRhc2sATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuVGFza3MuU2NyaXB0VGFzawBMb2NhbABN
+YXJzaGFsAE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNlbABTY3JpcHRPYmplY3RNb2RlbABT
+eXN0ZW0uQ29tcG9uZW50TW9kZWwAU1RfMDNhZTg1M2Q5ZWI1NDlkZmE4MzU3MjM4ZTE1YWZlYWEu
+ZGxsAGdldF9JdGVtAFN5c3RlbQBFbnVtAHJlc291cmNlTWFuAEJvb2xlYW4AT3BlbgBTY3JpcHRN
+YWluAE9yaWdpbgBfQXBwbGljYXRpb24AU3lzdGVtLkNvbmZpZ3VyYXRpb24AU3lzdGVtLkdsb2Jh
+bGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24AUnVuAEN1bHR1cmVJbmZvAE1hY3JvAGdldF9SZXNv
+dXJjZU1hbmFnZXIARGVsaW1pdGVyAENvbnZlcnRlcgBBY3RpdmF0b3IALmN0b3IALmNjdG9yAFN5
+c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2VydmljZXMAU3lzdGVtLlJ1
+bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0uUmVzb3VyY2VzAFNUXzgzMTI5NTRkMWZiYjRh
+OGNhYjViNzZmMDk1YTBiM2YxLlByb3BlcnRpZXMuUmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dp
+bmdNb2RlcwBTYXZlQ2hhbmdlcwBTVF84MzEyOTU0ZDFmYmI0YThjYWI1Yjc2ZjA5NWEwYjNmMS5Q
+cm9wZXJ0aWVzAGdldF9WYXJpYWJsZXMAU2V0dGluZ3MAVXBkYXRlTGlua3MAZ2V0X1dvcmtib29r
+cwBTeXN0ZW0uQ29sbGVjdGlvbnMAU3VjY2VzcwBnZXRfRHRzAFNjcmlwdFJlc3VsdHMAV29ya2Jv
+b2tFdmVudHMAQXBwRXZlbnRzAEZvcm1hdABPYmplY3QAUXVpdABnZXRfX0RlZmF1bHQAZ2V0X0Rl
+ZmF1bHQAc2V0X1Rhc2tSZXN1bHQAV29ya2Jvb2tFdmVudHNfRXZlbnQAQXBwRXZlbnRzX0V2ZW50
+AEFkZFRvTXJ1AE5vdGlmeQBnZXRfQXNzZW1ibHkAUmVhZE9ubHkAAAAAAB1VAHMAZQByADoAOgBS
+AHUAbgBNAGEAYwByAG8AAEkwADAAMAAyADQANQAwADAALQAwADAAMAAwAC0AMAAwADAAMAAtAEMA
+MAAwADAALQAwADAAMAAwADAAMAAwADAAMAAwADQANgABG0MAbwBuAHYAZQByAHQAVABvAFgAbABz
+AGIAAHFTAFQAXwA4ADMAMQAyADkANQA0AGQAMQBmAGIAYgA0AGEAOABjAGEAYgA1AGIANwA2AGYA
+MAA5ADUAYQAwAGIAMwBmADEALgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AUgBlAHMAbwB1AHIAYwBl
+AHMAAABEm8TVhVo5SKwrEvAheRfuAAQgAQEIAyAAAQUgAQEREQQgAQEOBSABARFRBCABAQYHIAIB
+Em0SbQUgAgEODgUgAQESbQUHAg4SIAUgABKAiQUgABKAjQYgARKAkRwDIAAcBwABEm0RgJkFAAEc
+Em0CBhwHAAESbRGAqQUgABKArQcgAgEOEoCtCLd6XFYZNOCJCImEXc2AgMyRBAAAAAAEAQAAAAEc
+ARMBGwMGEkkDBhJNAwYSEAIGCAMGETgEAAASSQQAABJNBQABARJNBAAAEhADAAABEyAPEiAOHBwc
+HBwcHBwcHBwcHBwiIB8cHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAQgABIsAyAADgMg
+AAIEIAEBAgYgAwEcHBwECAASSQQIABJNBAgAEhAECAASLAMIAA4DCAACCAEACAAAAAAAHgEAAQBU
+AhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dzAQgBAAIAAAAAACgBACNTVF84MzEyOTU0ZDFmYmI0YThj
+YWI1Yjc2ZjA5NWEwYjNmMQAABQEAAAAAFgEAEUNvcHlyaWdodCBAICAyMDIyAABJAQAaLk5FVEZy
+YW1ld29yayxWZXJzaW9uPXY0LjcBAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEi5ORVQgRnJhbWV3
+b3JrIDQuNwgBAIMHAAAAAAgBAA8AAAAAAAgBAAMBAAAAAAgBADwCAAAAAAgBAAAAAAAAAAgBAC4B
+AAAAAAgBAC4CAAAAAAgBAAMAAAAAAAgBABUBAAAAAAYBAAIAAAApAQAkMDAwMjQ0MTMtMDAwMC0w
+MDAwLUMwMDAtMDAwMDAwMDAwMDQ2AABWAQAoTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2Vs
+LkFwcEV2ZW50cyhNaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwuQXBwRXZlbnRzAABYAQAk
+MDAwMjA4MTMtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDQ2Lk1pY3Jvc29mdC5PZmZpY2UuSW50
+ZXJvcC5FeGNlbC5BcHBFdmVudHNfRXZlbnQAACkBACQwMDAyMDhENS0wMDAwLTAwMDAtQzAwMC0w
+MDAwMDAwMDAwNDYAAF8BAFpTeXN0ZW0uT2JqZWN0LCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4w
+LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkAACkBACQw
+MDAyMDhEQS0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAACkBACQwMDAyNDQxMi0wMDAwLTAw
+MDAtQzAwMC0wMDAwMDAwMDAwNDYAAGABAC1NaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwu
+V29ya2Jvb2tFdmVudHMtTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLldvcmtib29rRXZl
+bnRzAABdAQAkMDAwMjA4MTMtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDQ2M01pY3Jvc29mdC5P
+ZmZpY2UuSW50ZXJvcC5FeGNlbC5Xb3JrYm9va0V2ZW50c19FdmVudAAAKQEAJDAwMDIwOERCLTAw
+MDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAADQEACF9EZWZhdWx0AAAAALQAAADOyu++AQAAAJEA
+AABsU3lzdGVtLlJlc291cmNlcy5SZXNvdXJjZVJlYWRlciwgbXNjb3JsaWIsIFZlcnNpb249NC4w
+LjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5I1N5
+c3RlbS5SZXNvdXJjZXMuUnVudGltZVJlc291cmNlU2V0AgAAAAAAAAAAAAAAUEFEUEFEULQAAADE
+OwAAAAAAAAAAAADeOwAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0DsAAAAAAAAAAAAAAABfQ29y
+RGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB
+ABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAAAABIAAAA
+WEAAABoEAAAAAAAAAAAAABoENAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBPAAAAAAC9
+BO/+AAABAAAAAQD+T0ogAAABAP5PSiA/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAARAAAAAEA
+VgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBvAG4AAAAA
+AAAAsAR6AwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAABWAwAAAQAwADAAMAAwADAA
+NABiADAAAAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEAQwBvAG0AcABhAG4AeQBO
+AGEAbQBlAAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAAFMA
+VABfADgAMwAxADIAOQA1ADQAZAAxAGYAYgBiADQAYQA4AGMAYQBiADUAYgA3ADYAZgAwADkANQBh
+ADAAYgAzAGYAMQAAAD4ADwABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgA4ADIA
+NgA2AC4AMgAwADQANwA4AAAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwATgBhAG0AZQAAAFMAVABf
+ADAAMwBhAGUAOAA1ADMAZAA5AGUAYgA1ADQAOQBkAGYAYQA4ADMANQA3ADIAMwA4AGUAMQA1AGEA
+ZgBlAGEAYQAuAGQAbABsAAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkAcgBpAGcAaAB0AAAAQwBv
+AHAAeQByAGkAZwBoAHQAIABAACAAIAAyADAAMgAyAAAAKgABAAEATABlAGcAYQBsAFQAcgBhAGQA
+ZQBtAGEAcgBrAHMAAAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBuAGEAbQBl
+AAAAUwBUAF8AMAAzAGEAZQA4ADUAMwBkADkAZQBiADUANAA5AGQAZgBhADgAMwA1ADcAMgAzADgA
+ZQAxADUAYQBmAGUAYQBhAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBtAGUAAAAA
+AFMAVABfADgAMwAxADIAOQA1ADQAZAAxAGYAYgBiADQAYQA4AGMAYQBiADUAYgA3ADYAZgAwADkA
+NQBhADAAYgAzAGYAMQAAAEIADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAAADEALgAw
+AC4AOAAyADYANgAuADIAMAA0ADcAOAAAAAAARgAPAAEAQQBzAHMAZQBtAGIAbAB5ACAAVgBlAHIA
+cwBpAG8AbgAAADEALgAwAC4AOAAyADYANgAuADIAMAA0ADcAOAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAwAAADwOwAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success - xlsb Email Notification"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{43A9D21D-6947-495F-B933-E351F4FE9ABC}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success - xlsb Email Notification"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="CCLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="MessageSource">"BMIR datatape (.xlsb) files have been generated for " + Right("0" + (DT_WSTR, 30) (MONTH(Getdate())),2)+"/"+ (DT_WSTR,30) (Year(Getdate())) + ", files are available at the following location – " + @[$Project::pstr_Belleameade_DealReport_NASDirectory] +"\n\nA copy of the file has also been delivered to a NAS folder for ESI transfer to the BYNM FTP site."+ "\n\nContact BusinessIntelligence if any issues are identified.\n\nThank you,\nBI Team"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"BMIR Datatape XLSB - Approved Agreements - " + Right("0" + (DT_WSTR, 30) (MONTH(Getdate())),2)+"/"+ (DT_WSTR,30) (Year(Getdate()))</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_Email_Recipients_Bellemeade_Datatape]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:CC="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="BMIR Datatape XLSB - Approved Agreements - 09/2022"
+          SendMailTask:MessageSource="BMIR datatape (.xlsb) files have been generated for 09/2022, files are available at the following location – \\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\development\Bellemeade\Bank of New York Mellon\&#xA;&#xA;A copy of the file has also been delivered to a NAS folder for ESI transfer to the BYNM FTP site.&#xA;&#xA;Contact BusinessIntelligence if any issues are identified.&#xA;&#xA;Thank you,&#xA;BI Team" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success - xlsx Email Notification"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{2ED1BBB5-524C-48E9-B3BE-6E3756A5329B}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success - xlsx Email Notification"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="CCLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="MessageSource">"BMIR datatape (.xlsx) files have been generated for " + Right("0" + (DT_WSTR, 30) (MONTH(Getdate())),2)+"/"+ (DT_WSTR,30) (Year(Getdate())) + ", files are available at the following location - " + @[$Project::pstr_Belleameade_DealReport_ReinsuranceFolder]   + "\n\nContact BusinessIntelligence if any issues are identified.\n\nThank you,\nBI Team"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"BMIR Datatape - Approved Agreements - " + Right("0" + (DT_WSTR, 30) (MONTH(GETDATE())),2)+"/"+ (DT_WSTR,30) (Year(GETDATE()))</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_Email_Recipients_Bellemeade_Datatape]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:CC="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="BMIR Datatape - Approved Agreements - 09/2022"
+          SendMailTask:MessageSource="BMIR datatape (.xlsx) files have been generated for 09/2022, files are available at the following location - \\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\development\Bellemeade\REINSURANCE DATASETS\&#xA;&#xA;Contact BusinessIntelligence if any issues are identified.&#xA;&#xA;Thank you,&#xA;BI Team" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transfer Files to NAS Directory"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{92288C4A-B403-48B4-AA98-F71A6DFDFD44}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transfer Files to NAS Directory">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{BD90D3F0-DF7D-4DBE-BC89-B3AFF1BCEC39}"
+        DTS:ObjectName="{3724F02F-1FD8-4EB7-9561-8D706650748B}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::vSourceDirectory_BNYM]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\" />
+            <FEFEProperty
+              FileSpec="*.xlsb*" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Transfer Files to NAS Directory\Copy Catbond Deal File to NAS Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{0F8E0A70-E814-49DC-A074-F09AF749FA49}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Copy Catbond Deal File to NAS Directory"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vSourceFileFullPath_BNYM"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::vTargetFileFullPath_BNYM"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Transfer Files to NAS Directory\Create Catbond Deal Folder to NAS Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{2945B75B-F26E-4291-9DAF-080C863DD20A}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Catbond Deal Folder to NAS Directory"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vTargetFileFullPath_BNYM"
+              TaskIsSourceVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Transfer Files to NAS Directory.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{070E0D2E-EE84-4D6D-A578-3B540E1B0833}"
+          DTS:From="Package\Transfer Files to NAS Directory\Create Catbond Deal Folder to NAS Directory"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Transfer Files to NAS Directory\Copy Catbond Deal File to NAS Directory" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{E8DECABA-7626-4C7D-8FCA-929002670C82}"
+          DTS:ObjectName="{E8DECABA-7626-4C7D-8FCA-929002670C82}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::vExcelFileName_BNYM" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transfer Files to Reinsurance Folder"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{3D89955D-F61C-433B-9BBD-E73597B8C890}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transfer Files to Reinsurance Folder">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{277359EC-7F75-4541-BD38-77A4D61D2D74}"
+        DTS:ObjectName="{3724F02F-1FD8-4EB7-9561-8D706650748B}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::vSourceDirectory]</DTS:PropertyExpression>
+        <DTS:PropertyExpression
+          DTS:Name="FileSpec">"*" + (DT_WSTR, 200)(DT_DBDATE)DATEADD("d", -DAY(GETDATE()), DATEADD("m", 0, GETDATE())) + ".xlsx"</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\sharepoint\cts\bi\BI Reports\Riskshare Reports\Bellemeade\Output\" />
+            <FEFEProperty
+              FileSpec="*2022-08-31.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Transfer Files to Reinsurance Folder\Copy Catbond Deal File to Reinsurance Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{565CCAF0-5B63-4728-8E7E-CBE93E81C80B}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Copy Catbond Deal File to Reinsurance Directory"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vSourceFileFullPath"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::vReinsuranceTargetDirectory"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Transfer Files to Reinsurance Folder\Create Reporting Month Folder to Reinsurance Directory"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{2A191EF6-1FB4-498F-9008-28DA4F936F61}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Reporting Month Folder to Reinsurance Directory"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::vReinsuranceTargetDirectory"
+              TaskIsSourceVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Transfer Files to Reinsurance Folder.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{BC13984C-D8FC-4EA8-B77A-34986CA6164E}"
+          DTS:From="Package\Transfer Files to Reinsurance Folder\Create Reporting Month Folder to Reinsurance Directory"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Transfer Files to Reinsurance Folder\Copy Catbond Deal File to Reinsurance Directory" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{D5A4FEE4-B04F-4543-89B4-53FF3FCBB8C2}"
+          DTS:ObjectName="{D5A4FEE4-B04F-4543-89B4-53FF3FCBB8C2}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::vExcelFileName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transpose xlsb retention format"
+      DTS:CreationName="Microsoft.ScriptTask"
+      DTS:Description="Script Task"
+      DTS:DTSID="{F41D8C98-C80D-42E9-B609-857A50C3AAA0}"
+      DTS:ExecutableType="Microsoft.ScriptTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transpose xlsb retention format"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ScriptProject
+          Name="ST_19e5356362da4d569444c10f485cb966"
+          VSTAMajorVersion="15"
+          VSTAMinorVersion="0"
+          Language="CSharp"
+          ReadOnlyVariables="User::RunTransposeMacro">
+          <ProjectItem
+            Name="Properties\AssemblyInfo.cs"
+            Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_8312954d1fbb4a8cab5b76f095a0b3f1")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_8312954d1fbb4a8cab5b76f095a0b3f1")]
+[assembly: AssemblyCopyright("Copyright @  2022")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.resx"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></ProjectItem>
+          <ProjectItem
+            Name="ST_19e5356362da4d569444c10f485cb966.csproj"
+            Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{25FE62C6-26B5-45D0-812C-0D4F8B07A098}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_8312954d1fbb4a8cab5b76f095a0b3f1</RootNamespace>
+    <AssemblyName>ST_19e5356362da4d569444c10f485cb966</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=15.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=15.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptTask" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST150</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
+          <ProjectItem
+            Name="ScriptMain.cs"
+            Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
+/* The Script Task allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services control flow. 
+ * 
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script task. */
+#endregion
+
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+#endregion
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1
+{
+    /// <summary>
+    /// ScriptMain is the entry point class of the script.  Do not change the name, attributes,
+    /// or parent of this class.
+    /// </summary>
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+	public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+	{
+        #region Help:  Using Integration Services variables and parameters in a script
+        /* To use a variable in this script, first ensure that the variable has been added to 
+         * either the list contained in the ReadOnlyVariables property or the list contained in 
+         * the ReadWriteVariables property of this script task, according to whether or not your
+         * code needs to write to the variable.  To add the variable, save this script, close this instance of
+         * Visual Studio, and update the ReadOnlyVariables and 
+         * ReadWriteVariables properties in the Script Transformation Editor window.
+         * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+         * 
+         * Example of reading from a variable:
+         *  DateTime startTime = (DateTime) Dts.Variables["System::StartTime"].Value;
+         * 
+         * Example of writing to a variable:
+         *  Dts.Variables["User::myStringVariable"].Value = "new value";
+         * 
+         * Example of reading from a package parameter:
+         *  int batchId = (int) Dts.Variables["$Package::batchId"].Value;
+         *  
+         * Example of reading from a project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].Value;
+         * 
+         * Example of reading from a sensitive project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].GetSensitiveValue();
+         * */
+
+        #endregion
+
+        #region Help:  Firing Integration Services events from a script
+        /* This script task can fire events for logging purposes.
+         * 
+         * Example of firing an error event:
+         *  Dts.Events.FireError(18, "Process Values", "Bad value", "", 0);
+         * 
+         * Example of firing an information event:
+         *  Dts.Events.FireInformation(3, "Process Values", "Processing has started", "", 0, ref fireAgain)
+         * 
+         * Example of firing a warning event:
+         *  Dts.Events.FireWarning(14, "Process Values", "No values received for input", "", 0);
+         * */
+        #endregion
+
+        #region Help:  Using Integration Services connection managers in a script
+        /* Some types of connection managers can be used in this script task.  See the topic 
+         * "Working with Connection Managers Programatically" for details.
+         * 
+         * Example of using an ADO.Net connection manager:
+         *  object rawConnection = Dts.Connections["Sales DB"].AcquireConnection(Dts.Transaction);
+         *  SqlConnection myADONETConnection = (SqlConnection)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Sales DB"].ReleaseConnection(rawConnection);
+         *
+         * Example of using a File connection manager
+         *  object rawConnection = Dts.Connections["Prices.zip"].AcquireConnection(Dts.Transaction);
+         *  string filePath = (string)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Prices.zip"].ReleaseConnection(rawConnection);
+         * */
+        #endregion
+
+
+        /// <summary>
+        /// This method is called when this script task executes in the control flow.
+        /// Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+        /// To open Help, press F1.
+        /// </summary>
+        public void Main()
+		{
+            string filename = (String) Dts.Variables["User::RunTransposeMacro"].Value;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(filename);
+            xlApp.Visible = false;
+            xlApp.Run("TransposeXlsb");
+            xlWorkBook.Close(true);
+            xlApp.Quit();
+
+            Dts.TaskResult = (int)ScriptResults.Success;
+		}
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+
+	}
+}]]></ProjectItem>
+          <ProjectItem
+            Name="Project"
+            Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+  <msb:PropertyGroup>
+    <msb:CodeName>ST_19e5356362da4d569444c10f485cb966</msb:CodeName>
+    <msb:Language>msBuild</msb:Language>
+    <msb:DisplayName>ST_19e5356362da4d569444c10f485cb966</msb:DisplayName>
+    <msb:ProjectId>{D3976F40-9652-4FA0-A46C-FFC0D436B2BC}</msb:ProjectId>
+  </msb:PropertyGroup>
+  <msb:ItemGroup>
+    <msb:Project Include="ST_19e5356362da4d569444c10f485cb966.csproj" />
+    <msb:File Include="Properties\Settings.settings" />
+    <msb:File Include="Properties\AssemblyInfo.cs" />
+    <msb:File Include="Properties\Resources.resx" />
+    <msb:File Include="Properties\Resources.Designer.cs" />
+    <msb:File Include="Properties\Settings.Designer.cs" />
+    <msb:File Include="ScriptMain.cs" />
+  </msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Settings.get_Default():ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Sett" +
+    "ings")]
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Settings.settings"
+            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+          <ProjectItem
+            Name="Properties\Resources.Designer.cs"
+            Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ST_8312954d1fbb4a8cab5b76f095a0b3f1.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}]]></ProjectItem>
+          <BinaryItem
+            Name="ST_19e5356362da4d569444c10f485cb966.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAPDU/2IAAAAAAAAAAOAAIiALATAAAB4AAAAIAAAAAAAAAjwA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAALA7AABPAAAAAEAAAHgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAACBwAAAAgAAAAHgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAHgEAAAAQAAAAAYAAAAgAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAJgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAADk
+OwAAAAAAAEgAAAACAAUAICIAANgYAAABAAAAAAAAAPg6AAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABMwIQBdAQAAAQAAEQIoGQAACm8aAAAKcgEAAHBvGwAACm8c
+AAAKdCUAAAEKcjEAAHBzHQAACigeAAAKKB8AAAp0BwAAAiVvDwAABgZ+IAAACn4gAAAKfiAAAAp+
+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKbwsA
+AAYLJRZvFgAABiVyewAAcH4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+
+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAA
+AAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACn4gAAAKfiAAAAp+IAAACm8NAAAG
+JgcXjCkAAAF+IAAACn4gAAAKbxgAAAZvEwAABgIoGQAAChZvIQAACioeAigiAAAKKh4CKCMAAAoq
+rn4BAAAELR5ylwAAcNADAAACKCQAAApvJQAACnMmAAAKgAEAAAR+AQAABCoafgIAAAQqHgKAAgAA
+BCoafgMAAAQqHgIoJwAACioucwgAAAaAAwAABCoAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkA
+AAAABQBsAAAALAkAACN+AACYCQAAKAkAACNTdHJpbmdzAAAAAMASAAAMAQAAI1VTAMwTAAAQAAAA
+I0dVSUQAAADcEwAA/AQAACNCbG9iAAAAAAAAAAIAAAFXP6IBCQMAAAD6ATMAFgAAAQAAACsAAAAO
+AAAABgAAABgAAAA3AAAABQAAACcAAAACAAAAQAAAADUAAAABAAAAAwAAAAYAAAAIAAAAAQAAAAQA
+AAABAAAAAQAAAAAALgYBAAAAAAAGAIIEZgcGACIFZgcGAHADNAcPANoHAAAGAJ0DzQYGADYEzQYG
+ABcEzQYGAAkFzQYGALMEzQYGAMwEzQYGAMsDzQYGAOYDUAUKAOcEsAUKALACsAUGAGYGXwYGAFMD
+NAcGAKYIXwYGAPkGhgcGAOMGuAYOAOoCGAYOAIQDGAYOAMwCowYGAA8DZgcGALQDRwcGACoDRwcG
+AGoERwcGAHsCXwYGADgDRwcGAKIERwcGAFMEzQYGAAECVQgGAP8CRwcGAP8DRwcKAAYGsAUSACgI
+WwISAPgBWwIGAGoFXwYGAMMBXwYGAN8FRwcGAB0HXwYGAHcGXwYGAC4CXwYGABMJzQYAAAAATwEA
+AAAAAQABAAEAEACEBkYAOQABAAEAAAAQAI0H9QdFAAEAAwAAARAAMgj1B1kAAwAHAKEQAACVCOcF
+AAAEAAoAoRAAAO8I5wUAAAQACgChEAAAlwbnBQAABAAKAKEQAACIBecFAAAEAAoAoRAAAIYI5wUA
+AAQACgChEAAA2gjnBQAABAAKAKEQAABLCOcFAAAEAAoAoRAAAJYG5wUAAAQADAChEAAAeQXnBQAA
+BAAXAAMBAAB4CAAAPQAEABkAEQBrBpoAEQCgAp4AEQDoAaIABgaMAaYAVoBoCKkAVoCAAqkAUCAA
+AAAAhgCKBgYAAQC5IQAAAACGGCcHBgABAMEhAAAAAIMYJwcGAAEAySEAAAAAkwj1Bq0AAQD1IQAA
+AACTCIgCsgABAPwhAAAAAJMIlAK3AAEABCIAAAAAlgi/CL0AAgALIgAAAACGGCcHBgACABMiAAAA
+AJEYLQfCAAIAAAAAAAMABhhvAAYAAgAAAAAAAxDGBX8GxgACAAAAAAADAAYYuwAGABIAAAAAAAMQ
+xgXfBtoAEgAAAAAAAwAGGD4BBgAyAAAAAAADEMYNRwj9ADIAAAAAAAMABhggAAYAMwAAAAAAAxDG
+DbIIAgEzAAAAAAADAAYYzQAGADQAAAAAAAMQxgWtCAYANAAAAAAAAwAGGDkABgA0AAAAAAADEMYN
+FgIGATQAAAAAAAMQxg0iAgoBNAAAAAAAAwAGGAcABgA1AAAAAAADEMYF5AIPATUAAAABAEoFACAA
+AAAAASABAFICESACADsIESADABwJESAEAJ8IESAFANABESAGAMgBESAHAKkBESAIAI8GESAJAAkH
+ESAKAA0CESALAAgJESAMABMHESANAP8IESAOANkFESAPAJ0BACAAAAAAESABAO8GESACAGoAESAD
+AIgAESAEAJkAESAFAKoAESAGAMgAESAHAAsBESAIABwBESAJAC0BESAKAEoBESALAAEAESAMAC0A
+ESANAHwAESAOAI0AESAPAJ4AESAQAK8AESARANsAESASABABESATACEBESAUADIBESAVABQAESAW
+ADMAESAXAIIAESAYAJMAESAZAKQAESAaALUAESAbAOEAESAcABYBESAdACcBESAeADgBESAfABoA
+ACAAAAAAACAAAAAAAQABAGkBESABAOkHESACAFICESADAIMFBwAwAAcAGAAIADQACAAoAAsAfQAJ
+ACcHAQARACcHBgAZACcHCgApACcHEAAxACcHEAA5ACcHEABBACcHEABJACcHEABRACcHEABZACcH
+EABhACcHEABpACcHBgCBACcHBgCpACcHFQC5ACcHBgDBACcHGwDJACcHEADRACcHBgDhACcHIADR
+ACcHKADpACcHLgDxACcHEAABAScHAQAJAScHAQBxAHAIOgARASQIQAAZAVYGRgAhAUAFTQAxAScH
+EAA5AVgBUQBBAdkBWQDZAHEFXwARAcsIAQBxACcHBgCJACcHBgDZAEACYgDZAA8JagCRACcHcACx
+ACcHBgAIABQAigAIABgAjwApAHMAWgEuAAsAMgEuABMAOwEuABsAWgEuACMAYwEuACsAjAEuADMA
+jAEuADsAjAEuAEMAYwEuAEsAkgEuAFMAjAEuAFsAqQFDAGMAjwBJAHMAWgFhAHsAjwBjAGsAjwCJ
+ALsADgKjAHsAjwCjAIMARAKjAIsASwKjAJMAjwCpALsAFwLDAHsAjwDDAJsAdQLDAKMAzALJALsA
+KQLjAHsAjwDjAIsAJQPjAKsATwPjAJMAjwADAXsAjwADAYsArwMDAasATwMDAZMAjwAjAXsAjwAj
+AYsA2QMjAYMARAIjAZMAjwBDAXsAjwBDAZsAAwRDAaMAZARgAbsA8wFgAcMA/AFjAXsAjwBjAYsA
+wgRjAbMA7ARjAZMAjwCDAXsAjwCDAbMA7ASDAYsAJQODAZMAjwCgAbsABQKjAXsAjwCjAYsArwOj
+AZMAjwDgAbsADgIgArsAFwJgArsAIAKgAsMAFwKgArsAKQLAAsMAFwLAArsAKQIAA8MAMgIAA7sA
+OwIFAJQABwCWAAkAmAALAJgADQCYAA8AmAARAJgAEwCYABUAmAAXAJgAGQCYABsAmAAdAJgAHwCY
+ACEAmAAjAJgAJQCYACcAmAApAJgAKwCYAC0AmAAvAJgAMQCYADMAmAA1AJgANwCYADkAmAA7AJgA
+PQCYAD8AmABBAJgAQwCYAEUAmABHAJgASQCYAEsAmABNAJgATwCYAFEAmABTAJgAVQCYAFcAmABZ
+AJgAWwCYAF0AmABfAJgAYQCYAGMAmABlAJQAZwCWAGsAmABtAJgAbwCYADQAAwABAAQAAwAMAAQA
+AAD5BhYBAACoAhsBAADDCCABAABLCCUBAADCCCoBAAAmAi4BAgAEAAMAAgAFAAUAAQAGAAUAAgAH
+AAcAAgAPAAkAAgARAAsAAgAVAA0AAQAWAA0ABIAAAAEAAABKIABQAAAAAAAA5wAAAAQAAAAAAAAA
+AAAAAHgAlAEAAAAADwAAAAAAAAAAAAAAgQCRBQAAAAAEAAAAAAAAAAAAAAB4AF8GAAAAAA8AAAAA
+AAAAAAAAAIEAbQEAAAAAAAAAAAEAAACXBwAADgACAAAAAAAAQXJnMTAAX1Z0YmxHYXAxXzIwAEFy
+ZzIwAEFyZzMwAF9WdGJsR2FwM182MABBcmcxMQBBcmcyMQBfVnRibEdhcDVfNTEAU1RfODMxMjk1
+NGQxZmJiNGE4Y2FiNWI3NmYwOTVhMGIzZjEAQXJnMQBfVnRibEdhcDFfMTIAQXJnMTIAQXJnMjIA
+QXJnMgBBcmcxMwBBcmcyMwBBcmczAEFyZzE0AEFyZzI0AEFyZzQAQXJnMTUAQXJnMjUAX1Z0YmxH
+YXAxXzM1AEFyZzUAX1Z0YmxHYXA0XzExNgBBcmcxNgBBcmcyNgBTVF8xOWU1MzU2MzYyZGE0ZDU2
+OTQ0NGMxMGY0ODVjYjk2NgBBcmc2AEFyZzE3AEFyZzI3AEFyZzcAQXJnMTgAQXJnMjgAQXJnOABB
+cmcxOQBBcmcyOQBfVnRibEdhcDJfOQBBcmc5ADxNb2R1bGU+AEdldFR5cGVGcm9tQ0xTSUQAUkhT
+AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuTWFuYWdlZERUUwB2YWx1ZV9fAG1zY29ybGliAENvcnJ1cHRM
+b2FkAElnbm9yZVJlYWRPbmx5UmVjb21tZW5kZWQAR3VpZABXcml0ZVJlc1Bhc3N3b3JkAENyZWF0
+ZUluc3RhbmNlAGRlZmF1bHRJbnN0YW5jZQBWYXJpYWJsZQBJRW51bWVyYWJsZQBFZGl0YWJsZQBn
+ZXRfVmlzaWJsZQBzZXRfVmlzaWJsZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRs
+ZQBGaWxlbmFtZQBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5SdW50aW1lAFR5cGUARmFpbHVyZQBn
+ZXRfQ3VsdHVyZQBzZXRfQ3VsdHVyZQByZXNvdXJjZUN1bHR1cmUAVlNUQVJUU2NyaXB0T2JqZWN0
+TW9kZWxCYXNlAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAENsb3NlAEVkaXRvckJyb3dzYWJsZVN0
+YXRlAERpc3BJZEF0dHJpYnV0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBHdWlkQXR0cmli
+dXRlAENvbUV2ZW50SW50ZXJmYWNlQXR0cmlidXRlAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRyaWJ1
+dGUARGVidWdnYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1dGUAQXNzZW1ibHlU
+aXRsZUF0dHJpYnV0ZQBJbnRlcmZhY2VUeXBlQXR0cmlidXRlAEFzc2VtYmx5VHJhZGVtYXJrQXR0
+cmlidXRlAFRhcmdldEZyYW1ld29ya0F0dHJpYnV0ZQBMQ0lEQ29udmVyc2lvbkF0dHJpYnV0ZQBB
+c3NlbWJseUNvbmZpZ3VyYXRpb25BdHRyaWJ1dGUAQXNzZW1ibHlEZXNjcmlwdGlvbkF0dHJpYnV0
+ZQBEZWZhdWx0TWVtYmVyQXR0cmlidXRlAFR5cGVJZGVudGlmaWVyQXR0cmlidXRlAENvbXBpbGF0
+aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQ29DbGFzc0F0dHJpYnV0ZQBBc3NlbWJseVByb2R1Y3RB
+dHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAU1NJU1NjcmlwdFRhc2tFbnRyeVBv
+aW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1lQ29tcGF0aWJpbGl0
+eUF0dHJpYnV0ZQBnZXRfVmFsdWUAdmFsdWUAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBTdHJp
+bmcATWlzc2luZwBfV29ya2Jvb2sAUm91dGVXb3JrYm9vawBNaWNyb3NvZnQuU3FsU2VydmVyLlNj
+cmlwdFRhc2sATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuVGFza3MuU2NyaXB0VGFzawBMb2NhbABN
+YXJzaGFsAE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNlbABTY3JpcHRPYmplY3RNb2RlbABT
+eXN0ZW0uQ29tcG9uZW50TW9kZWwAU1RfMTllNTM1NjM2MmRhNGQ1Njk0NDRjMTBmNDg1Y2I5NjYu
+ZGxsAGdldF9JdGVtAFN5c3RlbQBFbnVtAHJlc291cmNlTWFuAEJvb2xlYW4AT3BlbgBTY3JpcHRN
+YWluAE9yaWdpbgBfQXBwbGljYXRpb24AU3lzdGVtLkNvbmZpZ3VyYXRpb24AU3lzdGVtLkdsb2Jh
+bGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24AUnVuAEN1bHR1cmVJbmZvAE1hY3JvAGdldF9SZXNv
+dXJjZU1hbmFnZXIARGVsaW1pdGVyAENvbnZlcnRlcgBBY3RpdmF0b3IALmN0b3IALmNjdG9yAFN5
+c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2VydmljZXMAU3lzdGVtLlJ1
+bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0uUmVzb3VyY2VzAFNUXzgzMTI5NTRkMWZiYjRh
+OGNhYjViNzZmMDk1YTBiM2YxLlByb3BlcnRpZXMuUmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dp
+bmdNb2RlcwBTYXZlQ2hhbmdlcwBTVF84MzEyOTU0ZDFmYmI0YThjYWI1Yjc2ZjA5NWEwYjNmMS5Q
+cm9wZXJ0aWVzAGdldF9WYXJpYWJsZXMAU2V0dGluZ3MAVXBkYXRlTGlua3MAZ2V0X1dvcmtib29r
+cwBTeXN0ZW0uQ29sbGVjdGlvbnMAU3VjY2VzcwBnZXRfRHRzAFNjcmlwdFJlc3VsdHMAV29ya2Jv
+b2tFdmVudHMAQXBwRXZlbnRzAEZvcm1hdABPYmplY3QAUXVpdABnZXRfX0RlZmF1bHQAZ2V0X0Rl
+ZmF1bHQAc2V0X1Rhc2tSZXN1bHQAV29ya2Jvb2tFdmVudHNfRXZlbnQAQXBwRXZlbnRzX0V2ZW50
+AEFkZFRvTXJ1AE5vdGlmeQBnZXRfQXNzZW1ibHkAUmVhZE9ubHkAAAAAAC9VAHMAZQByADoAOgBS
+AHUAbgBUAHIAYQBuAHMAcABvAHMAZQBNAGEAYwByAG8AAEkwADAAMAAyADQANQAwADAALQAwADAA
+MAAwAC0AMAAwADAAMAAtAEMAMAAwADAALQAwADAAMAAwADAAMAAwADAAMAAwADQANgABG1QAcgBh
+AG4AcwBwAG8AcwBlAFgAbABzAGIAAHFTAFQAXwA4ADMAMQAyADkANQA0AGQAMQBmAGIAYgA0AGEA
+OABjAGEAYgA1AGIANwA2AGYAMAA5ADUAYQAwAGIAMwBmADEALgBQAHIAbwBwAGUAcgB0AGkAZQBz
+AC4AUgBlAHMAbwB1AHIAYwBlAHMAAAAAAISHQ4qgndxDsEMHyWSe4dAABCABAQgDIAABBSABARER
+BCABAQ4FIAEBEVEEIAEBBgcgAgESbRJtBSACAQ4OBSABARJtBQcCDhIgBSAAEoCJBSAAEoCNBiAB
+EoCRHAMgABwHAAESbRGAmQUAARwSbQIGHAcAARJtEYCpBSAAEoCtByACAQ4SgK0It3pcVhk04IkI
+iYRdzYCAzJEEAAAAAAQBAAAAARwBEwEbAwYSSQMGEk0DBhIQAgYIAwYROAQAABJJBAAAEk0FAAEB
+Ek0EAAASEAMAAAETIA8SIA4cHBwcHBwcHBwcHBwcHCIgHxwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc
+HBwcHBwcHBwcBCAAEiwDIAAOAyAAAgQgAQECBiADARwcHAQIABJJBAgAEk0ECAASEAQIABIsAwgA
+DgMIAAIIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRpb25UaHJvd3MBCAEAAgAAAAAAKAEA
+I1NUXzgzMTI5NTRkMWZiYjRhOGNhYjViNzZmMDk1YTBiM2YxAAAFAQAAAAAWAQARQ29weXJpZ2h0
+IEAgIDIwMjIAAEkBABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuNwEAVA4URnJhbWV3b3JrRGlz
+cGxheU5hbWUSLk5FVCBGcmFtZXdvcmsgNC43CAEAgwcAAAAACAEADwAAAAAACAEAAwEAAAAACAEA
+PAIAAAAACAEAAAAAAAAACAEALgEAAAAACAEALgIAAAAACAEAAwAAAAAACAEAFQEAAAAABgEAAgAA
+ACkBACQwMDAyNDQxMy0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAAFYBAChNaWNyb3NvZnQu
+T2ZmaWNlLkludGVyb3AuRXhjZWwuQXBwRXZlbnRzKE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5F
+eGNlbC5BcHBFdmVudHMAAFgBACQwMDAyMDgxMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwNDYu
+TWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLkFwcEV2ZW50c19FdmVudAAAKQEAJDAwMDIw
+OEQ1LTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAAXwEAWlN5c3RlbS5PYmplY3QsIG1zY29y
+bGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3
+YTVjNTYxOTM0ZTA4OQAAKQEAJDAwMDIwOERBLTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAA
+KQEAJDAwMDI0NDEyLTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAAYAEALU1pY3Jvc29mdC5P
+ZmZpY2UuSW50ZXJvcC5FeGNlbC5Xb3JrYm9va0V2ZW50cy1NaWNyb3NvZnQuT2ZmaWNlLkludGVy
+b3AuRXhjZWwuV29ya2Jvb2tFdmVudHMAAF0BACQwMDAyMDgxMy0wMDAwLTAwMDAtYzAwMC0wMDAw
+MDAwMDAwNDYzTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLldvcmtib29rRXZlbnRzX0V2
+ZW50AAApAQAkMDAwMjA4REItMDAwMC0wMDAwLUMwMDAtMDAwMDAwMDAwMDQ2AAANAQAIX0RlZmF1
+bHQAAAAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBt
+c2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2Vu
+PWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAA
+AAAAAAAAAABQQURQQURQtAAAANg7AAAAAAAAAAAAAPI7AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AADkOwAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA
+EAAAABgAAIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgAAABY
+QAAAGgQAAAAAAAAAAAAAGgQ0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAAAL0E
+7/4AAAEAAAABAABQSiAAAAEAAFBKID8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAAAQBW
+AGEAcgBGAGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAAAAAA
+AACwBHoDAAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAAFYDAAABADAAMAAwADAAMAA0
+AGIAMAAAABoAAQABAEMAbwBtAG0AZQBuAHQAcwAAAAAAAAAiAAEAAQBDAG8AbQBwAGEAbgB5AE4A
+YQBtAGUAAAAAAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBU
+AF8AOAAzADEAMgA5ADUANABkADEAZgBiAGIANABhADgAYwBhAGIANQBiADcANgBmADAAOQA1AGEA
+MABiADMAZgAxAAAAPgAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADgAMgA2
+ADYALgAyADAANAA4ADAAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBUAF8A
+MQA5AGUANQAzADUANgAzADYAMgBkAGEANABkADUANgA5ADQANAA0AGMAMQAwAGYANAA4ADUAYwBi
+ADkANgA2AC4AZABsAGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8A
+cAB5AHIAaQBnAGgAdAAgAEAAIAAgADIAMAAyADIAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABl
+AG0AYQByAGsAcwAAAAAAAAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUA
+AABTAFQAXwAxADkAZQA1ADMANQA2ADMANgAyAGQAYQA0AGQANQA2ADkANAA0ADQAYwAxADAAZgA0
+ADgANQBjAGIAOQA2ADYALgBkAGwAbAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAA
+UwBUAF8AOAAzADEAMgA5ADUANABkADEAZgBiAGIANABhADgAYwBhAGIANQBiADcANgBmADAAOQA1
+AGEAMABiADMAZgAxAAAAQgAPAAEAUAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAA
+LgA4ADIANgA2AC4AMgAwADQAOAAwAAAAAABGAA8AAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUAcgBz
+AGkAbwBuAAAAMQAuADAALgA4ADIANgA2AC4AMgAwADQAOAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAAAQ8AAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+        </ScriptProject>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Catbond Deal Beginning and Ending EU Retention"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{CD87363D-84F7-4E46-91C6-A79925B9253F}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Catbond Deal Beginning and Ending EU Retention">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{3724F02F-1FD8-4EB7-9561-8D706650748B}"
+        DTS:ObjectName="{3724F02F-1FD8-4EB7-9561-8D706650748B}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::vSourceDirectory_BNYM]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\sfofp001\MIS DATA\IS\Business Intelligence Program\DM2SSIS\Shared Documents\Bellemeade - DO NOT DELETE\Output\" />
+            <FEFEProperty
+              FileSpec="*.xlsb*" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{E3B5E633-240D-455F-A77A-6800025DEB67}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Data Flow Task"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[BEGINNING]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="BEGINNING"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BEGINNING]" />
+                        <inputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[ENDING]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="ENDING"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ENDING]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[BEGINNING]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="10"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[BEGINNING]"
+                          name="BEGINNING"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BEGINNING]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[ENDING]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="10"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[ENDING]"
+                          name="ENDING"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ENDING]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination"
+                  componentClassID="Microsoft.ExcelDestination"
+                  contactInfo="Excel Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Excel Destination"
+                  name="Excel Destination"
+                  usesDispositions="true">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Retention$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection XLSB]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection XLSB]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Excel Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].Columns[BEGINNING]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="BEGINNING"
+                          externalMetadataColumnId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Beginning:]"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[BEGINNING]" />
+                        <inputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].Columns[ENDING]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="ENDING"
+                          externalMetadataColumnId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[End:]"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[ENDING]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Beginning:]"
+                          dataType="wstr"
+                          length="255"
+                          name="Beginning:" />
+                        <externalMetadataColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[End:]"
+                          dataType="wstr"
+                          length="255"
+                          name="End:" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Outputs[Excel Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Excel Destination Error Output"
+                      synchronousInputId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT 
+	CONVERT(VARCHAR,CAST(BEGINNING AS NUMERIC(6,2))) + '%' AS BEGINNING, 
+	CONVERT(VARCHAR,CAST(ENDING AS NUMERIC(6,2))) + '%' AS ENDING
+
+FROM
+(	SELECT 
+		DISTINCT DTS.CATBOND_DEAL,
+		CASE WHEN COALESCE((PLR.BEGINNING_EPB * 0.5)/NULLIF(CEP_B.AMT,0),0)*100.00 &gt; 100 THEN COALESCE((PLR.BEGINNING_EPB * 0.5)/NULLIF(CEP_B.AMT,0),0)*100.00/2
+			 ELSE COALESCE((PLR.BEGINNING_EPB * 0.5)/NULLIF(CEP_B.AMT,0),0)*100.00
+		END AS BEGINNING,
+		CASE WHEN COALESCE((PLR.ENDING_EPB * 0.5)/NULLIF(CEP_E.AMT,0),0)*100.00 &gt; 100 THEN COALESCE((PLR.ENDING_EPB * 0.5)/NULLIF(CEP_E.AMT,0),0)*100.00/2
+			 ELSE COALESCE((PLR.ENDING_EPB * 0.5)/NULLIF(CEP_E.AMT,0),0)*100.00
+		END AS ENDING
+
+	FROM 
+		EDW_DM.DBO.HLP_BELLEMEADE_DATATAPE_SNAPSHOT DTS
+	
+		LEFT JOIN RISKSHARE_STAGING.DBO.HLP_BELLEMEADE_PRIN_LOSS_REDU PLR
+		ON DTS.CONTRACT_ID = PLR.CONTRACT_ID 
+		AND DTS.SNAPSHOT_MONTH_DATE_SK = CONVERT(VARCHAR,PLR.BOOK_YEAR_MONTH,112)
+		AND PLR.COVERAGE_LEVEL_ORDER IN 
+		(	SELECT MAX(PLRS.COVERAGE_LEVEL_ORDER) FROM RISKSHARE_STAGING.DBO.HLP_BELLEMEADE_PRIN_LOSS_REDU PLRS
+			WHERE PLRS.CONTRACT_ID = PLR.CONTRACT_ID AND PLRS.BOOK_YEAR_MONTH = PLR.BOOK_YEAR_MONTH
+		)
+	
+		LEFT JOIN RISKSHARE_STAGING.DBO.HLP_BELLEMEADE_CLEAN_EU_PREM CEP_B
+		ON DTS.CONTRACT_ID = CEP_B.CONTRACT_ID 
+		AND DTS.SNAPSHOT_MONTH_DATE_SK = CONVERT(VARCHAR,CEP_B.BOOK_YEAR_MONTH,112)
+		AND CEP_B.NOTES = 'Prior Payment Date'
+
+		LEFT JOIN RISKSHARE_STAGING.DBO.HLP_BELLEMEADE_CLEAN_EU_PREM CEP_E
+		ON DTS.CONTRACT_ID = CEP_E.CONTRACT_ID 
+		AND DTS.SNAPSHOT_MONTH_DATE_SK = CONVERT(VARCHAR,CEP_E.BOOK_YEAR_MONTH,112)
+		AND  CEP_E.NOTES = 'Current Payment Date'
+
+	WHERE
+		DTS.CATBOND_DEAL = ? AND DTS.SNAPSHOT_MONTH_DATE_SK = ?
+) X</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping">"Parameter0:Input",{1F109343-DADD-4216-947E-D61F934E7A38};"Parameter1:Input",{E1AA10F4-BDA4-4B5A-B87E-C1FDD0B3E526};</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{FA586354-3E34-498C-9C56-A4FA6D08BCF9}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[RISKSHARE_STAGING]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BEGINNING]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BEGINNING]"
+                          length="50"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BEGINNING]"
+                          name="BEGINNING"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ENDING]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ENDING]"
+                          length="50"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ENDING]"
+                          name="ENDING"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BEGINNING]"
+                          codePage="1252"
+                          dataType="str"
+                          length="31"
+                          name="BEGINNING" />
+                        <externalMetadataColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ENDING]"
+                          codePage="1252"
+                          dataType="str"
+                          length="31"
+                          name="ENDING" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BEGINNING]"
+                          codePage="1252"
+                          dataType="str"
+                          length="31"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BEGINNING]"
+                          name="BEGINNING" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ENDING]"
+                          codePage="1252"
+                          dataType="str"
+                          length="31"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ENDING]"
+                          name="ENDING" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task.Paths[Data Conversion Output]"
+                  endId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination.Inputs[Excel Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task.Paths[OLE DB Source Output]"
+                  endId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{1369D900-C966-4C2B-BE10-20D1DDB07348}"
+          DTS:ObjectName="{1369D900-C966-4C2B-BE10-20D1DDB07348}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::vExcelFileName_BNYM" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{02FD3761-2835-446D-9910-37EB92B43E09}"
+      DTS:From="Package\Convert csv to xlsb using macro script"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Update Catbond Deal Beginning and Ending EU Retention" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2C83808F-F20A-41CF-B291-F29E8D6E18D8}"
+      DTS:From="Package\Update Catbond Deal Beginning and Ending EU Retention"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Transpose xlsb retention format" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{7FD96B9F-C336-47CA-9003-DF52EEAE4892}"
+      DTS:From="Package\Transpose xlsb retention format"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Transfer Files to Reinsurance Folder" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{A363F638-8EAA-40B4-B073-77B327641453}"
+      DTS:From="Package\Transfer Files to Reinsurance Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Success - xlsx Email Notification" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{FB9E1B42-8B79-40F3-A88D-20447B9BA35C}"
+      DTS:From="Package\Transpose xlsb retention format"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Transfer Files to NAS Directory" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{3A915092-D982-49A5-9331-A7727F41534F}"
+      DTS:From="Package\Transfer Files to NAS Directory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Backup BNYM Files" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{57EAE717-8E64-4AFB-8015-2CBF1F0C19CA}"
+      DTS:From="Package\Backup BNYM Files"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Success - xlsx Email Notification" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{FE5797CC-0C9A-45DE-8700-E950EF5970AB}"
+      DTS:From="Package\Success - xlsx Email Notification"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Success - xlsb Email Notification" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Backup BNYM Files\Create Catbond Deal Folder to Backup Directory"
+          TopLeft="24.75,26.675" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Backup BNYM Files\Move Catbond Deal File to Backup Directory"
+          TopLeft="24.75,104.2625" />
+        <EdgeLayout
+          Id="Package\Backup BNYM Files.PrecedenceConstraints[Constraint 3]"
+          TopLeft="156.25,68.675">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.5875"
+              Start="0,0"
+              End="0,28.0875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.0875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="312,201"
+          Size="312,244"
+          Id="Package\Backup BNYM Files"
+          TopLeft="284,700" />
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Convert csv to xlsb using macro script"
+          TopLeft="529,8.5" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\Success - xlsb Email Notification"
+          TopLeft="764,1027" />
+        <NodeLayout
+          Size="237,42"
+          Id="Package\Success - xlsx Email Notification"
+          TopLeft="758,912.5" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Transfer Files to NAS Directory\Copy Catbond Deal File to NAS Directory"
+          TopLeft="24.75,110.0875" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Transfer Files to NAS Directory\Create Catbond Deal Folder to NAS Directory"
+          TopLeft="19.5,33.5" />
+        <EdgeLayout
+          Id="Package\Transfer Files to NAS Directory.PrecedenceConstraints[Constraint]"
+          TopLeft="153.625,75.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.5875"
+              Start="0,0"
+              End="0,27.0875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.0875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="312,207"
+          Size="312,250"
+          Id="Package\Transfer Files to NAS Directory"
+          TopLeft="282,417" />
+        <NodeLayout
+          Size="311,42"
+          Id="Package\Transfer Files to Reinsurance Folder\Copy Catbond Deal File to Reinsurance Directory"
+          TopLeft="34.5,109.3" />
+        <NodeLayout
+          Size="311,42"
+          Id="Package\Transfer Files to Reinsurance Folder\Create Reporting Month Folder to Reinsurance Directory"
+          TopLeft="31.5,28.5" />
+        <EdgeLayout
+          Id="Package\Transfer Files to Reinsurance Folder.PrecedenceConstraints[Constraint]"
+          TopLeft="188.5,70.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.8"
+              Start="0,0"
+              End="0,31.3">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.3" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="386,206"
+          Size="386,249"
+          Id="Package\Transfer Files to Reinsurance Folder"
+          TopLeft="685.5,421.5" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Transpose xlsb retention format"
+          TopLeft="538,332.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task"
+          TopLeft="56.5,34.5" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="274,131"
+          Size="274,174"
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention"
+          TopLeft="522,110.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="660,50.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="656.75,284.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="692,374.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="186.5,47"
+              Start="0,0"
+              End="186.5,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.9923273657289" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.9923273657289"
+                    Point2="0,18.9923273657289"
+                    Point3="4,18.9923273657289" />
+                  <mssgle:LineSegment
+                    End="182.5,18.9923273657289" />
+                  <mssgle:CubicBezierSegment
+                    Point1="182.5,18.9923273657289"
+                    Point2="186.5,18.9923273657289"
+                    Point3="186.5,22.9923273657289" />
+                  <mssgle:LineSegment
+                    End="186.5,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="877.5,670.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,242"
+              Start="0,0"
+              End="0,234.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,234.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="654.5,374.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-216.5,42.5"
+              Start="0,0"
+              End="-216.5,35">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.25"
+                    Point2="0,21.25"
+                    Point3="-4,21.25" />
+                  <mssgle:LineSegment
+                    End="-212.5,21.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-212.5,21.25"
+                    Point2="-216.5,21.25"
+                    Point3="-216.5,25.25" />
+                  <mssgle:LineSegment
+                    End="-216.5,35" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="439,667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="596,822">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="162,111.5"
+              Start="0,0"
+              End="154.5,111.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="77,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="77,0"
+                    Point2="81,0"
+                    Point3="81,4" />
+                  <mssgle:LineSegment
+                    End="81,107.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="81,107.5"
+                    Point2="81,111.5"
+                    Point3="85,111.5" />
+                  <mssgle:LineSegment
+                    End="154.5,111.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="879.75,954.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72.5"
+              Start="0,0"
+              End="0,65">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source"
+          TopLeft="206,70" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination"
+          TopLeft="208,267" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Data Conversion"
+          TopLeft="207,166" />
+        <EdgeLayout
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="288.5,112">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task.Paths[Data Conversion Output]"
+          TopLeft="289.5,208">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Update Catbond Deal Beginning and Ending EU Retention\Data Flow Task\Excel Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

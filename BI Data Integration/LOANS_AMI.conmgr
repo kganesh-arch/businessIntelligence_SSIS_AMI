@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="LOANS_AMI"
+  DTS:DTSID="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_LoansAMI_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC235\P_RPTANL_AMI_US;User ID=ds_conn;Initial Catalog=P_MI_AMI_US_01;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="xdIcR446EDI="
+        p4:IV="4Q3m+Anq2aypR/Q3W7nKSw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">3zdsJB/rYSQl4Dr+JZqaA1m90MLz1NgLir8zlJzV6d+QDkJa+DqzP6gZbWCKLYJZbxdQ5g0tS828+LUaOcW03uxGBMfYGJPzCoUEl+JAoyEkIBa5qg/HIpmolLGxoRRAvS956hrYSzxJn4PlI7+nEAwgRy0REkAQCx6QBgCSaTY=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="EDW_DM"
+  DTS:DTSID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_EDW_DM_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC212\P_BI_AMI_US;User ID=ds_conn;Initial Catalog=EDW_DM;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="mxAGpDZ3Dow="
+        p4:IV="Q7u8I+TZdyOn7DyovGhN6A=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">M9DUu7ErOg1OvHmNrmHSAPJPBZUyyAZHXXycvINV1cE8yY2uJsjdW6ICTYlm0+W6Q2Z32WKmz4ouBpf65fvQ8fVuD0KQFst3ozxeDkBc4sQFYXzxGAV1/bsuEcmKQqULYKAarYYbMLdTvYrErNL5JVB1HdT5CKGKtcMMwo7zGEY=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

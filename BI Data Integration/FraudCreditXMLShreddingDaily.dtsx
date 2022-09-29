@@ -1,0 +1,1409 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/24/2019 2:24:55 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WCMI-TWV-DTBS01"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{F50FDDE7-0B73-48EF-B123-F1B855406588}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FraudCreditXMLShreddingDaily"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="81"
+  DTS:VersionGUID="{88308DBF-CE42-4B62-A393-65086A641D64}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{631E1983-E078-45C7-9F3C-42537FC0FC3F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_CrdExtractEndTime">
+      <DTS:VariableValue
+        DTS:DataType="8">2019-04-01 00:00:00.000000</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{56809ED9-FD45-4530-B94B-09A29E8A5A54}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_CrdExtractStartTime">
+      <DTS:VariableValue
+        DTS:DataType="8">2019-04-01 00:00:00.000000</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F7120A90-DA8D-4B55-BE89-C7643886D7CC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT `_ID` as _ID, `data` as data, `certificateNumber` as certificateNumber FROM `MIDocument` WHERE `documentType` = 'CBC Credit Report' and `certificateNumber` is not null and `createdDate` &gt; '&quot; +    @[User::v_CrdExtractStartTime] + &quot;' and `createdDate` &lt; '&quot; +  @[User::v_CrdExtractEndTime] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_CrdExtract_Query">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT `_ID` as _ID, `data` as data, `certificateNumber` as certificateNumber FROM `MIDocument` WHERE `documentType` = 'CBC Credit Report' and `certificateNumber` is not null and `createdDate` &gt; '2019-04-01 00:00:00.000000' and `createdDate` &lt; '2019-04-01 00:00:00.000000'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{930E159B-22E2-49A8-8F86-88F3D8268F0D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_FrdExtractEndTime">
+      <DTS:VariableValue
+        DTS:DataType="8">2019-04-01 00:00:00.000000</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{46262564-5CEA-4C6A-AA1F-72F840A4BD57}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_FrdExtractStartTime">
+      <DTS:VariableValue
+        DTS:DataType="8">2019-04-01 00:00:00.000000</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{50B9C4D3-B390-44C3-8B7B-569D6C919FEA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT `_ID` as _ID, `data` as data, `certificateNumber` as certificateNumber FROM `View_MIDocument` WHERE `documentType` = 'Data Verify Fraud Report' and `certificateNumber` is not null and `createdDate` &gt;= '&quot; +  @[User::v_FrdExtractStartTime] + &quot;' and `createdDate` &lt; '&quot; +  @[User::v_FrdExtractEndTime] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_FrdExtract_Query">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT `_ID` as _ID, `data` as data, `certificateNumber` as certificateNumber FROM `View_MIDocument` WHERE `documentType` = 'Data Verify Fraud Report' and `certificateNumber` is not null and `createdDate` &gt;= '2019-04-01 00:00:00.000000' and `createdDate` &lt; '2019-04-01 00:00:00.000000'</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Fail"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{ba94f80c-2ea8-4dda-9456-b2d04775ca22}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Fail"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAIL: DataVerify Fraud XML Shredding (" + @[$Project::pstr_Environment] + ") - Arch MI BI Data Integration"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="FAIL: DataVerify Fraud XML Shredding (Production) - Arch MI BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Fraud XML"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{060704ED-CB54-44B0-9DA9-F34A9CB867EC}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Fraud XML">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Convert Response Data to XML"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{547A1B30-41B6-4164-9E96-88AD048E21D6}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Convert Response Data to XML"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[INTRPTREP].[FRD_CLOB_TO_XTP]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      connectionManagerRefId="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FRD_RQST_INFO_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="FRD_RQST_INFO_ID"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FRD_RQST_INFO_ID]"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[FRD_RQST_INFO_ID]" />
+                        <inputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RSP_XML]"
+                          cachedDataType="nText"
+                          cachedName="RSP_XML"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RSP_XML]"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[RSP_XML]" />
+                        <inputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CERT_NBR]"
+                          cachedDataType="numeric"
+                          cachedName="CERT_NBR"
+                          cachedPrecision="12"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERT_NBR]"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERT_NBR]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FRD_RQST_INFO_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="FRD_RQST_INFO_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERT_NBR]"
+                          dataType="numeric"
+                          name="CERT_NBR"
+                          precision="12" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RSP_XML]"
+                          dataType="nText"
+                          name="RSP_XML" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT FRD_RQST_INFO_ID, 
+replace(RSP_XML,'&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;', '')  as RSP_XML,
+CERT_NBR 
+FROM INTRPTREP.FRD_RQST_INFO
+--WHERE CONVERT(XML, replace(RSP_XML,'&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;', '') ) IS NOT NULL</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      connectionManagerRefId="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[FRD_RQST_INFO_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FRD_RQST_INFO_ID]"
+                          length="50"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[FRD_RQST_INFO_ID]"
+                          name="FRD_RQST_INFO_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[RSP_XML]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RSP_XML]"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[RSP_XML]"
+                          name="RSP_XML"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERT_NBR]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERT_NBR]"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERT_NBR]"
+                          name="CERT_NBR"
+                          precision="12"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FRD_RQST_INFO_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="FRD_RQST_INFO_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RSP_XML]"
+                          dataType="nText"
+                          name="RSP_XML" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERT_NBR]"
+                          dataType="numeric"
+                          name="CERT_NBR"
+                          precision="12" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FRD_RQST_INFO_ID]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FRD_RQST_INFO_ID]"
+                          name="FRD_RQST_INFO_ID" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RSP_XML]"
+                          dataType="nText"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RSP_XML]"
+                          name="RSP_XML" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERT_NBR]"
+                          dataType="numeric"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERT_NBR]"
+                          name="CERT_NBR"
+                          precision="12" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Fraud XML\Convert Response Data to XML.Paths[OLE DB Source Output]"
+                  endId="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Fraud XML\Convert Response Data to XML\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Execute XML Shredding SPs"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FC2F3E4A-B6DB-40E8-8156-0CEDE8309CB8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute XML Shredding SPs"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}"
+              SQLTask:SqlStatementSource="EXEC INTRPTREP.SP_SHRED_FRAUD_XML&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Get Max Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8CB80236-0384-472A-9D02-FA6E5EEE0AA0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Max Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}"
+              SQLTask:SqlStatementSource="SELECT isnull(MAX(FRD_LAST_EXEC_TMST), '2019-04-01 00:00:00.000')  AS FRD_EXTRACT_STARTTIME, &#xA;cast(convert(char,getdate(),112) as datetime2) as FRD_EXTRACT_ENDTIME&#xA;FROM INTRPTREP.FRD_LAST_EXEC"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FRD_EXTRACT_STARTTIME"
+                SQLTask:DtsVariableName="User::v_FrdExtractStartTime" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="FRD_EXTRACT_ENDTIME"
+                SQLTask:DtsVariableName="User::v_FrdExtractEndTime" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Load Fraud XML"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{DF9D41DA-5E2C-4F01-A515-54CDC9AB78A2}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Fraud XML"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="[ODBC Source].[SqlCommand]">@[User::v_FrdExtract_Query]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Fraud XML\Load Fraud XML\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input].Columns[_ID]"
+                          cachedDataType="nText"
+                          cachedName="_ID"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[_ID]" />
+                        <inputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input].Columns[certificateNumber]"
+                          cachedDataType="nText"
+                          cachedName="certificateNumber"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[certificateNumber]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[_ID]"
+                          name="_ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[_ID]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[certificateNumber]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[certificateNumber]"
+                          name="certificateNumber"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[certificateNumber]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Fraud XML\Load Fraud XML\ODBC Source"
+                  componentClassID="Microsoft.SSISODBCSrc"
+                  description="ODBC Source"
+                  name="ODBC Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="The name of the table to be fetched."
+                      expressionType="Notify"
+                      name="TableName"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand">SELECT `_ID` as _ID, `data` as data, `certificateNumber` as certificateNumber FROM `View_MIDocument` WHERE `documentType` = 'Data Verify Fraud Report' and `certificateNumber` is not null and `createdDate` &gt;= '2019-04-01 00:00:00.000000' and `createdDate` &lt; '2019-04-01 00:00:00.000000'</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the number of rows fetched per batch."
+                      expressionType="Notify"
+                      name="BatchSize">1000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Determines the chunk size allocation for LOB columns"
+                      expressionType="Notify"
+                      name="LobChunkSize">32768</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                      expressionType="Notify"
+                      name="ExposeCharColumnsAsUnicode">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                      expressionType="Notify"
+                      name="StatementTimeout">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The code page to use when code page information is unavailable from the data source."
+                      expressionType="Notify"
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The method used for fetching data."
+                      expressionType="Notify"
+                      name="FetchMethod"
+                      typeConverter="FetchMethod">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The ODBC C data type for binding numeric data."
+                      expressionType="Notify"
+                      name="BindNumericAs"
+                      typeConverter="BindNumericAs">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                      expressionType="Notify"
+                      name="BindCharColumnsAs"
+                      typeConverter="BindCharColumnsAs">0</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Connections[ODBCConnection]"
+                      connectionManagerID="{9ECD3AA0-3D6A-4A62-8048-A789FA65D9C9}:invalid"
+                      connectionManagerRefId="{9ECD3AA0-3D6A-4A62-8048-A789FA65D9C9}:invalid"
+                      description="The ODBC runtime connection"
+                      name="ODBCConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output]"
+                      errorRowDisposition="FailComponent"
+                      name="ODBC Source Output"
+                      truncationRowDisposition="FailComponent">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[_ID]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[_ID]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[_ID]"
+                          name="_ID" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[data]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[data]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[data]"
+                          name="data" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[certificateNumber]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[certificateNumber]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[certificateNumber]"
+                          name="certificateNumber" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[_ID]"
+                          dataType="nText"
+                          name="_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[data]"
+                          dataType="nText"
+                          name="data" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[certificateNumber]"
+                          dataType="nText"
+                          name="certificateNumber" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output]"
+                      isErrorOut="true"
+                      name="ODBC Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[_ID]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[_ID]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[_ID]"
+                          name="_ID" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[data]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[data]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[data]"
+                          name="data" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[certificateNumber]"
+                          dataType="nText"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[certificateNumber]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[certificateNumber]"
+                          name="certificateNumber" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[INTRPTREP].[FRD_RQST_INFO]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 10000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      connectionManagerRefId="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="_ID"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FRD_RQST_INFO_ID]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[_ID]" />
+                        <inputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[certificateNumber]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="certificateNumber"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERT_NBR]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output].Columns[certificateNumber]" />
+                        <inputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[data]"
+                          cachedDataType="nText"
+                          cachedName="data"
+                          externalMetadataColumnId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RSP_XML]"
+                          lineageId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output].Columns[data]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FRD_RQST_INFO_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="FRD_RQST_INFO_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERT_NBR]"
+                          dataType="numeric"
+                          name="CERT_NBR"
+                          precision="12" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RSP_XML]"
+                          dataType="nText"
+                          name="RSP_XML" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PTY_ROLE_ID]"
+                          dataType="i8"
+                          name="PTY_ROLE_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LN_LINE_CD]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="LN_LINE_CD" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FRD_DATA_RQST_TMST]"
+                          dataType="dbTimeStamp2"
+                          name="FRD_DATA_RQST_TMST"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DUR_OF_RQST]"
+                          dataType="numeric"
+                          name="DUR_OF_RQST"
+                          precision="9"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RQST_USR_ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="RQST_USR_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RQST_STS]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="RQST_STS" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RQST_PARM]"
+                          codePage="1252"
+                          dataType="text"
+                          name="RQST_PARM" />
+                        <externalMetadataColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TRAN_ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="TRAN_ID" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Fraud XML\Load Fraud XML.Paths[Data Conversion Output]"
+                  endId="Package\Fraud XML\Load Fraud XML\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Fraud XML\Load Fraud XML\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Fraud XML\Load Fraud XML.Paths[ODBC Source Output]"
+                  endId="Package\Fraud XML\Load Fraud XML\Data Conversion.Inputs[Data Conversion Input]"
+                  name="ODBC Source Output"
+                  startId="Package\Fraud XML\Load Fraud XML\ODBC Source.Outputs[ODBC Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Truncate XML Data Tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{15A8F5BE-16F6-490E-8CE7-9040D4B4D3CB}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate XML Data Tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE INTRPTREP.FRD_RQST_INFO&#xA;GO&#xA;TRUNCATE TABLE INTRPTREP.FRD_CLOB_TO_XTP&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Fraud XML\Update FRD_LAST_EXEC"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5C5C2C0D-06D0-4B0E-8068-775333688101}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update FRD_LAST_EXEC"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}"
+              SQLTask:SqlStatementSource="UPDATE INTRPTREP.FRD_LAST_EXEC SET FRD_LAST_EXEC_TMST = cast(convert(char,getdate(),112) as datetime2)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Fraud XML.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{AA0FFDF6-662D-4D6E-9EFE-2ECC205E01B6}"
+          DTS:From="Package\Fraud XML\Get Max Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Fraud XML\Load Fraud XML" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Fraud XML.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{249C38EC-5368-4C6B-8C5E-5D3C252230A0}"
+          DTS:From="Package\Fraud XML\Load Fraud XML"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Fraud XML\Convert Response Data to XML" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Fraud XML.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{0A00B0B3-5CB6-45FE-A49A-CA1F3247D146}"
+          DTS:From="Package\Fraud XML\Convert Response Data to XML"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Fraud XML\Execute XML Shredding SPs" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Fraud XML.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{77C7074C-61AB-413A-85BD-14687EBD19E8}"
+          DTS:From="Package\Fraud XML\Execute XML Shredding SPs"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Fraud XML\Truncate XML Data Tables" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Fraud XML.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{8005FA8C-8D15-43A1-A881-F35B37D95FB3}"
+          DTS:From="Package\Fraud XML\Truncate XML Data Tables"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Fraud XML\Update FRD_LAST_EXEC" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{8CB67720-BCE0-44EA-A958-7492CCB61849}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS: DataVerify Fraud XML Shredding (" + @[$Project::pstr_Environment] + ") - Arch MI BI Data Integration"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="SUCCESS: DataVerify Fraud XML Shredding (Production) - Arch MI BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{584F0E04-5729-4251-964B-8A27CE487D3A}"
+      DTS:From="Package\Fraud XML"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{828FE952-5D76-41AA-BCE2-16732AABB365}"
+      DTS:From="Package\Fraud XML"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Fail"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="95,42"
+          Id="Package\Fail"
+          TopLeft="499,461" />
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Fraud XML\Convert Response Data to XML"
+          TopLeft="5.5,203.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Fraud XML\Execute XML Shredding SPs"
+          TopLeft="19.5,300.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Fraud XML\Get Max Date"
+          TopLeft="48.5,5.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Fraud XML\Load Fraud XML"
+          TopLeft="38.5,101.5" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Fraud XML\Truncate XML Data Tables"
+          TopLeft="28.5,420.5" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Fraud XML\Update FRD_LAST_EXEC"
+          TopLeft="30.5,520.5" />
+        <EdgeLayout
+          Id="Package\Fraud XML.PrecedenceConstraints[Constraint]"
+          TopLeft="119,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fraud XML.PrecedenceConstraints[Constraint 1]"
+          TopLeft="118,143.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fraud XML.PrecedenceConstraints[Constraint 2]"
+          TopLeft="121.75,245.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55"
+              Start="0,0"
+              End="0,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fraud XML.PrecedenceConstraints[Constraint 3]"
+          TopLeft="127.75,342.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,78"
+              Start="0,0"
+              End="0,70.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fraud XML.PrecedenceConstraints[Constraint 4]"
+          TopLeft="130,462.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="264,620"
+          Size="264,663"
+          Id="Package\Fraud XML"
+          TopLeft="92,44" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\Success"
+          TopLeft="496,354" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="356,375.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="140,0"
+              Start="0,0"
+              End="132.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="132.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="356,483.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143,0"
+              Start="0,0"
+              End="135.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="135.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="52.50865234375,5,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Fraud XML\Convert Response Data to XML">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Fraud XML\Convert Response Data to XML\OLE DB Source"
+          TopLeft="314,145" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination"
+          TopLeft="300,325" />
+        <EdgeLayout
+          Id="Package\Fraud XML\Convert Response Data to XML.Paths[OLE DB Source Output]"
+          TopLeft="388.25,187">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,138"
+              Start="0,0"
+              End="0,130.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,130.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fraud XML\Convert Response Data to XML\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fraud XML\Convert Response Data to XML\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Fraud XML\Load Fraud XML">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Fraud XML\Load Fraud XML\ODBC Source"
+          TopLeft="281,69" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Fraud XML\Load Fraud XML\OLE DB Destination"
+          TopLeft="274,292" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Fraud XML\Load Fraud XML\Data Conversion"
+          TopLeft="280,153" />
+        <EdgeLayout
+          Id="Package\Fraud XML\Load Fraud XML.Paths[ODBC Source Output]"
+          TopLeft="355.5,111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fraud XML\Load Fraud XML.Paths[Data Conversion Output]"
+          TopLeft="359.75,195">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,97"
+              Start="0,0"
+              End="0,89.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,89.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fraud XML\Load Fraud XML\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,3060 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/28/2018 3:07:40 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI002"
+  DTS:CreatorName="CMGMI\dshete"
+  DTS:DTSID="{08AFFCE5-D137-435A-8F43-40263F3E9B79}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="IDEADataExtractsDaily"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="112"
+  DTS:VersionGUID="{69320DA8-402D-43F4-B828-0EC9E23FE7DC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Certificate Detail By Lender CSV]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{688BC633-20D7-4E8B-8E1F-7F6E08074820}"
+      DTS:ObjectName="Certificate Detail By Lender CSV">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_IDEADataExtracts_TargetFolder] + "Certificate Detail By Lender.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sharepoint\cts\bi\bi reports\IDEA Reports\Certificate Detail By Lender.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOCKBOX"
+              DTS:DTSID="{C5C9111D-B70F-4365-B079-BDE65B302B93}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BUIDCM"
+              DTS:DTSID="{FA7E5590-5126-4BA9-A97C-3D3D255DBEB5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CERT#CM"
+              DTS:DTSID="{3A48264A-1DC1-486C-B9D6-B8E3A7F0CB43}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOB#CM"
+              DTS:DTSID="{8E66D4FE-3454-4391-AE6D-543F4FBD2E84}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVIDOI"
+              DTS:DTSID="{5A280542-D164-409C-9660-C93179676449}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVBROI"
+              DTS:DTSID="{60EB180D-0430-472A-A633-8D0EE4C5E1E6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVCKOI"
+              DTS:DTSID="{43764607-8F4E-43C8-8EE1-4F19DA9C3B5B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LENDERNAME"
+              DTS:DTSID="{98D3FFDA-A8B6-4B50-BCDC-DBB309504008}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EFFECTIVEDATE"
+              DTS:DTSID="{9F9C281A-A1A8-47D8-9A9D-1AD34EB4DE7C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PTR@OI"
+              DTS:DTSID="{25C02423-32C4-4D77-83FE-0E82F8A085F2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PSU@OI"
+              DTS:DTSID="{434203FD-FB43-419E-9BCD-CF62C8BF9945}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RSN@OI"
+              DTS:DTSID="{EFAC2AD0-4942-4FA6-849E-93DA824B0E57}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AMOUNT"
+              DTS:DTSID="{C7981D3A-4FC3-4831-AD3A-95A24AFAE3F9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TRANDATE"
+              DTS:DTSID="{990239D0-AE66-4E7A-9444-79DCCC24827E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DEPDATE"
+              DTS:DTSID="{2E95FD76-134C-4AEE-BD76-3AFFFD73F011}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTIDCM"
+              DTS:DTSID="{D906E816-204D-4768-AA4C-0C306E5801A0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTCKCM"
+              DTS:DTSID="{CE886F81-CF73-4CD2-A926-B4A7237AB85A}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Certificate Detail By Lender Daily CSV]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F01171D9-DEB1-4E2D-B133-CD7AD3BE6A6E}"
+      DTS:ObjectName="Certificate Detail By Lender Daily CSV">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_IDEADataExtracts_TargetFolder] + "Certificate Detail By Lender - Daily.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sharepoint\cts\bi\bi reports\IDEA Reports\Certificate Detail By Lender - Daily.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOCKBOX"
+              DTS:DTSID="{CCD4C9F2-D4EB-4D8B-AA52-02F493B20FFC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BUIDCM"
+              DTS:DTSID="{E0AB8A3D-4C9B-4621-8F81-08DE382BDDC0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CERT#CM"
+              DTS:DTSID="{E99A6A40-2C72-4AA6-8D1C-5A296F0E54B4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOB#CM"
+              DTS:DTSID="{842CA2CC-B01D-4895-95A4-4A0DC397DC24}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVIDOI"
+              DTS:DTSID="{383661D5-6CA5-4922-B07D-A499A1607352}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVBROI"
+              DTS:DTSID="{0D899958-8269-466A-987C-A18D33655E13}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LVCKOI"
+              DTS:DTSID="{C43D71D3-CDF9-41CA-A6A0-0C78EF59830D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LENDERNAME"
+              DTS:DTSID="{DAF79485-5DB4-455D-8B6E-51B9E6FE66FB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EFFECTIVEDATE"
+              DTS:DTSID="{1A751E26-FD81-44B1-8299-495E480D23BC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="3"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PTR@OI"
+              DTS:DTSID="{A681C683-EB24-40DF-B855-F06CA5C77A7E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PSU@OI"
+              DTS:DTSID="{2E55770F-B90B-42B6-947C-FFB925D0D329}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RSN@OI"
+              DTS:DTSID="{CE1227DD-37F7-4EB5-8108-3B1C05835DEB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AMOUNT"
+              DTS:DTSID="{C70F9D53-FAFA-4EFF-A940-7B287DD07638}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TRANDATE"
+              DTS:DTSID="{049D1CE8-507F-42A2-B4EF-5429CDF24558}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DEPDATE"
+              DTS:DTSID="{293A8527-5478-4521-B532-71BD2BDC097F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTIDCM"
+              DTS:DTSID="{DCD3DBDD-6F80-48AB-901C-330B3585E2B6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTCKCM"
+              DTS:DTSID="{E9524633-0324-4D9E-BCFF-BE186FA2DD6F}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[GAAP Certs CSV]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{E3B15525-0464-45B1-91F1-EFBBB3CBDE56}"
+      DTS:ObjectName="GAAP Certs CSV">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_IDEADataExtracts_TargetFolder] + "GAAP Certs.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sharepoint\cts\bi\bi reports\IDEA Reports\GAAP Certs.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CERT#CM"
+              DTS:DTSID="{327D5022-9077-4E6E-B9BB-FF48B7652F51}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOB#CM"
+              DTS:DTSID="{2C437DF0-882E-443D-960A-335225265975}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTID51"
+              DTS:DTSID="{B45A9A5E-223F-410E-8B14-FBFE685C9996}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTCK51"
+              DTS:DTSID="{C8AEDF81-EAAE-4EB2-B53A-8DFA1609600E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LCLY51"
+              DTS:DTSID="{0BBF3CF3-E1CC-40EE-9552-D95C9CC20505}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOID51"
+              DTS:DTSID="{FFD95ED8-1512-4926-A52F-34AE9622D2A6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOBR51"
+              DTS:DTSID="{1FB88AB7-8B2C-4B6B-945F-8AFBBBAA5B8A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OCDN51"
+              DTS:DTSID="{891FEA1A-CDEA-41BD-BB05-70F57826696B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LRBA51"
+              DTS:DTSID="{B74A332A-FE67-4016-9D16-EE2CA6F0BC91}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STS@51"
+              DTS:DTSID="{792FFD4E-F9F2-47FF-AE96-481D54E12DC8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LLTV51"
+              DTS:DTSID="{430F7B36-D803-4DE9-856B-0CC8B31016E3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LCVG51"
+              DTS:DTSID="{63EAA6CB-B637-4249-A34B-23F8405B5FF2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LTER51"
+              DTS:DTSID="{0DABD8DA-E0C3-404A-B0CA-F4812A4818CE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="15"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PPLAN51"
+              DTS:DTSID="{3BE14AA1-A62E-4E76-9237-707723451A1C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WRAP51"
+              DTS:DTSID="{71891ABA-03F5-404C-831F-2D8915D71E33}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PTEM51"
+              DTS:DTSID="{A8A97EE2-5CDE-4BC4-9B98-19476D17B992}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PTED51"
+              DTS:DTSID="{E7AAF64F-297D-4265-8E7F-9662CC907577}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PTEY51"
+              DTS:DTSID="{9BE8D1C8-0C95-4498-AA9B-71438AE8BC6E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="5"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PERP51"
+              DTS:DTSID="{A9BB150B-AC25-4BA9-8480-8D5C994A7783}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LAT#51"
+              DTS:DTSID="{D24FC96D-4D92-4772-AFAF-367CEFA20DA2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWR$51"
+              DTS:DTSID="{398391DB-F7DF-4411-A526-1CC21CEA4407}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PSU@51"
+              DTS:DTSID="{ADF75212-1C1C-4C5B-A6C3-835C33EC50DE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RSN@51"
+              DTS:DTSID="{DD16F0B4-0E6D-4E73-B86B-9D2F1B67F67F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DEPM51"
+              DTS:DTSID="{91B865A0-A485-4474-A02F-9D4DE5430554}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DEPD51"
+              DTS:DTSID="{5398AEED-8D90-4990-9D9B-9BED20D77FC4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DEPY51"
+              DTS:DTSID="{92922D3E-CD0E-47EB-9111-50B9C9224675}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UEP$51"
+              DTS:DTSID="{9010E7DF-BF26-433B-82F7-E10DE2D32D4D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TUE$51"
+              DTS:DTSID="{1DA7FB6B-1D9C-4666-B30A-0AC77B3E08C3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="POD$51"
+              DTS:DTSID="{33122606-3642-47CB-8C96-2EFCED759F0C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UEY$51"
+              DTS:DTSID="{00694078-8E8A-4F6C-AFE7-7D1BD4855508}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RYA$51"
+              DTS:DTSID="{80C609E3-3CF5-4721-85F0-501CC2C4101E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UYA$51"
+              DTS:DTSID="{DC0175EE-1750-4956-AACF-E5DB29B0872D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BUID51"
+              DTS:DTSID="{06A8A97D-76E5-468A-B96E-0D792B527D99}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PCV@51"
+              DTS:DTSID="{E452C675-3C3E-4397-8B17-7C0912E0A873}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="8"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TRDT51"
+              DTS:DTSID="{EB40722D-02DF-46FE-8D61-FAC97E3A3052}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="6"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TRTM51"
+              DTS:DTSID="{087EF48B-BBBE-4CA7-A4A8-677AD0BCB1C4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="6"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MEDT51"
+              DTS:DTSID="{A0276684-EA06-4E3F-8C80-95B6C52A70EF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PLRS51"
+              DTS:DTSID="{E52A2EE2-464F-4B2B-9B47-6613397F08A8}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Premiums Received CSV]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{BC4EAF26-0F57-4999-B5BE-FA6F556DDF1C}"
+      DTS:ObjectName="Premiums Received CSV">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_IDEADataExtracts_TargetFolder] + "Premiums Received.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sharepoint\cts\bi\bi reports\IDEA Reports\Premiums Received.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CERT#CM"
+              DTS:DTSID="{B8BAED8C-C1AA-4B04-91E6-2B30E989F02D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOB#CM"
+              DTS:DTSID="{BFFD44E7-C0A8-48ED-A7D9-7A399652AB63}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STS@XC"
+              DTS:DTSID="{C156593C-4FAA-4BA7-BF76-155200BC284B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LTERXC"
+              DTS:DTSID="{072FE6D9-02D7-47B9-9EB0-4E1E611CE91A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PCV@XC"
+              DTS:DTSID="{8B5D5B0D-D347-4D59-9F2D-BE2A0CE60F4B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RMA$XC"
+              DTS:DTSID="{C0C5ABEB-533E-4D0E-8845-5E4C535EA263}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWR$PW"
+              DTS:DTSID="{32C066A5-2147-4E6C-8993-2C01AAFE43F9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTIDXC"
+              DTS:DTSID="{E49A4BC8-9BF1-4479-BFF8-40DF78828D11}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTCKXC"
+              DTS:DTSID="{B3ECC43C-84A0-4658-86A0-E0AEC00CE82A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BUIDXC"
+              DTS:DTSID="{F36EA2A4-DD57-4128-86AC-4E7A7155052A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PLRSXC"
+              DTS:DTSID="{45443ABD-AC4F-4603-A2E8-A0A4048CE8EC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WRAPXC"
+              DTS:DTSID="{FD0E4BA0-3786-4CA2-B7F1-BF4156B101F0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWEMPW"
+              DTS:DTSID="{CB4B169E-DC95-48B1-9AFE-142C7D05596E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWEDPW"
+              DTS:DTSID="{8693FF87-EDCA-4162-9AB9-36038BBB3FB5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWYPW"
+              DTS:DTSID="{360204E6-054F-4016-ABE9-7FCCCF9E1F7A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWMPW"
+              DTS:DTSID="{88ACD3F2-3D73-4BD1-8043-C0D3EC3A9DCD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWDPW"
+              DTS:DTSID="{A3BA6210-CA94-404F-AEC0-7D69C7561B89}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PSU@PW"
+              DTS:DTSID="{C15B4F3A-0E59-476C-9918-99ECEF7E9323}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Premiums Received CSV 1]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{B7C91338-4DE7-4866-ABF8-9299C2FD9E26}"
+      DTS:ObjectName="Premiums Received CSV 1">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_IDEADataExtracts_TargetFolder] + "Premiums Received.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sharepoint\cts\bi\bi reports\IDEA Reports\Premiums Received.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CERT#CM"
+              DTS:DTSID="{7F8644DC-AAFC-43A9-9CEF-C30C16E2F0C4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LOB#CM"
+              DTS:DTSID="{D9F4BE77-C5A5-47E0-8B4D-42FC3C5A7695}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="STS@XC"
+              DTS:DTSID="{6FDFC5AF-5E20-4177-9E07-60A6C11ABD4F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LTERXC"
+              DTS:DTSID="{9C1AD530-DBC0-420E-AAE4-1EEB4E484CB0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PCV@XC"
+              DTS:DTSID="{AF28190B-BD02-40B0-AD2E-19C89D77D6FF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RMA$XC"
+              DTS:DTSID="{B73F9A91-93EB-4DD6-A3E9-1DF9741B707A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:DataScale="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWR$PW"
+              DTS:DTSID="{AF8B5435-634E-486A-8316-393B621A53A2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTIDXC"
+              DTS:DTSID="{7B657DD7-1D07-4955-9E6A-51B213581FAA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="14"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CTCKXC"
+              DTS:DTSID="{AE77CBEB-904B-4AAA-9D62-58BBCCFC41ED}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="BUIDXC"
+              DTS:DTSID="{02C41EDF-0A8E-4216-B6EC-24C616C39167}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PLRSXC"
+              DTS:DTSID="{685310DC-25EC-4713-8CBB-DBC098440332}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="WRAPXC"
+              DTS:DTSID="{1669A44F-073C-49AC-B092-06C03A72663F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWEYPW"
+              DTS:DTSID="{8B32A121-A642-4DEF-A088-CC0EE52AB646}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWEMPW"
+              DTS:DTSID="{B079BFF3-7338-4CE7-9225-685F4958F517}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWEDPW"
+              DTS:DTSID="{CB958D3A-53CB-4148-AD59-7E12220AFBA1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWYPW"
+              DTS:DTSID="{C3237471-031A-4948-B013-C1F3D88C2128}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWMPW"
+              DTS:DTSID="{D92650DD-20A6-48E8-8324-DBFBE70C4DB5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="131"
+              DTS:DataPrecision="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PWDPW"
+              DTS:DTSID="{2C199927-6F95-45DB-B5AE-A109CFCF3D43}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PSU@PW"
+              DTS:DTSID="{6D5397B6-813B-4F27-B0BC-49E71B9CC58F}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DC383C16-5B93-47E7-BFD6-37FF881E82F6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(YEAR( DATEADD(&quot;MONTH&quot;,-1,GETDATE()))*100+MONTH( DATEADD(&quot;MONTH&quot;,-1,GETDATE())))"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="pstr_IDEAReportingPeriodYYYYMM">
+      <DTS:VariableValue
+        DTS:DataType="3">202207</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cert Level Details By Lender - Daily"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{F083511B-CBB5-480E-8409-DF6F2E0E6B04}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cert Level Details By Lender - Daily"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Flat File Destination"
+              localeId="1033"
+              name="Cert Detail by Lender CSV"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header" />
+                <property
+                  dataType="System.Boolean"
+                  description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                  name="EscapeQualifier">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Certificate Detail By Lender Daily CSV]"
+                  connectionManagerRefId="Package.ConnectionManagers[Certificate Detail By Lender Daily CSV]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LOCKBOX]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="LOCKBOX"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LOCKBOX]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOCKBOX]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[BUIDCM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="BUIDCM"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[BUIDCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[BUIDCM]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[CERT#CM]"
+                      cachedDataType="decimal"
+                      cachedName="CERT#CM"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CERT#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CERT#CM]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LOB#CM]"
+                      cachedDataType="numeric"
+                      cachedName="LOB#CM"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LOB#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOB#CM]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LVIDOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVIDOI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVIDOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVIDOI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LVBROI]"
+                      cachedDataType="decimal"
+                      cachedName="LVBROI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVBROI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVBROI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LVCKOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVCKOI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVCKOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVCKOI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[LENDERNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="LENDERNAME"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LENDERNAME]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LENDERNAME]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[EFFECTIVEDATE]"
+                      cachedDataType="decimal"
+                      cachedName="EFFECTIVEDATE"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[EFFECTIVEDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[EFFECTIVEDATE]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[PTR@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="PTR@OI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[PTR@OI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PTR@OI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[PSU@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="PSU@OI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[PSU@OI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PSU@OI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[RSN@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="RSN@OI"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[RSN@OI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[RSN@OI]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[AMOUNT]"
+                      cachedDataType="decimal"
+                      cachedName="AMOUNT"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[AMOUNT]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[TRANDATE]"
+                      cachedDataType="decimal"
+                      cachedName="TRANDATE"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[TRANDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[TRANDATE]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[DEPDATE]"
+                      cachedDataType="decimal"
+                      cachedName="DEPDATE"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[DEPDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[DEPDATE]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[CTIDCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTIDCM"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CTIDCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTIDCM]" />
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].Columns[CTCKCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTCKCM"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CTCKCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTCKCM]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="LOCKBOX" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="BUIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CERT#CM]"
+                      dataType="decimal"
+                      name="CERT#CM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LOB#CM]"
+                      dataType="numeric"
+                      name="LOB#CM"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVIDOI]"
+                      dataType="decimal"
+                      name="LVIDOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVBROI]"
+                      dataType="decimal"
+                      name="LVBROI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LVCKOI]"
+                      dataType="decimal"
+                      name="LVCKOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="LENDERNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      name="EFFECTIVEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="PTR@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="PSU@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="RSN@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[AMOUNT]"
+                      dataType="decimal"
+                      name="AMOUNT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[TRANDATE]"
+                      dataType="decimal"
+                      name="TRANDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[DEPDATE]"
+                      dataType="decimal"
+                      name="DEPDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CTIDCM]"
+                      dataType="decimal"
+                      name="CTIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input].ExternalColumns[CTCKCM]"
+                      dataType="decimal"
+                      name="CTCKCM" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\Cert Level Details By Lender - Daily\IDEA East"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IDEA East"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select 
+DSR@OI LockBox
+,BUIDCM 
+,CERT#CM
+,LOB#CM 
+,LVIDOI 
+,LVBROI 
+,LVCKOI 
+,L1NMBR LenderName
+,PTEYOI *10000+PTEMOI *100+PTEDOI as EffectiveDate
+,PTR@OI 
+,PSU@OI 
+,RSN@OI 
+,PTR$OI Amount --BI2299 remove abs
+,ptyoi*10000+ptmoi*100+ptdoi as TRANDATE
+,pscyoi*10000+pscmoi*100+pscdoi as DEPDATE
+       
+,CTIDCM
+,CTCKCM
+from
+
+ISPFAOI AOI 
+join ISPFPCM PCM 
+	on AOI.CTIDOI = PCM.CTIDCM
+	and AOI.CTCKOI = PCM.CTCKCM
+and aoi.PTR@OI not in ('BIL','CRD')
+and aoi.PSU@OI not in ('AU','AO')   
+join ISPFLBR LBR 
+	on aoi.lvidoi = lbr.LIDNBR
+	and aoi.lvbroi = lbr.LBRNBR
+	and aoi.lvckoi = lbr.LCDNBR
+WHERE ptyoi*10000+ptmoi*100+ptdoi &lt; to_char(current date, 'yyyymmdd') 
+with ur</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA East.Connections[OleDbConnection]"
+                  connectionManagerID="{CD4F623A-BC80-48E3-8F9A-74F2B2F51630}:invalid"
+                  connectionManagerRefId="{CD4F623A-BC80-48E3-8F9A-74F2B2F51630}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LOCKBOX]"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOCKBOX]"
+                      name="LOCKBOX"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[BUIDCM]"
+                      length="5"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[BUIDCM]"
+                      name="BUIDCM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CERT#CM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CERT#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CERT#CM]"
+                      name="CERT#CM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOB#CM]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LOB#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOB#CM]"
+                      name="LOB#CM"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVIDOI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVIDOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVIDOI]"
+                      name="LVIDOI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVBROI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVBROI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVBROI]"
+                      name="LVBROI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVCKOI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVCKOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVCKOI]"
+                      name="LVCKOI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LENDERNAME]"
+                      length="30"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LENDERNAME]"
+                      name="LENDERNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[EFFECTIVEDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]"
+                      name="EFFECTIVEDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[PTR@OI]"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PTR@OI]"
+                      name="PTR@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[PSU@OI]"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PSU@OI]"
+                      name="PSU@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[RSN@OI]"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[RSN@OI]"
+                      name="RSN@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[AMOUNT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[AMOUNT]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[AMOUNT]"
+                      name="AMOUNT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[TRANDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[TRANDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[TRANDATE]"
+                      name="TRANDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[DEPDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[DEPDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[DEPDATE]"
+                      name="DEPDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTIDCM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CTIDCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTIDCM]"
+                      name="CTIDCM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTCKCM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CTCKCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTCKCM]"
+                      name="CTCKCM"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="LOCKBOX" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="BUIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CERT#CM]"
+                      dataType="decimal"
+                      name="CERT#CM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LOB#CM]"
+                      dataType="numeric"
+                      name="LOB#CM"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVIDOI]"
+                      dataType="decimal"
+                      name="LVIDOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVBROI]"
+                      dataType="decimal"
+                      name="LVBROI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LVCKOI]"
+                      dataType="decimal"
+                      name="LVCKOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="LENDERNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      name="EFFECTIVEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="PTR@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="PSU@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="RSN@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[AMOUNT]"
+                      dataType="decimal"
+                      name="AMOUNT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[TRANDATE]"
+                      dataType="decimal"
+                      name="TRANDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[DEPDATE]"
+                      dataType="decimal"
+                      name="DEPDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CTIDCM]"
+                      dataType="decimal"
+                      name="CTIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].ExternalColumns[CTCKCM]"
+                      dataType="decimal"
+                      name="CTCKCM" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LOCKBOX]"
+                      name="LOCKBOX" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[BUIDCM]"
+                      name="BUIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CERT#CM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CERT#CM]"
+                      name="CERT#CM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LOB#CM]"
+                      dataType="numeric"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LOB#CM]"
+                      name="LOB#CM"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVIDOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVIDOI]"
+                      name="LVIDOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVBROI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVBROI]"
+                      name="LVBROI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVCKOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LVCKOI]"
+                      name="LVCKOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[LENDERNAME]"
+                      name="LENDERNAME" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[EFFECTIVEDATE]"
+                      name="EFFECTIVEDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[PTR@OI]"
+                      name="PTR@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[PSU@OI]"
+                      name="PSU@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[RSN@OI]"
+                      name="RSN@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[AMOUNT]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[AMOUNT]"
+                      name="AMOUNT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[TRANDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[TRANDATE]"
+                      name="TRANDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[DEPDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[DEPDATE]"
+                      name="DEPDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CTIDCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CTIDCM]"
+                      name="CTIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CTCKCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[CTCKCM]"
+                      name="CTCKCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cert Level Details By Lender - Daily\IDEA West"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IDEA West"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select 
+DSR@OI LockBox
+,BUIDCM 
+,CERT#CM
+,LOB#CM 
+,LVIDOI 
+,LVBROI 
+,LVCKOI 
+,L1NMBR LenderName
+,PTEYOI *10000+PTEMOI *100+PTEDOI as EffectiveDate
+,PTR@OI 
+,PSU@OI 
+,RSN@OI 
+,PTR$OI Amount --BI2299 removed abs
+,ptyoi*10000+ptmoi*100+ptdoi as TRANDATE
+,pscyoi*10000+pscmoi*100+pscdoi as DEPDATE
+       
+,CTIDCM
+,CTCKCM
+from
+
+ISPFAOI AOI 
+join ISPFPCM PCM 
+	on AOI.CTIDOI = PCM.CTIDCM
+	and AOI.CTCKOI = PCM.CTCKCM
+and aoi.PTR@OI not in ('BIL','CRD')
+and aoi.PSU@OI not in ('AU','AO')   
+join ISPFLBR LBR 
+	on aoi.lvidoi = lbr.LIDNBR
+	and aoi.lvbroi = lbr.LBRNBR
+	and aoi.lvckoi = lbr.LCDNBR
+WHERE ptyoi*10000+ptmoi*100+ptdoi &lt; to_char(current date, 'yyyymmdd') 
+with ur</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA West.Connections[OleDbConnection]"
+                  connectionManagerID="{0EFBA67E-1979-4C32-A3C6-9E2CC73E20D5}:invalid"
+                  connectionManagerRefId="{0EFBA67E-1979-4C32-A3C6-9E2CC73E20D5}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LOCKBOX]"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOCKBOX]"
+                      name="LOCKBOX"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[BUIDCM]"
+                      length="5"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[BUIDCM]"
+                      name="BUIDCM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CERT#CM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CERT#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CERT#CM]"
+                      name="CERT#CM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOB#CM]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LOB#CM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOB#CM]"
+                      name="LOB#CM"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVIDOI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVIDOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVIDOI]"
+                      name="LVIDOI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVBROI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVBROI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVBROI]"
+                      name="LVBROI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVCKOI]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVCKOI]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVCKOI]"
+                      name="LVCKOI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LENDERNAME]"
+                      length="30"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LENDERNAME]"
+                      name="LENDERNAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[EFFECTIVEDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]"
+                      name="EFFECTIVEDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[PTR@OI]"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PTR@OI]"
+                      name="PTR@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[PSU@OI]"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PSU@OI]"
+                      name="PSU@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[RSN@OI]"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[RSN@OI]"
+                      name="RSN@OI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[AMOUNT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[AMOUNT]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[AMOUNT]"
+                      name="AMOUNT"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[TRANDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[TRANDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[TRANDATE]"
+                      name="TRANDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[DEPDATE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[DEPDATE]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[DEPDATE]"
+                      name="DEPDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTIDCM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CTIDCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTIDCM]"
+                      name="CTIDCM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTCKCM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CTCKCM]"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTCKCM]"
+                      name="CTCKCM"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="LOCKBOX" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="BUIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CERT#CM]"
+                      dataType="decimal"
+                      name="CERT#CM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LOB#CM]"
+                      dataType="numeric"
+                      name="LOB#CM"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVIDOI]"
+                      dataType="decimal"
+                      name="LVIDOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVBROI]"
+                      dataType="decimal"
+                      name="LVBROI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LVCKOI]"
+                      dataType="decimal"
+                      name="LVCKOI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="LENDERNAME" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      name="EFFECTIVEDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="PTR@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="PSU@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="RSN@OI" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[AMOUNT]"
+                      dataType="decimal"
+                      name="AMOUNT"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[TRANDATE]"
+                      dataType="decimal"
+                      name="TRANDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[DEPDATE]"
+                      dataType="decimal"
+                      name="DEPDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CTIDCM]"
+                      dataType="decimal"
+                      name="CTIDCM" />
+                    <externalMetadataColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].ExternalColumns[CTCKCM]"
+                      dataType="decimal"
+                      name="CTCKCM" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LOCKBOX]"
+                      name="LOCKBOX" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[BUIDCM]"
+                      name="BUIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CERT#CM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CERT#CM]"
+                      name="CERT#CM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LOB#CM]"
+                      dataType="numeric"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LOB#CM]"
+                      name="LOB#CM"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVIDOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVIDOI]"
+                      name="LVIDOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVBROI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVBROI]"
+                      name="LVBROI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVCKOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LVCKOI]"
+                      name="LVCKOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[LENDERNAME]"
+                      name="LENDERNAME" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[EFFECTIVEDATE]"
+                      name="EFFECTIVEDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[PTR@OI]"
+                      name="PTR@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[PSU@OI]"
+                      name="PSU@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[RSN@OI]"
+                      name="RSN@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[AMOUNT]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[AMOUNT]"
+                      name="AMOUNT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[TRANDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[TRANDATE]"
+                      name="TRANDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[DEPDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[DEPDATE]"
+                      name="DEPDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CTIDCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CTIDCM]"
+                      name="CTIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CTCKCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[CTCKCM]"
+                      name="CTCKCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cert Level Details By Lender - Daily\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LOCKBOX]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="LOCKBOX"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOCKBOX]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOCKBOX]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[BUIDCM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="BUIDCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[BUIDCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[BUIDCM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[CERT#CM]"
+                      cachedDataType="decimal"
+                      cachedName="CERT#CM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CERT#CM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CERT#CM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LOB#CM]"
+                      cachedDataType="numeric"
+                      cachedName="LOB#CM"
+                      cachedPrecision="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LOB#CM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOB#CM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LVIDOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVIDOI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVIDOI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVIDOI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LVBROI]"
+                      cachedDataType="decimal"
+                      cachedName="LVBROI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVBROI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVBROI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LVCKOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVCKOI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LVCKOI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVCKOI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[LENDERNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="LENDERNAME"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[LENDERNAME]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LENDERNAME]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[EFFECTIVEDATE]"
+                      cachedDataType="decimal"
+                      cachedName="EFFECTIVEDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[EFFECTIVEDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[PTR@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="PTR@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PTR@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PTR@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[PSU@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="PSU@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[PSU@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PSU@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[RSN@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="RSN@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[RSN@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[RSN@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[AMOUNT]"
+                      cachedDataType="decimal"
+                      cachedName="AMOUNT"
+                      cachedScale="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[AMOUNT]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[AMOUNT]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[TRANDATE]"
+                      cachedDataType="decimal"
+                      cachedName="TRANDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[TRANDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[TRANDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[DEPDATE]"
+                      cachedDataType="decimal"
+                      cachedName="DEPDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[DEPDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[DEPDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[CTIDCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTIDCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTIDCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTIDCM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1].Columns[CTCKCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTCKCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output].Columns[CTCKCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTCKCM]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LOCKBOX]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="LOCKBOX"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOCKBOX]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOCKBOX]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[BUIDCM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="BUIDCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[BUIDCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[BUIDCM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[CERT#CM]"
+                      cachedDataType="decimal"
+                      cachedName="CERT#CM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CERT#CM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CERT#CM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LOB#CM]"
+                      cachedDataType="numeric"
+                      cachedName="LOB#CM"
+                      cachedPrecision="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LOB#CM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOB#CM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LVIDOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVIDOI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVIDOI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVIDOI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LVBROI]"
+                      cachedDataType="decimal"
+                      cachedName="LVBROI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVBROI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVBROI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LVCKOI]"
+                      cachedDataType="decimal"
+                      cachedName="LVCKOI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LVCKOI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVCKOI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[LENDERNAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="LENDERNAME"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[LENDERNAME]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LENDERNAME]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[EFFECTIVEDATE]"
+                      cachedDataType="decimal"
+                      cachedName="EFFECTIVEDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[EFFECTIVEDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[EFFECTIVEDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[PTR@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="PTR@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PTR@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PTR@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[PSU@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="PSU@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[PSU@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PSU@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[RSN@OI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="RSN@OI"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[RSN@OI]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[RSN@OI]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[AMOUNT]"
+                      cachedDataType="decimal"
+                      cachedName="AMOUNT"
+                      cachedScale="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[AMOUNT]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[AMOUNT]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[TRANDATE]"
+                      cachedDataType="decimal"
+                      cachedName="TRANDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[TRANDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[TRANDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[DEPDATE]"
+                      cachedDataType="decimal"
+                      cachedName="DEPDATE"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[DEPDATE]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[DEPDATE]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[CTIDCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTIDCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTIDCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTIDCM]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2].Columns[CTCKCM]"
+                      cachedDataType="decimal"
+                      cachedName="CTCKCM"
+                      lineageId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output].Columns[CTCKCM]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTCKCM]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOCKBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOCKBOX]"
+                      name="LOCKBOX" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[BUIDCM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[BUIDCM]"
+                      name="BUIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CERT#CM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CERT#CM]"
+                      name="CERT#CM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOB#CM]"
+                      dataType="numeric"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LOB#CM]"
+                      name="LOB#CM"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVIDOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVIDOI]"
+                      name="LVIDOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVBROI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVBROI]"
+                      name="LVBROI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVCKOI]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LVCKOI]"
+                      name="LVCKOI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LENDERNAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[LENDERNAME]"
+                      name="LENDERNAME" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[EFFECTIVEDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[EFFECTIVEDATE]"
+                      name="EFFECTIVEDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PTR@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PTR@OI]"
+                      name="PTR@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PSU@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[PSU@OI]"
+                      name="PSU@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[RSN@OI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[RSN@OI]"
+                      name="RSN@OI" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[AMOUNT]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[AMOUNT]"
+                      name="AMOUNT"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[TRANDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[TRANDATE]"
+                      name="TRANDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[DEPDATE]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[DEPDATE]"
+                      name="DEPDATE" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTIDCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTIDCM]"
+                      name="CTIDCM" />
+                    <outputColumn
+                      refId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTCKCM]"
+                      dataType="decimal"
+                      lineageId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1].Columns[CTCKCM]"
+                      name="CTCKCM" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Cert Level Details By Lender - Daily.Paths[OLE DB Source Output]"
+              endId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\Cert Level Details By Lender - Daily\IDEA West.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Cert Level Details By Lender - Daily.Paths[OLE DB Source Output1]"
+              endId="Package\Cert Level Details By Lender - Daily\Union All.Inputs[Union All Input 2]"
+              name="OLE DB Source Output"
+              startId="Package\Cert Level Details By Lender - Daily\IDEA East.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Cert Level Details By Lender - Daily.Paths[Union All Output 1]"
+              endId="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV.Inputs[Flat File Destination Input]"
+              name="Union All Output 1"
+              startId="Package\Cert Level Details By Lender - Daily\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Cert Level Details By Lender - Daily"
+          TopLeft="123.5,119" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Cert Level Details By Lender - Daily">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="128,42"
+          Id="Package\Cert Level Details By Lender - Daily\IDEA East"
+          TopLeft="492,64" />
+        <NodeLayout
+          Size="123,42"
+          Id="Package\Cert Level Details By Lender - Daily\Union All"
+          TopLeft="344,223" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Cert Level Details By Lender - Daily\IDEA West"
+          TopLeft="195,79" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Cert Level Details By Lender - Daily\Cert Detail by Lender CSV"
+          TopLeft="300,340" />
+        <EdgeLayout
+          Id="Package\Cert Level Details By Lender - Daily.Paths[Union All Output 1]"
+          TopLeft="403.5,265">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Cert Level Details By Lender - Daily.Paths[OLE DB Source Output1]"
+          TopLeft="556,106">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-131.333333333333,117"
+              Start="0,0"
+              End="-131.333333333333,109.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.298555377207" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,65.298555377207"
+                    Point2="0,69.298555377207"
+                    Point3="-4,69.298555377207" />
+                  <mssgle:LineSegment
+                    End="-127.333333333333,69.298555377207" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-127.333333333333,69.298555377207"
+                    Point2="-131.333333333333,69.298555377207"
+                    Point3="-131.333333333333,73.298555377207" />
+                  <mssgle:LineSegment
+                    End="-131.333333333333,109.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Cert Level Details By Lender - Daily.Paths[OLE DB Source Output]"
+          TopLeft="260.5,121">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="125.833333333333,102"
+              Start="0,0"
+              End="125.833333333333,94.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.4141252006421" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,56.4141252006421"
+                    Point2="0,60.4141252006421"
+                    Point3="4,60.4141252006421" />
+                  <mssgle:LineSegment
+                    End="121.833333333333,60.4141252006421" />
+                  <mssgle:CubicBezierSegment
+                    Point1="121.833333333333,60.4141252006421"
+                    Point2="125.833333333333,60.4141252006421"
+                    Point3="125.833333333333,64.4141252006421" />
+                  <mssgle:LineSegment
+                    End="125.833333333333,94.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cert Level Details By Lender - Daily\IDEA East">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cert Level Details By Lender - Daily\IDEA West">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

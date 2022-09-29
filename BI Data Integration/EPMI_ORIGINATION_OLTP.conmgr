@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="EPMI_ORIGINATION_OLTP"
+  DTS:DTSID="{A3280355-B1A4-4980-8179-3739F2AC166F}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_EPMI_ORIGINATION_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0203\P_OPNG_AMI_US_01;User ID=ds_conn;Initial Catalog=P_EORIG_AMI_US_01;Provider=SQLNCLI11.1;Application Intent=READONLY;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="PMMAjY9b8p8="
+        p4:IV="139gHJnhtpTDSTOxkRJXBA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">0f045BdpuSmfq4hDavCFPiXvnUUKSig1Mqnqn5GYApPcIy5Ob+nf2OWAJzFpwsbUDWzaRLSgDnqbPfPWmnRfp9jUsniarGIgRBcwSlwqtr6YRvq+k7HeQZ+WCXikJf6K0w6QUA2nUbY+aQtAGqfzgKm63GLkSM68ykdzi5II+SQ=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

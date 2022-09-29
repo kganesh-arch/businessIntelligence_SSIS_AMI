@@ -1,0 +1,976 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/5/2017 11:14:27 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-KGANESH"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{D2F8BEC2-115E-425B-955F-4ECE257A406E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="OPUS_Origination_XMLResponse_Extracts"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="53"
+  DTS:VersionGUID="{9758A181-E0BB-4AAD-B25A-520B3EDF0771}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{c2e9eae2-f6b6-4d0b-bc56-35d8d8992b17}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="Arch MI BI Data Integration (Production) – XML Parse From OPUS FILEDOCUMENT Table Failed" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Parse OPUS XML"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{C7E7C1DE-C6B0-4889-8449-1F5C5A71A6FF}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Parse OPUS XML">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Parse OPUS XML\Extract From OPUS"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{AACF0D0E-8903-4566-AF51-0FC565F14988}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Extract From OPUS"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath="c:\TEMP"
+              bufferTempStoragePath="c:\tEMP"
+              version="1">
+              <components>
+                <component
+                  refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Extract From OPUS Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select 
+getdate() as Extract_date,
+XML_Originating_Source, 
+XMLTransactionID, 
+documentid,
+datetimelogged, 
+CERTIFICATE_NBR,
+CASE WHEN XML_Originating_Source = 'EDI' THEN XMLPARSE.Application_Type 
+WHEN XML_Originating_Source = 'Arch MI Connect' THEN cast(op_FV.factor_value_name as varchar(50)) 
+END AS Application_Type,
+CASE WHEN XML_Originating_Source = 'EDI' THEN XMLPARSE.SUBMISSION_TYPE 
+when XML_Originating_Source = 'Arch MI Connect' AND XMLPARSE.SUBMISSION_TYPE = 0 THEN 'OriginalRequest' 
+when XML_Originating_Source = 'Arch MI Connect' AND XMLPARSE.SUBMISSION_TYPE = 1 THEN 'Resubmission' 
+END  AS Submission_Type,
+CASE WHEN XML_Originating_Source = 'EDI' THEN XMLPARSE.DECISION_TYPE ELSE isnull(cast(OP_Cd.OPUS_Code_String as varchar(30)),'Not Found') END AS Decision_Type
+FROM
+(
+select 
+CASE 
+WHEN SoapActionName = 'http://tempuri.org/action/WebOrigination.GenerateCertificate' THEN 
+'Arch MI Connect' 
+WHEN SoapActionName = 'Weborigination.mismoorigination' THEN 
+'EDI' 
+END AS XML_Originating_Source,
+op_xmltxd.XMLTransactionID AS XMLTransactionID,
+op_xmltxd.DateTimeLogged AS datetimelogged,
+op_fd.documentid,
+CASE 
+WHEN SoapActionName = 'http://tempuri.org/action/WebOrigination.GenerateCertificate' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//Service//Result/position_32/position_32_3_0)[1]', 'varchar(30)'), 'Not Found') 
+WHEN SoapActionName = 'Weborigination.mismoorigination' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//MI_RESPONSE/@MICertificateIdentifier)[1]', 'varchar(30)'), 'Not Found')
+END
+as certificate_nbr,
+CASE 
+WHEN SoapActionName = 'http://tempuri.org/action/WebOrigination.GenerateCertificate' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//Service//Result/position_32/position_32_6_0)[1]', 'varchar(30)'), 'Not Found') 
+WHEN SoapActionName = 'Weborigination.mismoorigination' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//MI_RESPONSE/@MIApplicationType)[1]', 'varchar(30)'), 'Not Found') 
+END AS Application_Type,
+CASE 
+WHEN SoapActionName = 'http://tempuri.org/action/WebOrigination.GenerateCertificate' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//Service//Result/position_32/position_32_30_0)[1]', 'varchar(30)'), 'Not Found') 
+WHEN SoapActionName = 'Weborigination.mismoorigination' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//PMI_CERTIFICATE_DATA/@MIRequestType)[1]', 'varchar(30)'), 'Not Found') 
+END as Submission_Type,
+CASE 
+WHEN SoapActionName = 'http://tempuri.org/action/WebOrigination.GenerateCertificate' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//Service//Result/position_27/position_27_6_0)[1]', 'varchar(30)'), 'Not Found') 
+WHEN SoapActionName = 'Weborigination.mismoorigination' THEN 
+ISNULL(Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml).value('(//MI_RESPONSE/@MIDecisionType)[1]', 'varchar(30)'), 'Not Found') 
+END as Decision_Type
+from dbo.FILEDOCUMENT op_fd with (nolock)
+join dbo.xmltxdocument op_xmltxd  with (nolock)
+on op_fd.documentid = op_xmltxd.documentid
+join dbo.XMLTransaction op_xmltx  with (nolock)
+on op_xmltxd.XMLTransactionID = op_xmltx.XMLTransactionID
+where 
+op_fd.TextData is not null and 
+op_xmltxd.DateTimeLogged &gt;= (getdate() - 5)
+and op_xmltxd.XMLTXDocumentType = 'Response'
+and SoapActionName in 
+('http://tempuri.org/action/WebOrigination.GenerateCertificate', 
+'Weborigination.mismoorigination')
+and try_convert(xml,Cast(Replace(Cast(TextData as varchar(max)), '&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;', '&lt;?xml version="1.0" standalone="no"?&gt;') as xml)) is not null 
+) AS XMLPARSE
+left join FACTOR_VALUE op_fv with (nolock)
+on 
+XMLPARSE.Application_Type= cast(op_fv.factor_value_id  as varchar)
+left join opus_code op_cd with (nolock)
+on
+XMLPARSE.Decision_Type= cast(op_cd.opus_code_id as varchar)
+where xmlparse.certificate_nbr &lt;&gt; 'Not Found'
+
+UNION 
+
+select 
+getdate() as Extract_date,
+'CONNECT' as XML_Originating_Source, 
+ID as XMLTransactionID, 
+ID documentid,
+cast(Request_Date as datetime) as datetimelogged, 
+cast(JSON_VALUE(response_text,'$.MICertificateIdentifier') as varchar(12)) as  CERTIFICATE_NBR,
+cast(JSON_VALUE(response_text,'$.MIApplicationType') as varchar(30)) AS Application_Type,
+cast(JSON_VALUE(response_text,'$.MIRequestType') as varchar(30)) AS Submission_Type,
+cast(JSON_VALUE(response_text,'$.MIDecisionType') as varchar(30)) AS Decision_Type
+FROM DBO.Service_Call_Log where 
+operation = 'SecureOriginationServices.OriginateCertificate' and 
+Response_Text is not null
+and request_date &gt;= getdate() - 5</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Connections[OleDbConnection]"
+                      connectionManagerID="{285ce734-cdd6-4f17-bd5e-3251ec3c683d}:invalid"
+                      connectionManagerRefId="{285ce734-cdd6-4f17-bd5e-3251ec3c683d}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Extract_date]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Extract_date]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Extract_date]"
+                          name="Extract_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XML_Originating_Source]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[XML_Originating_Source]"
+                          length="15"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XML_Originating_Source]"
+                          name="XML_Originating_Source"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XMLTransactionID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[XMLTransactionID]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XMLTransactionID]"
+                          name="XMLTransactionID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[documentid]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[documentid]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[documentid]"
+                          name="documentid"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[datetimelogged]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[datetimelogged]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[datetimelogged]"
+                          name="datetimelogged"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR]"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR]"
+                          name="CERTIFICATE_NBR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Application_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Application_Type]"
+                          length="50"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Application_Type]"
+                          name="Application_Type"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Submission_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Submission_Type]"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Submission_Type]"
+                          name="Submission_Type"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Decision_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Decision_Type]"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Decision_Type]"
+                          name="Decision_Type"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Extract_date]"
+                          dataType="dbTimeStamp"
+                          name="Extract_date" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[XML_Originating_Source]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="XML_Originating_Source" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[XMLTransactionID]"
+                          dataType="i4"
+                          name="XMLTransactionID" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[documentid]"
+                          dataType="i4"
+                          name="documentid" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[datetimelogged]"
+                          dataType="dbTimeStamp"
+                          name="datetimelogged" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="CERTIFICATE_NBR" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Application_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Application_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Submission_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Submission_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].ExternalColumns[Decision_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Decision_Type" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Extract_date]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Extract_date]"
+                          name="Extract_date" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[XML_Originating_Source]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[XML_Originating_Source]"
+                          name="XML_Originating_Source" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[XMLTransactionID]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[XMLTransactionID]"
+                          name="XMLTransactionID" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[documentid]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[documentid]"
+                          name="documentid" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[datetimelogged]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[datetimelogged]"
+                          name="datetimelogged" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR]"
+                          name="CERTIFICATE_NBR" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Application_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Application_Type]"
+                          name="Application_Type" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Submission_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Submission_Type]"
+                          name="Submission_Type" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Decision_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[Decision_Type]"
+                          name="Decision_Type" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_OPUS_FILEDOCUMENT_PARSED_CDC]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[XMLTransactionID]"
+                          cachedDataType="i4"
+                          cachedName="XMLTransactionID"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[XMLTransactionID]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XMLTransactionID]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[datetimelogged]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="datetimelogged"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[datetimelogged]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[datetimelogged]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[documentid]"
+                          cachedDataType="i4"
+                          cachedName="documentid"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[documentid]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[documentid]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[CERTIFICATE_NBR]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="CERTIFICATE_NBR"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_NBR]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[Extract_date]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="Extract_date"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Extract_date]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Extract_date]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[XML_Originating_Source]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="XML_Originating_Source"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[XML_Originating_Source]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[XML_Originating_Source]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[Application_Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Application_Type"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Application_Type]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Application_Type]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[Submission_Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="Submission_Type"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Submission_Type]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Submission_Type]" />
+                        <inputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].Columns[Decision_Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="Decision_Type"
+                          externalMetadataColumnId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Decision_Type]"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output].Columns[Decision_Type]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[XMLTransactionID]"
+                          dataType="i4"
+                          name="XMLTransactionID" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[datetimelogged]"
+                          dataType="dbTimeStamp"
+                          name="datetimelogged" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[documentid]"
+                          dataType="i4"
+                          name="documentid" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_NBR]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="CERTIFICATE_NBR" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Extract_date]"
+                          dataType="dbTimeStamp"
+                          name="Extract_date" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[XML_Originating_Source]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="XML_Originating_Source" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Application_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Application_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Submission_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Submission_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input].ExternalColumns[Decision_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Decision_Type" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Parse OPUS XML\Extract From OPUS.Paths[OLE DB Source Output]"
+                  endId="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Parse OPUS XML\Merge Into STG_OPUS_FILEDOCUMENT_ORIG_RESPONSE_XML_PARSED"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{D8F72E08-49DA-4CEF-803E-8CE1DD6EEC3F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Merge Into STG_OPUS_FILEDOCUMENT_ORIG_RESPONSE_XML_PARSED"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="MERGE INTO DBO.STG_OPUS_FILEDOCUMENT_ORIG_RESPONSE_XML_PARSED AS T &#xA;USING DBO.STG_OPUS_FILEDOCUMENT_PARSED_CDC AS S &#xA;ON (T.XMLTRANSACTIONID = S.XMLTRANSACTIONID &#xA;AND T.DOCUMENTID = S.DOCUMENTID&#xA;AND T.DATETIMELOGGED = S.DATETIMELOGGED&#xA;)&#xA;WHEN NOT MATCHED BY TARGET THEN &#xA;INSERT &#xA;(&#xA;EXTRACT_DATE,&#xA;XML_ORIGINATING_SOURCE,&#xA;XMLTRANSACTIONID,&#xA;DATETIMELOGGED,&#xA;DOCUMENTID,&#xA;CERTIFICATE_NBR,&#xA;APPLICATION_TYPE,&#xA;SUBMISSION_TYPE,&#xA;DECISION_TYPE&#xA;)&#xA;VALUES&#xA;(&#xA;S.EXTRACT_DATE,&#xA;S.XML_ORIGINATING_SOURCE,&#xA;S.XMLTRANSACTIONID,&#xA;S.DATETIMELOGGED,&#xA;S.DOCUMENTID,&#xA;S.CERTIFICATE_NBR,&#xA;S.APPLICATION_TYPE,&#xA;S.SUBMISSION_TYPE,&#xA;S.DECISION_TYPE&#xA;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Parse OPUS XML\Truncate STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{76D4A9CA-7C20-4E13-9FFC-9F6C1E572EEA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_OPUS_FILEDOCUMENT_PARSED_CDC;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Parse OPUS XML.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{A19B5FA3-759B-4A63-8D09-954C7D7127B1}"
+          DTS:From="Package\Parse OPUS XML\Extract From OPUS"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Parse OPUS XML\Merge Into STG_OPUS_FILEDOCUMENT_ORIG_RESPONSE_XML_PARSED" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Parse OPUS XML.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{DEF3E499-6DFE-4FB7-9950-93988C239A75}"
+          DTS:From="Package\Parse OPUS XML\Truncate STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Parse OPUS XML\Extract From OPUS" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Successful"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{9a523ea5-c7f2-4429-9699-d7dc79149222}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Successful"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="Arch MI BI Data Integration (Production) – XML Parse From OPUS FILEDOCUMENT Table Completed Successfully" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A56777F0-A7DE-4BA5-BB70-49B2C65BBABE}"
+      DTS:From="Package\Parse OPUS XML"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Successful" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8A33902C-07E4-498E-8245-7F321EE74F95}"
+      DTS:From="Package\Parse OPUS XML"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Failure"
+          TopLeft="68,489" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Parse OPUS XML\Extract From OPUS"
+          TopLeft="140.5,138.5" />
+        <NodeLayout
+          Size="427,42"
+          Id="Package\Parse OPUS XML\Merge Into STG_OPUS_FILEDOCUMENT_ORIG_RESPONSE_XML_PARSED"
+          TopLeft="5.5,246.5" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\Parse OPUS XML\Truncate STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+          TopLeft="54.5,5.5" />
+        <EdgeLayout
+          Id="Package\Parse OPUS XML.PrecedenceConstraints[Constraint]"
+          TopLeft="222,180.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66"
+              Start="0,0"
+              End="0,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Parse OPUS XML.PrecedenceConstraints[Constraint 1]"
+          TopLeft="222.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,91"
+              Start="0,0"
+              End="0,83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="438,343"
+          Size="438,386"
+          Id="Package\Parse OPUS XML"
+          TopLeft="68,43" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Successful"
+          TopLeft="323.500000000001,489.763888888888" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="287,429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="145.500000000001,60.763888888888"
+              Start="0,0"
+              End="145.500000000001,53.263888888888">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.381944444444" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.381944444444"
+                    Point2="0,30.381944444444"
+                    Point3="4,30.381944444444" />
+                  <mssgle:LineSegment
+                    End="141.500000000001,30.381944444444" />
+                  <mssgle:CubicBezierSegment
+                    Point1="141.500000000001,30.381944444444"
+                    Point2="145.500000000001,30.381944444444"
+                    Point3="145.500000000001,34.381944444444" />
+                  <mssgle:LineSegment
+                    End="145.500000000001,53.263888888888" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="215.333333333333,429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-38.3333333333333,60"
+              Start="0,0"
+              End="-38.3333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1310282074613" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1310282074613"
+                    Point2="0,24.1310282074613"
+                    Point3="-4,24.1310282074613" />
+                  <mssgle:LineSegment
+                    End="-34.3333333333333,24.1310282074613" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-34.3333333333333,24.1310282074613"
+                    Point2="-38.3333333333333,24.1310282074613"
+                    Point3="-38.3333333333333,28.1310282074613" />
+                  <mssgle:LineSegment
+                    End="-38.3333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-34.4080143229167,29.1310282074613,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Parse OPUS XML\Extract From OPUS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="384,42"
+          Id="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC"
+          TopLeft="213,210" />
+        <NodeLayout
+          Size="206,42"
+          Id="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source"
+          TopLeft="299,53" />
+        <EdgeLayout
+          Id="Package\Parse OPUS XML\Extract From OPUS.Paths[OLE DB Source Output]"
+          TopLeft="403.5,95">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,115"
+              Start="0,0"
+              End="0,107.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,107.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Parse OPUS XML\Extract From OPUS\Extract From OPUS Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Parse OPUS XML\Extract From OPUS\Trgt_EDW_STAGING STG_OPUS_FILEDOCUMENT_PARSED_CDC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

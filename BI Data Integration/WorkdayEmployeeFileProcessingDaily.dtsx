@@ -1,0 +1,2645 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/10/2021 8:54:46 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVDI-DVM0076"
+  DTS:CreatorName="CMGMI\rdelacruz"
+  DTS:DTSID="{D9DA96A5-723D-4F57-9825-488CEF0CB6D3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="WorkdayEmployeeFileProcessingDaily"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="65"
+  DTS:VersionGUID="{8A3F3FCF-5332-497B-8104-7616A3CB223A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[WorkdaySourceFile]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{97B51867-621B-4EC4-AC05-8838C28F7137}"
+      DTS:ObjectName="WorkdaySourceFile">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::vWorkdayFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\ami-pavnas001\EmployeeManagement\Workday_Emp_Listing.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Company Code"
+              DTS:DTSID="{17ABE069-E6D5-450B-A97A-1E1F4725E17D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Company Description"
+              DTS:DTSID="{D58A188D-68F2-41BA-A520-6E5B4FCCBD54}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Empl ID"
+              DTS:DTSID="{11A78B58-4BFE-47E0-AE19-4B519FD591EE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="First Name"
+              DTS:DTSID="{4885677D-DDC9-45F8-B23D-FB510FB8755D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Middle Name"
+              DTS:DTSID="{2434525D-E92C-4FC8-9FC9-21F5D3C75F87}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Last Name"
+              DTS:DTSID="{93210074-98B4-44B3-99DC-A3DAF6E66D1C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Preferred Name"
+              DTS:DTSID="{7B2499E9-2C99-4CAB-9F90-EEA6519B151F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Former Name"
+              DTS:DTSID="{DE30650B-CD07-4221-895D-401A830F7E84}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Business Title"
+              DTS:DTSID="{74334C28-998B-453C-AACE-98E18195D3B5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Cost Center"
+              DTS:DTSID="{491F5E91-2163-4D53-8270-94B7CC47D66A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Department"
+              DTS:DTSID="{D402F5B6-BDE2-4016-AE7E-0524D41DAEA9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Original Hire Date"
+              DTS:DTSID="{6CE46B28-0A9C-40A0-A80D-BF7F46AAA844}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Hire Date"
+              DTS:DTSID="{A3A05D61-4321-45E9-BE29-C59A4F3EACE9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Last Day of Work"
+              DTS:DTSID="{5BAB7A4F-4848-4829-8859-80969DCD6084}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Termination Date"
+              DTS:DTSID="{82F23338-3E2F-4C13-AC0E-E5860A11BF26}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Electronic Mail Addr"
+              DTS:DTSID="{9D85B37A-43DC-4909-97AE-328F1CA255AB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Reports to Manager ID"
+              DTS:DTSID="{76642BA7-6751-40A7-8224-655648BF9A76}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Report to Manager Name"
+              DTS:DTSID="{0AC45FDA-BCB6-414C-BE73-C2E0C5DD6F6F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Report to Manager Email"
+              DTS:DTSID="{519ABB7C-C66E-4D5F-A02E-B32BBAA4A07E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Work Phone"
+              DTS:DTSID="{D9F61AF9-8539-4095-BD05-AD3E51D1D70B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Cell Phone 2"
+              DTS:DTSID="{9B33D3B8-4AF9-4C73-B901-414210E548F0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Location Cd"
+              DTS:DTSID="{16076F65-EED2-4104-930A-A645A2FF74FA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Address Line 1"
+              DTS:DTSID="{F605AE75-DD3B-40B4-9D58-3E11413C8D16}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Address Line 2"
+              DTS:DTSID="{4FD8EC35-0998-45BD-A384-8323A83189DA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="City"
+              DTS:DTSID="{F1DAD48A-D9D9-4BEB-BDEA-E4AFDDC73964}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State"
+              DTS:DTSID="{C19A9758-2495-409A-89BA-C8E85C362994}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Postal Zip"
+              DTS:DTSID="{D8D3EE8D-F9CF-4EC5-974D-2352F061910F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country"
+              DTS:DTSID="{1FE708E9-4B5F-417C-92CE-C70512A4CC7D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Contract End Date"
+              DTS:DTSID="{FED2F656-ED8E-4DD0-9F9B-2276822A3DD5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Worker Type"
+              DTS:DTSID="{F84AFCD2-85C5-407B-8A6E-9532634DCC43}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Employee Type"
+              DTS:DTSID="{AE0EA313-7313-4EBF-973A-87708B7D85F9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Employee Status"
+              DTS:DTSID="{39A2AEE3-6E65-4D5E-8F3D-A89F4F5B4DF8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Segment"
+              DTS:DTSID="{F8BBA3F0-8127-4EE6-95B0-A0F85CED93A4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UniqueID"
+              DTS:DTSID="{47BB8781-9187-4E6E-BA52-E0BE324865F0}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1FE56EDB-B7D7-4492-B289-628B6E0E2375}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_HRFileProcessing_EmployeeManagement_SourceFolder] + &quot;Processed&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vWorkdayArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ami-pavnas001\EmployeeManagement\Processed</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E30576AD-EA2E-43B5-90CB-4680C5F467E1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::pstr_HRFileProcessing_EmployeeManagement_SourceFolder] +  @[User::vWorkdayFileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vWorkdayFile">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ami-pavnas001\EmployeeManagement\Workday_Emp_Listing.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6E37B766-8EA3-4BC9-8CAF-C982BB43829D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vWorkdayFileName">
+      <DTS:VariableValue
+        DTS:DataType="8">Workday_Emp_Listing.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5A78A0F0-D7E4-47A3-8778-6F6E8D9C4BE4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vWorkdayFileNameCheck">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FDFA088D-E058-4899-BFA2-71C8EECFF611}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::vWorkdayArchiveFolder] +  &quot;\\&quot;  + SUBSTRING(REPLACE(REPLACE(REPLACE((DT_WSTR,100) GETDATE(),&quot; &quot;,&quot;&quot;),&quot;-&quot;,&quot;&quot;),&quot;:&quot;,&quot;&quot;),1,14) +  &quot;_&quot; + @[User::vWorkdayFileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vWorkdayFile_Archive">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ami-pavnas001\EmployeeManagement\Processed\20220803160911_Workday_Emp_Listing.csv</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failed"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{718e9398-9c22-461f-97f1-ded6f7b2f3db}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failed"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAILED: Workday Employees File Load (" +  @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="FAILED: Workday Employees File Load (Production)"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{9BACD0F3-2D5C-4CEC-AA01-83A8E72A9B42}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{51D5E04E-16E0-424B-831E-C28DFF55EB83}"
+        DTS:ObjectName="{51D5E04E-16E0-424B-831E-C28DFF55EB83}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[$Project::pstr_HRFileProcessing_EmployeeManagement_SourceFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\ami-pavnas001\EmployeeManagement\" />
+            <FEFEProperty
+              FileSpec="WorkDay_Emp_Listing.csv" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Archive File"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{277B9025-E88C-43DF-8574-743326183EFD}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive File"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{97B51867-621B-4EC4-AC05-8838C28F7137}"
+              TaskDestinationPath="User::vWorkdayFile_Archive"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Delete File"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{18CC5D57-7FE9-460F-A12A-11C171D78943}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Delete File"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="DeleteFile"
+              TaskSourcePath="User::vWorkdayFile"
+              TaskIsSourceVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Insert Data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{22903568-FC21-4028-8ED8-9D97477EF80C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Insert Data"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="INSERT INTO [EDW_STAGING].[dbo].[STG_WORKDAY_EMPLOYEE_UPDATES]&#xA;(&#xA;Company_Code&#xA;,[Company_Description]&#xA;,[Empl_ID]&#xA;,[Last Name]&#xA;,[Preferred_Name]&#xA;,[Former_Name]&#xA;,[Business_Title]&#xA;,[Cost_Center]&#xA;,[Department]&#xA;,[Hire_Date]&#xA;,[First_Name]&#xA;,[Termination_Date]&#xA;,[Electronic_Mail_Addr]&#xA;,[Reports_to_Manager_ID]&#xA;,[Report_to_Manager_Name]&#xA;,[Work_Phone]&#xA;,[Cell_Phone2]&#xA;,[Location_Cd]&#xA;,[Address_Line1]&#xA;,[Address_Line2]&#xA;,[City]&#xA;,[State]&#xA;,[Postal_Zip]&#xA;,[Country]&#xA;,[Contract_End_Date]&#xA;,[Worker_Type]&#xA;,[Employee_Status]&#xA;,[Segment]&#xA;,[EXTRACT_DATE]&#xA;,[Legal Middle Name]&#xA;,[Original Hire Date]&#xA;,[Last Day of Work]&#xA;,[Manager Email]&#xA;,[Employee Type]&#xA;,[UNIQUEID]&#xA;)&#xA;SELECT [Company_Code]&#xA;      ,[Company_Description]&#xA;      ,[Empl_ID]&#xA;      ,[Last Name]&#xA;      ,[Preferred_Name]&#xA;      ,[Former_Name]&#xA;      ,[Business_Title]&#xA;      ,[Cost_Center]&#xA;      ,[Department]&#xA;      ,[Hire_Date]&#xA;      ,[First_Name]&#xA;      ,CASE WHEN [Termination_Date]='0000-01-01' THEN NULL ELSE [Termination_Date] END AS [Termination_Date]&#xA;      ,[Electronic_Mail_Addr]&#xA;      ,[Reports_to_Manager_ID]&#xA;      ,[Report_to_Manager_Name]&#xA;      ,[Work_Phone]&#xA;      ,[Cell_Phone2]&#xA;      ,[Location_Cd]&#xA;      ,[Address_Line1]&#xA;      ,[Address_Line2]&#xA;      ,[City]&#xA;      ,[State]&#xA;      ,[Postal_Zip]&#xA;      ,[Country]&#xA;      ,[Contract_End_Date]&#xA;      ,[Worker_Type]&#xA;      ,[Employee_Status]&#xA;      ,[Segment]&#xA;      ,GETDATE() AS [EXTRACT_DATE]&#xA;&#x9;  ,[Legal Middle Name] &#xA;&#x9;  ,[Original Hire Date]&#xA;&#x9;  ,[Last Day of Work]&#xA;&#x9;  ,[Manager Email]&#xA;&#x9;  ,[Employee Type]&#xA;           ,UniqueID&#xA;  FROM [EDW_STAGING].[dbo].[STG_WORKDAY_EMPLOYEE_UPDATES_HOLDER]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{F3187000-617A-4761-930D-8A793916F94A}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STG_WORKDAY_EMPLOYEE_UPDATES"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="Flat File Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[WorkdaySourceFile]"
+                      connectionManagerRefId="Package.ConnectionManagers[WorkdaySourceFile]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Code]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Company Code]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Code]"
+                          name="Company Code"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Description]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Company Description]"
+                          length="150"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Description]"
+                          name="Company Description"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Empl ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Empl ID]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Empl ID]"
+                          name="Empl ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[First Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[First Name]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[First Name]"
+                          name="First Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Middle Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Middle Name]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Middle Name]"
+                          name="Middle Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Last Name]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Name]"
+                          name="Last Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Preferred Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Preferred Name]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Preferred Name]"
+                          name="Preferred Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Former Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Former Name]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Former Name]"
+                          name="Former Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Business Title]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Business Title]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Business Title]"
+                          name="Business Title"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cost Center]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Cost Center]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cost Center]"
+                          name="Cost Center"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Department]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Department]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Department]"
+                          name="Department"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Original Hire Date]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Original Hire Date]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Original Hire Date]"
+                          name="Original Hire Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Hire Date]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Hire Date]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Hire Date]"
+                          name="Hire Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Day of Work]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Last Day of Work]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Day of Work]"
+                          name="Last Day of Work"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Termination Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Termination Date]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Termination Date]"
+                          name="Termination Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Electronic Mail Addr]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Electronic Mail Addr]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Electronic Mail Addr]"
+                          name="Electronic Mail Addr"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Reports to Manager ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Reports to Manager ID]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Reports to Manager ID]"
+                          name="Reports to Manager ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Report to Manager Name]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Name]"
+                          name="Report to Manager Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Email]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Report to Manager Email]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Email]"
+                          name="Report to Manager Email"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Work Phone]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Work Phone]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Work Phone]"
+                          name="Work Phone"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cell Phone 2]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Cell Phone 2]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cell Phone 2]"
+                          name="Cell Phone 2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Location Cd]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Location Cd]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Location Cd]"
+                          name="Location Cd"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 1]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Address Line 1]"
+                          length="200"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 1]"
+                          name="Address Line 1"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 2]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Address Line 2]"
+                          length="200"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 2]"
+                          name="Address Line 2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[City]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[City]"
+                          name="City"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[State]"
+                          name="State"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Zip]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Postal Zip]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Zip]"
+                          name="Postal Zip"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Contract End Date]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Contract End Date]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Contract End Date]"
+                          name="Contract End Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Worker Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Worker Type]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Worker Type]"
+                          name="Worker Type"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Employee Type]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Type]"
+                          name="Employee Type"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Status]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Employee Status]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Status]"
+                          name="Employee Status"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Segment]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Segment]"
+                          length="100"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Segment]"
+                          name="Segment"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[UniqueID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UniqueID]"
+                          length="50"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[UniqueID]"
+                          name="UniqueID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Company Code]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Company Code" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Company Description]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Company Description" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Empl ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Empl ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[First Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="First Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Middle Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Middle Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Last Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Last Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Preferred Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Preferred Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Former Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Former Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Business Title]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Business Title" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Cost Center]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Cost Center" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Department]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Department" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Original Hire Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Original Hire Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Hire Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Hire Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Last Day of Work]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Last Day of Work" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Termination Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Termination Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Electronic Mail Addr]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Electronic Mail Addr" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Reports to Manager ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Reports to Manager ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Report to Manager Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Report to Manager Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Report to Manager Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Report to Manager Email" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Work Phone]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Work Phone" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Cell Phone 2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Cell Phone 2" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Location Cd]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Location Cd" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Address Line 1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Address Line 1" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Address Line 2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Address Line 2" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Postal Zip]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Postal Zip" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Contract End Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Contract End Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Worker Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Worker Type" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Employee Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Employee Type" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Employee Status]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Employee Status" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Segment]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Segment" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UniqueID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="UniqueID" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_WORKDAY_EMPLOYEE_UPDATES_HOLDER]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Last Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Last Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Last Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Department]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Department"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Department]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[City]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="City"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[City]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[State]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="State"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[State]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Country]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Segment]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Segment"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Segment]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Segment]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Company Code]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Company Code"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Code]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Code]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Company Description]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="150"
+                          cachedName="Company Description"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Description]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Company Description]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Empl ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Empl ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Empl_ID]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Empl ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Preferred Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Preferred Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Preferred_Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Preferred Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Former Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Former Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Former_Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Former Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Business Title]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Business Title"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Business_Title]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Business Title]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cost Center]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Cost Center"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cost_Center]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cost Center]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Hire Date]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Hire Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Hire_Date]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Hire Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[First Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="First Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[First_Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[First Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Termination Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Termination Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Termination_Date]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Termination Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Electronic Mail Addr]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Electronic Mail Addr"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Electronic_Mail_Addr]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Electronic Mail Addr]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reports to Manager ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Reports to Manager ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reports_to_Manager_ID]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Reports to Manager ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Report to Manager Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Report to Manager Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Report_to_Manager_Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Work Phone]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Work Phone"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Work_Phone]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Work Phone]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cell Phone 2]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Cell Phone 2"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cell_Phone2]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Cell Phone 2]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Location Cd]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Location Cd"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Location_Cd]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Location Cd]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Address Line 1]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="200"
+                          cachedName="Address Line 1"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Address_Line1]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 1]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Address Line 2]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="200"
+                          cachedName="Address Line 2"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Address_Line2]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Address Line 2]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Postal Zip]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Postal Zip"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Postal_Zip]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Zip]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contract End Date]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Contract End Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contract_End_Date]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Contract End Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Worker Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Worker Type"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Worker_Type]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Worker Type]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Employee Status]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Employee Status"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee_Status]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Status]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Middle Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Middle Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Legal Middle Name]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Middle Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Original Hire Date]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Original Hire Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Original Hire Date]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Original Hire Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Last Day of Work]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Last Day of Work"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Last Day of Work]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Last Day of Work]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Report to Manager Email]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Report to Manager Email"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Manager Email]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Report to Manager Email]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Employee Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Employee Type"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee Type]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[Employee Type]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UniqueID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="UniqueID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UNIQUEID]"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output].Columns[UniqueID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Code]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Company_Code" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Company_Description]"
+                          codePage="1252"
+                          dataType="str"
+                          length="150"
+                          name="Company_Description" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Empl_ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Empl_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Last Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Last Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Preferred_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Preferred_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Former_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Former_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Business_Title]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Business_Title" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cost_Center]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Cost_Center" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Department" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Hire_Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Hire_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[First_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="First_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Termination_Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Termination_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Electronic_Mail_Addr]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Electronic_Mail_Addr" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reports_to_Manager_ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Reports_to_Manager_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Report_to_Manager_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Report_to_Manager_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Work_Phone]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Work_Phone" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cell_Phone2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Cell_Phone2" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Location_Cd]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Location_Cd" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Address_Line1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="200"
+                          name="Address_Line1" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Address_Line2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="200"
+                          name="Address_Line2" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Postal_Zip]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Postal_Zip" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contract_End_Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Contract_End_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Worker_Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Worker_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee_Status]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Employee_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Segment]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Segment" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Legal Middle Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Legal Middle Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Original Hire Date]"
+                          dataType="dbTimeStamp"
+                          name="Original Hire Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Last Day of Work]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Last Day of Work" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Manager Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Manager Email" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Employee Type" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UNIQUEID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="UNIQUEID" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES.Paths[Flat File Source Output]"
+                  endId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Truncate Temp Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5441551B-8807-4DEC-A835-7DDAF1DBAB3E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Temp Table"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [EDW_STAGING].[dbo].[STG_WORKDAY_EMPLOYEE_UPDATES_HOLDER];&#xA;DELETE FROM DBO.STG_WORKDAY_EMPLOYEE_UPDATES WHERE CONVERT(DATE,EXTRACT_DATE) = CONVERT(DATE,GETDATE());" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Update Status Flag"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{65D425F8-87F0-49AB-A7FF-BB0A3DDB6979}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Status Flag"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="update dbo.STG_WORKDAY_EMPLOYEE_UPDATES set Data_Status='Null'&#xA;;&#xA;Update dbo.STG_WORKDAY_EMPLOYEE_UPDATES set Data_Status='Current' where cast(EXTRACT_DATE as date)= (&#xA;select MAX(cast(EXTRACT_DATE as date)) from dbo.STG_WORKDAY_EMPLOYEE_UPDATES) and cast(EXTRACT_DATE as date)=cast(GETDATE() as date)&#xA;;&#xA;update dbo.STG_WORKDAY_EMPLOYEE_UPDATES set Data_Status='Previous' where cast(EXTRACT_DATE as date)= (&#xA;select MAX(cast(EXTRACT_DATE as date)) from dbo.STG_WORKDAY_EMPLOYEE_UPDATES where cast(EXTRACT_DATE as date) not in (select MAX(cast(EXTRACT_DATE as date))&#xA;from dbo.STG_WORKDAY_EMPLOYEE_UPDATES) )&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{B60FCD36-DBFE-4F48-8B5A-4C33A71F823F}"
+          DTS:From="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container\Insert Data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{BBEC5A77-76DE-4BF9-A9EC-B97C582F3B14}"
+          DTS:From="Package\Foreach Loop Container\Truncate Temp Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{D092A861-EF50-4AFF-BEE1-9F6E9EBA8361}"
+          DTS:From="Package\Foreach Loop Container\Insert Data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop Container\Update Status Flag" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{6B6D3AA4-921E-4277-BBD6-D28706C095D7}"
+          DTS:From="Package\Foreach Loop Container\Archive File"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop Container\Delete File" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{E2AA6DD5-BB41-42BC-ABE7-0705B2BCD9EE}"
+          DTS:From="Package\Foreach Loop Container\Update Status Flag"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Foreach Loop Container\Archive File" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{20636E4A-2B99-4445-A771-BF73A3EA32FA}"
+          DTS:ObjectName="{20636E4A-2B99-4445-A771-BF73A3EA32FA}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::vWorkdayFileNameCheck" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{c145b45c-7c01-44a4-a3bd-acf0a1d7df4a}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"No Workday File To Process Today - BI Data Integration (" +  @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="No Workday File To Process Today - BI Data Integration (Production)"
+          SendMailTask:MessageSource="No Workday file to process. Notify ESI Team to check why. " xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{0D589BD9-2B0B-41D4-852F-D00E30F02C99}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS: Workday Employees File Load (" +  @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="SUCCESS: Workday Employees File Load (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{272F9C5E-C7BC-4159-86FC-3BEE2BBEF074}"
+      DTS:EvalOp="3"
+      DTS:Expression="LEN(@[User::vWorkdayFileNameCheck]) != 0"
+      DTS:From="Package\Foreach Loop Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8E46CE0A-E32E-4ECE-8C1B-79CCE65F85CC}"
+      DTS:From="Package\Foreach Loop Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failed"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{D12B8E5D-9185-4C42-BC1F-6CF383F62B99}"
+      DTS:EvalOp="3"
+      DTS:Expression="LEN(@[User::vWorkdayFileNameCheck]) == 0"
+      DTS:From="Package\Foreach Loop Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="109,42"
+          Id="Package\Failed"
+          TopLeft="533,317" />
+        <NodeLayout
+          Size="137,42"
+          Id="Package\Foreach Loop Container\Archive File"
+          TopLeft="95,297" />
+        <NodeLayout
+          Size="128,42"
+          Id="Package\Foreach Loop Container\Delete File"
+          TopLeft="83,376" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Foreach Loop Container\Insert Data"
+          TopLeft="83.5,178.5" />
+        <NodeLayout
+          Size="289,42"
+          Id="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Foreach Loop Container\Truncate Temp Table"
+          TopLeft="58,5.5" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          TopLeft="150,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="150,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          TopLeft="163.5,339">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-16.5,37"
+              Start="0,0"
+              End="-16.5,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.5"
+                    Point2="0,18.5"
+                    Point3="-4,18.5" />
+                  <mssgle:LineSegment
+                    End="-12.5,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-12.5,18.5"
+                    Point2="-16.5,18.5"
+                    Point3="-16.5,22.5" />
+                  <mssgle:LineSegment
+                    End="-16.5,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Foreach Loop Container\Update Status Flag"
+          TopLeft="69,234" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="216.5,199.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-61,34.5"
+              Start="0,0"
+              End="-61,27">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-57,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-57,0"
+                    Point2="-61,0"
+                    Point3="-61,4" />
+                  <mssgle:LineSegment
+                    End="-61,27" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          TopLeft="155.5,276">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-60.5,42"
+              Start="0,0"
+              End="-53,42">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38"
+                    Point2="0,42"
+                    Point3="-4,42" />
+                  <mssgle:LineSegment
+                    End="-53,42" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="322,531"
+          Size="322,574"
+          Id="Package\Foreach Loop Container"
+          TopLeft="88,32" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Send Mail Task"
+          TopLeft="601,134" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Success"
+          TopLeft="545,232" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="410,319">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="135,-66"
+              Start="0,0"
+              End="127.5,-66">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="63.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="63.5,0"
+                    Point2="67.5,0"
+                    Point3="67.5,-4" />
+                  <mssgle:LineSegment
+                    End="67.5,-62" />
+                  <mssgle:CubicBezierSegment
+                    Point1="67.5,-62"
+                    Point2="67.5,-66"
+                    Point3="71.5,-66" />
+                  <mssgle:LineSegment
+                    End="127.5,-66" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="59.5,1,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="410,460.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="123,-122.5"
+              Start="0,0"
+              End="115.5,-122.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="37.3791907514451,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37.3791907514451,0"
+                    Point2="41.3791907514451,0"
+                    Point3="41.3791907514451,-4" />
+                  <mssgle:LineSegment
+                    End="41.3791907514451,-118.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41.3791907514451,-118.5"
+                    Point2="41.3791907514451,-122.5"
+                    Point3="45.3791907514451,-122.5" />
+                  <mssgle:LineSegment
+                    End="115.5,-122.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="26.1378430951951,1,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="410,177.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="191,-22.5"
+              Start="0,0"
+              End="183.5,-22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="60.2554913294798,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="60.2554913294798,0"
+                    Point2="64.2554913294798,0"
+                    Point3="64.2554913294798,-4" />
+                  <mssgle:LineSegment
+                    End="64.2554913294798,-18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="64.2554913294798,-18.5"
+                    Point2="64.2554913294798,-22.5"
+                    Point3="68.2554913294798,-22.5" />
+                  <mssgle:LineSegment
+                    End="183.5,-22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="56.2554913294798,1,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\Flat File Source"
+          TopLeft="345,108" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination"
+          TopLeft="339,242" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES.Paths[Flat File Source Output]"
+          TopLeft="425.25,150">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,92"
+              Start="0,0"
+              End="0,84.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,84.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\STG_WORKDAY_EMPLOYEE_UPDATES\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

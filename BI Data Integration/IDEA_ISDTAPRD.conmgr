@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="IDEA_ISDTAPRD"
+  DTS:DTSID="{0EFBA67E-1979-4C32-A3C6-9E2CC73E20D5}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_IDEA_ISDTAPRD_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AS400SFF.PMIGROUP.COM;User ID=COGNOS;Initial Catalog=AS400SFF;Provider=IBMDASQL.DataSource.1;Persist Security Info=True;Default Collection=ISDTAPRD;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="0DWMd3EvJBk="
+        p4:IV="3/irEBx/O06qnp9qX776wg=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">n/J7p8imOwSnMCzM6iXlEb/GAoqxyHGL2Qlz4uuBR99V9m57uSR75xEbBPnkXUZmI+IvFmFip3NdazENL1eL7zXf9YNya6sUOoPmw0O0RKGGyqdzeRXKDYzuM7ENy/fa1mRESyEYlc0rpu7/PwMmyseeZuXCjU6LJ0sx+4c7CB0=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,988 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/16/2021 8:33:05 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVDI-DVM0037"
+  DTS:CreatorName="CMGMI\award"
+  DTS:DTSID="{6915D563-A0D8-4CEF-9387-767B6593F10C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="RqToEdwOveridesExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{FA1285C7-1805-4C75-8275-724C921340DD}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[RQ_OVERIDES]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{0DEF69FE-0D1A-4DA4-AF7A-1AA8F37531C4}"
+      DTS:ObjectName="RQ_OVERIDES">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[$Project::pstr_xl_RQ_Overide_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\sharepoint\cts\bi\EDW Source Data Files\RQ\RQ_TO_EDW_INTERFACE_DAILY.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{DC013F22-5BE4-4B14-91FB-F594B134676A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="RQ_TO_EDW_OVERIDES_DAILY">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Drop Create RQO_Merge Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{95BAECA5-28B2-417D-84EF-08D24CEBFA34}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Drop Create RQO_Merge Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'STG_RQ_CUBE_OVERIDES_merge', N'U') IS NOT NULL &#xA;DROP TABLE [dbo].STG_RQ_CUBE_OVERIDES_merge&#xA;GO&#xA;&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;SET ANSI_PADDING ON&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].STG_RQ_CUBE_OVERIDES_merge(&#xA;&#x9;&#x9;&#x9;&#x9;[Extract_Date] [int] NULL,&#xA;&#x9;&#x9;&#x9;&#x9;SYSTEM_AS_ORIGINALLY_IN_CUBE [varchar](255) NULL,&#xA;&#x9;&#x9;&#x9;&#x9;NEW_NAME_IF_ANY [varchar](255) NULL,&#xA;&#x9;&#x9;&#x9;&#x9;ORIGINAL_ROLLUP [varchar](255) NULL,&#xA;&#x9;&#x9;&#x9;&#x9;NEW_ROLLUP_IF_ANY [varchar](255) NULL,&#xA;&#x9;&#x9;&#x9;&#x9;USER_NOTES_IF_ANY [varchar](255) NULL,&#x9;&#xA;&#x9;&#x9;&#x9;&#x9; cre_date [datetime] NULL&#x9;&#xA;&#x9;&#xA;) ON [PRIMARY]&#xA;&#xA;GO&#xA;&#xA;SET ANSI_PADDING OFF&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{E28056F1-20A4-48ED-90EC-88F3F723FB87}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Target Table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="SYSTEM_AS_ORIGINALLY_IN_CUBE"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_NAME_IF_ANY]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="NEW_NAME_IF_ANY"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_NAME_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[ORIGINAL_ROLLUP]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ORIGINAL_ROLLUP"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[ORIGINAL_ROLLUP]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[NEW_ROLLUP_IF_ANY]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="NEW_ROLLUP_IF_ANY"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_ROLLUP_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[USER_NOTES_IF_ANY]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="USER_NOTES_IF_ANY"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[USER_NOTES_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[Extract_Date]"
+                          cachedDataType="ui8"
+                          cachedName="Extract_Date"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[Extract_Date]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input].Columns[cre_date]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="cre_date"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[cre_date]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          name="SYSTEM_AS_ORIGINALLY_IN_CUBE"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_NAME_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_NAME_IF_ANY]"
+                          name="NEW_NAME_IF_ANY"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_NAME_IF_ANY]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[ORIGINAL_ROLLUP]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[ORIGINAL_ROLLUP]"
+                          name="ORIGINAL_ROLLUP"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[ORIGINAL_ROLLUP]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          name="NEW_ROLLUP_IF_ANY"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_ROLLUP_IF_ANY]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[USER_NOTES_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[USER_NOTES_IF_ANY]"
+                          name="USER_NOTES_IF_ANY"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[USER_NOTES_IF_ANY]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[Extract_Date]"
+                          dataType="ui8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[Extract_Date]"
+                          name="Extract_Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[Extract_Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[cre_date]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[cre_date]"
+                          name="cre_date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[cre_date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="src_STG_RQ_CUBE_OVERIDES"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">SalesPlan</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+                  Year(NOW( )) * 10000
+                        + Month(NOW( ))*100 
+                        + Day(NOW( )) as Extract_Date
+	, SYSTEM_AS_ORIGINALLY_IN_CUBE	
+	, NEW_NAME_IF_ANY	
+	, ORIGINAL_ROLLUP	
+	, NEW_ROLLUP_IF_ANY	
+	, USER_NOTES_IF_ANY
+                   , NOW( ) as cre_date
+ 
+FROM   
+	[RQ_TO_EDW_INTERFACE$A1:H1000]
+WHERE     SYSTEM_AS_ORIGINALLY_IN_CUBE &gt; ''</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[RQ_OVERIDES]"
+                      connectionManagerRefId="Package.ConnectionManagers[RQ_OVERIDES]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[Extract_Date]"
+                          dataType="ui8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[Extract_Date]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[Extract_Date]"
+                          name="Extract_Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          name="SYSTEM_AS_ORIGINALLY_IN_CUBE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_NAME_IF_ANY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[NEW_NAME_IF_ANY]"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_NAME_IF_ANY]"
+                          name="NEW_NAME_IF_ANY"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[ORIGINAL_ROLLUP]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[ORIGINAL_ROLLUP]"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[ORIGINAL_ROLLUP]"
+                          name="ORIGINAL_ROLLUP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[NEW_ROLLUP_IF_ANY]"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          name="NEW_ROLLUP_IF_ANY"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[USER_NOTES_IF_ANY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[USER_NOTES_IF_ANY]"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[USER_NOTES_IF_ANY]"
+                          name="USER_NOTES_IF_ANY"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[cre_date]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[cre_date]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].Columns[cre_date]"
+                          name="cre_date"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[Extract_Date]"
+                          dataType="i4"
+                          name="Extract_Date" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          dataType="wstr"
+                          length="255"
+                          name="SYSTEM_AS_ORIGINALLY_IN_CUBE" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[NEW_NAME_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          name="NEW_NAME_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[ORIGINAL_ROLLUP]"
+                          dataType="wstr"
+                          length="255"
+                          name="ORIGINAL_ROLLUP" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[NEW_ROLLUP_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          name="NEW_ROLLUP_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[USER_NOTES_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          name="USER_NOTES_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output].ExternalColumns[cre_date]"
+                          dataType="date"
+                          name="cre_date" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[Extract_Date]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[Extract_Date]"
+                          name="Extract_Date" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          name="SYSTEM_AS_ORIGINALLY_IN_CUBE" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[NEW_NAME_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[NEW_NAME_IF_ANY]"
+                          name="NEW_NAME_IF_ANY" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ORIGINAL_ROLLUP]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ORIGINAL_ROLLUP]"
+                          name="ORIGINAL_ROLLUP" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[NEW_ROLLUP_IF_ANY]"
+                          name="NEW_ROLLUP_IF_ANY" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[USER_NOTES_IF_ANY]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[USER_NOTES_IF_ANY]"
+                          name="USER_NOTES_IF_ANY" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[cre_date]"
+                          dataType="date"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[cre_date]"
+                          name="cre_date" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="tgt_STG_RQ_CUBE_OVERIDES_merge"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_RQ_CUBE_OVERIDES_merge]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="SYSTEM_AS_ORIGINALLY_IN_CUBE"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[SYSTEM_AS_ORIGINALLY_IN_CUBE]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[NEW_NAME_IF_ANY]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="NEW_NAME_IF_ANY"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[NEW_NAME_IF_ANY]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_NAME_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[ORIGINAL_ROLLUP]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="ORIGINAL_ROLLUP"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[ORIGINAL_ROLLUP]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[ORIGINAL_ROLLUP]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[NEW_ROLLUP_IF_ANY]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="NEW_ROLLUP_IF_ANY"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[NEW_ROLLUP_IF_ANY]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[NEW_ROLLUP_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[USER_NOTES_IF_ANY]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="USER_NOTES_IF_ANY"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[USER_NOTES_IF_ANY]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[USER_NOTES_IF_ANY]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[Extract_Date]"
+                          cachedDataType="ui8"
+                          cachedName="Extract_Date"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[Extract_Date]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[Extract_Date]" />
+                        <inputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].Columns[cre_date]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="cre_date"
+                          externalMetadataColumnId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[cre_date]"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output].Columns[cre_date]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[SYSTEM_AS_ORIGINALLY_IN_CUBE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SYSTEM_AS_ORIGINALLY_IN_CUBE" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[NEW_NAME_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="NEW_NAME_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[ORIGINAL_ROLLUP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ORIGINAL_ROLLUP" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[NEW_ROLLUP_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="NEW_ROLLUP_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[USER_NOTES_IF_ANY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="USER_NOTES_IF_ANY" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[Extract_Date]"
+                          dataType="i4"
+                          name="Extract_Date" />
+                        <externalMetadataColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input].ExternalColumns[cre_date]"
+                          dataType="dbTimeStamp"
+                          name="cre_date" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table.Paths[Data Conversion Output]"
+                  endId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table.Paths[Excel Source Output]"
+                  endId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY\Merge Into Main Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{96F44CF7-EE95-4202-B3B9-18AB2011A391}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Merge Into Main Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="MERGE dbo.STG_RQ_CUBE_OVERIDES AS T &#xA;USING &#xA;&#xA;--dbo.STG_RQ_CUBE_OVERIDES_merge AS S  &#xA;&#x9;(Select  --USE GROUP BY TO &quot;DUPE-PROOF&quot; it:&#xA;&#x9;&#x9;Max([Extract_Date]) as [Extract_Date] ,&#xA;&#x9;&#x9;SYSTEM_AS_ORIGINALLY_IN_CUBE ,&#xA;&#x9;&#x9;Max(NEW_NAME_IF_ANY) as NEW_NAME_IF_ANY ,&#xA;&#x9;&#x9;Max(ORIGINAL_ROLLUP) as ORIGINAL_ROLLUP ,&#xA;&#x9;&#x9;Max(NEW_ROLLUP_IF_ANY) as NEW_ROLLUP_IF_ANY ,&#xA;&#x9;&#x9;Max(LEFT(USER_NOTES_IF_ANY,254)) as USER_NOTES_IF_ANY , &#xA;&#x9;&#x9;Max(cre_date) as cre_date&#xA;&#x9;FROM dbo.STG_RQ_CUBE_OVERIDES_merge&#xA;&#x9;GROUP BY SYSTEM_AS_ORIGINALLY_IN_CUBE&#xA;&#x9;) as S&#xA;&#xA;ON T.SYSTEM_AS_ORIGINALLY_IN_CUBE=S.SYSTEM_AS_ORIGINALLY_IN_CUBE&#xA;&#xA;WHEN MATCHED THEN  &#xA;  UPDATE SET &#xA;&#x9;T.[Extract_Date] = s.[Extract_Date] , &#xA;&#x9;T.SYSTEM_AS_ORIGINALLY_IN_CUBE = s.SYSTEM_AS_ORIGINALLY_IN_CUBE ,&#xA;&#x9;T.NEW_NAME_IF_ANY = s.NEW_NAME_IF_ANY ,&#xA;&#x9;T.ORIGINAL_ROLLUP = s.ORIGINAL_ROLLUP ,&#xA;&#x9;T.NEW_ROLLUP_IF_ANY = s.NEW_ROLLUP_IF_ANY ,&#xA;&#x9;T.USER_NOTES_IF_ANY = s.USER_NOTES_IF_ANY &#xA;&#x9;--Leave the cre_date as the original, for reference.&#xA;WHEN NOT MATCHED BY TARGET THEN  &#xA;  INSERT &#xA; (&#xA;&#x9;[Extract_Date] ,&#xA;&#x9;SYSTEM_AS_ORIGINALLY_IN_CUBE ,&#xA;&#x9;NEW_NAME_IF_ANY ,&#xA;&#x9;ORIGINAL_ROLLUP ,&#xA;&#x9;NEW_ROLLUP_IF_ANY ,&#xA;&#x9;USER_NOTES_IF_ANY, &#xA;&#x9;cre_date&#xA; )  &#xA;  VALUES &#xA; (&#xA;&#x9;s.[Extract_Date] ,&#xA;&#x9;s.SYSTEM_AS_ORIGINALLY_IN_CUBE ,&#xA;&#x9;s.NEW_NAME_IF_ANY ,&#xA;&#x9;s.ORIGINAL_ROLLUP ,&#xA;&#x9;s.NEW_ROLLUP_IF_ANY ,&#xA;&#x9;s.USER_NOTES_IF_ANY, &#xA;&#x9;s.cre_date&#xA; );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{8FCCEF67-8864-4637-A7CD-70861259423B}"
+          DTS:From="Package\RQ_TO_EDW_OVERIDES_DAILY\Drop Create RQO_Merge Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\RQ_TO_EDW_OVERIDES_DAILY.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A535B155-5403-4340-B424-90BA4FF23EB3}"
+          DTS:From="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\RQ_TO_EDW_OVERIDES_DAILY\Merge Into Main Table" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="235,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Drop Create RQO_Merge Table"
+          TopLeft="18.1111111111108,33.9444444444443" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table"
+          TopLeft="298.555555555556,35.9444444444443" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Merge Into Main Table"
+          TopLeft="590.111111111112,34.9444444444443" />
+        <EdgeLayout
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY.PrecedenceConstraints[Constraint]"
+          TopLeft="253.111111111111,55.9444444444443">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="45.4444444444452,0"
+              Start="0,0"
+              End="37.9444444444452,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="37.9444444444452,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY.PrecedenceConstraints[Constraint 1]"
+          TopLeft="467.555555555556,56.4444444444443">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="122.555555555556,0"
+              Start="0,0"
+              End="115.055555555556,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="115.055555555556,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="835,135"
+          Size="835,178"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY"
+          TopLeft="253.388888888888,123" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\Data Conversion"
+          TopLeft="352,207" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES"
+          TopLeft="333,99" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge"
+          TopLeft="329,316" />
+        <EdgeLayout
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table.Paths[Excel Source Output]"
+          TopLeft="445.5,141">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-13,66"
+              Start="0,0"
+              End="-13,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29"
+                    Point2="0,33"
+                    Point3="-4,33" />
+                  <mssgle:LineSegment
+                    End="-9,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9,33"
+                    Point2="-13,33"
+                    Point3="-13,37" />
+                  <mssgle:LineSegment
+                    End="-13,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table.Paths[Data Conversion Output]"
+          TopLeft="432.5,249">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36,67"
+              Start="0,0"
+              End="36,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5"
+                    Point2="0,33.5"
+                    Point3="4,33.5" />
+                  <mssgle:LineSegment
+                    End="32,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="32,33.5"
+                    Point2="36,33.5"
+                    Point3="36,37.5" />
+                  <mssgle:LineSegment
+                    End="36,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\src_STG_RQ_CUBE_OVERIDES">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\RQ_TO_EDW_OVERIDES_DAILY\Load Target Table\tgt_STG_RQ_CUBE_OVERIDES_merge">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

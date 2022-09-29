@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="UCCX_TELEPHONEDATA_INFORMIX"
+  DTS:DTSID="{9AFB14CC-E65D-4DB7-B9F3-6D811F793988}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_TELEPHONEDATA_INFORMIX_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=db_cra@ipcc_ws_1_uccx;User ID=uccxhruser;Provider=Ifxoledbc.4;Extended Properties=db_locale=en_US.57372;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="gVLe8+yWNbs="
+        p4:IV="fOuXNnzDIr4Kzsy/Zn8BnA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">VkAHtxGbkpRflKB2/6f/3XOeq3lggBN/7afTccxQoY31Lr43g2+sbXbUdak2abZ9pKxyGsJqCdrTmC56M7hfsMwlWUElqCFH0xXCWDbXIpHa+IDcEOZMkP4/NsOs4lc5rjDpGJSaDvXYG+Z5XGllwvDKiVUhtDS0WB50y50Ldrs=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

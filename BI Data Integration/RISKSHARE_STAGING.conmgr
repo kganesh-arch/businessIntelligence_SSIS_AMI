@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="RISKSHARE_STAGING"
+  DTS:DTSID="{FA586354-3E34-498C-9C56-A4FA6D08BCF9}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_RISKSHARE_STAGING_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC212\P_BI_AMI_US;User ID=ds_conn;Initial Catalog=RISKSHARE_STAGING;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="TC2Q4lmP1kc="
+        p4:IV="yl07OVEdti4O+GJK97e/oQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">n2uEx79TexRM7WYPIQMXC6akQACf4PHkokIOS14+5RC1YRxgCPdzqxR91yUjfTVN2iLN8dcDrae31uju72jNRILQVi38gUqjT+nd2rL3HqvAjbYby6BsIOicov0l2kP6msHi8AZ1okoPS0ueEpMGV3sQLCtIa1P7VcK4h9WTkE4=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,1261 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/26/2018 10:41:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI012"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{3C6C2D5D-01CB-477C-A2AE-133FF6EFE8E3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="LkpNodFilerEmailIDs"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="25"
+  DTS:VersionGUID="{3362BB03-70D8-4A90-AC54-D8F6D617D5D3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LKP_NOD_FILE_EMAIL_IDs]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{517E7CF1-1EA6-4FB9-A2A9-B03BE4DB1CEE}"
+      DTS:ObjectName="LKP_NOD_FILE_EMAIL_IDs">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[$Project::pstr_xl_Lkp_Nod_Filer_Email_IDs_ConnectionString] + ";Extended Properties=" + "\"Excel 12.0 XML;HDR=YES\"" + ";"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\sharepoint\cts\bi\EDW Source Data Files\Delinquency Reporting and Loss Recovery\ARCH Default Reporting Non Update Email Contact List DO NOT CHANGE FORMAT.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{AD69CE41-C735-4C32-B1B1-3C337276B5A8}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Arch NOD Filer Load: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Daily Arch NOD Filer Loads"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Arch NOD Filer Load: FAIL: BI Data Integration (Production) – Daily Arch NOD Filer Loads" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\LKP_NOD_FILER_EMAIL_IDs"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{A2047441-22A8-44EC-8E03-80A0472EC1C1}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="LKP_NOD_FILER_EMAIL_IDs">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{05C68AF5-A97C-499A-BA92-A03E7D28268B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Target Table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Remove Extra Spaces"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input].Columns[Email 1]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 1"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 1]"
+                          truncationRowDisposition="FailComponent"
+                          usageType="readWrite">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[RTRIM](#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 1]})</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">RTRIM([Unicode to Non-Unciode].[Email 1])</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input].Columns[Email 2]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 2"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 2]"
+                          truncationRowDisposition="FailComponent"
+                          usageType="readWrite">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[RTRIM](#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 2]})</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">RTRIM([Unicode to Non-Unciode].[Email 2])</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input].Columns[Email 3]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 3"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 3]"
+                          truncationRowDisposition="FailComponent"
+                          usageType="readWrite">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[RTRIM](#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 3]})</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">RTRIM([Unicode to Non-Unciode].[Email 3])</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input].Columns[Email 4]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 4"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 4]"
+                          truncationRowDisposition="FailComponent"
+                          usageType="readWrite">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[RTRIM](#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 4]})</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">RTRIM([Unicode to Non-Unciode].[Email 4])</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="src_LKP_NOD_FILER_EMAIL_IDs"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	
+	`FILER NAME (Filer Party ID)` as Filer_Name,
+	`FILER ID`,
+	`GROUP`,
+	`Exclude`,
+	`Email 1`,
+	`Email 2`,
+	`Email 3`,
+	`Email 4`
+FROM   
+	`NOD_FILER_EMAIL_IDs`
+WHERE 
+	`FILER ID` is not null</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LKP_NOD_FILE_EMAIL_IDs]"
+                      connectionManagerRefId="Package.ConnectionManagers[LKP_NOD_FILE_EMAIL_IDs]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Filer_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Filer_Name]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Filer_Name]"
+                          name="Filer_Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[FILER ID]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[FILER ID]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[FILER ID]"
+                          name="FILER ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[GROUP]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[GROUP]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[GROUP]"
+                          name="GROUP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Exclude]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Exclude]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Exclude]"
+                          name="Exclude"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 1]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 1]"
+                          name="Email 1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 2]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 2]"
+                          name="Email 2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 3]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 3]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 3]"
+                          name="Email 3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 4]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 4]"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 4]"
+                          name="Email 4"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Filer_Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Filer_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[FILER ID]"
+                          dataType="r8"
+                          name="FILER ID" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[GROUP]"
+                          dataType="wstr"
+                          length="255"
+                          name="GROUP" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Exclude]"
+                          dataType="wstr"
+                          length="255"
+                          name="Exclude" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 1]"
+                          dataType="wstr"
+                          length="255"
+                          name="Email 1" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 2]"
+                          dataType="wstr"
+                          length="255"
+                          name="Email 2" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 3]"
+                          dataType="wstr"
+                          length="255"
+                          name="Email 3" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].ExternalColumns[Email 4]"
+                          dataType="wstr"
+                          length="255"
+                          name="Email 4" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Filer_Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Filer_Name]"
+                          name="Filer_Name" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[FILER ID]"
+                          dataType="r8"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[FILER ID]"
+                          name="FILER ID" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[GROUP]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[GROUP]"
+                          name="GROUP" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Exclude]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Exclude]"
+                          name="Exclude" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 1]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 1]"
+                          name="Email 1" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 2]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 2]"
+                          name="Email 2" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 3]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 3]"
+                          name="Email 3" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 4]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[Email 4]"
+                          name="Email 4" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="tgt_LKP_NOD_FILER_EMAIL_IDs"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[LKP_NOD_FILER_EMAIL_IDs]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">CHECK_CONSTRAINTS,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Filer_Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Filer_Name"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Filer_Name]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Filer_Name]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[FILER ID]"
+                          cachedDataType="r8"
+                          cachedName="FILER ID"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[FILERID]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[FILER ID]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[GROUP]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="GROUP"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[GROUP]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[GROUP]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Exclude]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Exclude"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Exclude]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Exclude]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Email 1]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 1"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email1]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 1]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Email 2]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 2"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email2]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 2]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Email 3]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 3"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email3]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 3]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Email 4]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email 4"
+                          externalMetadataColumnId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email4]"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 4]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Filer_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Filer_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[FILERID]"
+                          dataType="r8"
+                          name="FILERID" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[GROUP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="GROUP" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Exclude]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Exclude" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email1" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email2" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email3]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email3" />
+                        <externalMetadataColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Email4]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email4" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Unicode to Non-Unciode"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Filer_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Filer_Name"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Filer_Name]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[GROUP]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="GROUP"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[GROUP]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Exclude]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Exclude"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Exclude]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Email 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Email 1"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 1]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Email 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Email 2"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 2]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Email 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Email 3"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 3]" />
+                        <inputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input].Columns[Email 4]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Email 4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 4]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Filer_Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Filer_Name]"
+                          name="Filer_Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Filer_Name]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[GROUP]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[GROUP]"
+                          name="GROUP"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[GROUP]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Exclude]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Exclude]"
+                          name="Exclude"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Exclude]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 1]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 1]"
+                          name="Email 1"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 1]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 2]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 2]"
+                          name="Email 2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 2]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 3]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 3]"
+                          name="Email 3"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 3]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 4]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output].Columns[Email 4]"
+                          name="Email 4"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output].Columns[Email 4]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Data Conversion Output]"
+                  endId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Inputs[Derived Column Input]"
+                  name="Data Conversion Output"
+                  startId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Derived Column Output]"
+                  endId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Excel Source Output]"
+                  endId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\LKP_NOD_FILER_EMAIL_IDs\Truncate Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E587C487-1FC0-4C41-A49E-3C93C6436D5C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Table"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.LKP_NOD_FILER_EMAIL_IDs" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\LKP_NOD_FILER_EMAIL_IDs.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{8DF7C884-3AB9-4388-A456-37661A4598F4}"
+          DTS:From="Package\LKP_NOD_FILER_EMAIL_IDs\Truncate Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{EAA60A5E-213F-4037-A8A0-EC80DA6CD00B}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Arch NOD Filer Load: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Daily Arch NOD Filer Loads"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Arch NOD Filer Load: SUCCESS: BI Data Integration (Production) – Daily Arch NOD Filer Loads" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{2F83106A-7056-41A6-A20B-40A75F3071DE}"
+      DTS:From="Package\LKP_NOD_FILER_EMAIL_IDs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2F046481-68D5-46CA-B759-F0FFDE2CFA94}"
+      DTS:From="Package\LKP_NOD_FILER_EMAIL_IDs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Failure"
+          TopLeft="512,437" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table"
+          TopLeft="233,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Truncate Table"
+          TopLeft="23,38" />
+        <EdgeLayout
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs.PrecedenceConstraints[Constraint]"
+          TopLeft="175,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="58,0"
+              Start="0,0"
+              End="50.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="50.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="420,130"
+          Size="420,173"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs"
+          TopLeft="288,192" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Success"
+          TopLeft="371,437" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="429.666666666667,365">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72"
+              Start="0,0"
+              End="0,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="567.333333333333,365">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72"
+              Start="0,0"
+              End="0,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.24134765625,27.37548828125,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="236,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs"
+          TopLeft="278.75,110" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Remove Extra Spaces"
+          TopLeft="299.25,290" />
+        <NodeLayout
+          Size="236,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs"
+          TopLeft="278.75,380" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\Unicode to Non-Unciode"
+          TopLeft="299.25,200" />
+        <EdgeLayout
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Derived Column Output]"
+          TopLeft="396.75,332">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Data Conversion Output]"
+          TopLeft="396.75,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table.Paths[Excel Source Output]"
+          TopLeft="396.75,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\src_LKP_NOD_FILER_EMAIL_IDs">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\LKP_NOD_FILER_EMAIL_IDs\Load Target Table\tgt_LKP_NOD_FILER_EMAIL_IDs">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

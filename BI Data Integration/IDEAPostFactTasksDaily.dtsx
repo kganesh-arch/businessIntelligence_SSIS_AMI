@@ -1,0 +1,2670 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/13/2022 1:08:16 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVI-DVMP028"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{2B90FAC5-0B84-4544-8E87-247555DFB677}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="IDEAPostFactTasksDaily"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{E52EE0F6-CB1F-4A92-98BB-9DDE697A0B77}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute Miscellaneous Package"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{9f3a92c6-021d-454e-a51b-a0138fee23ae}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute Miscellaneous Package">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Alternative Markets"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{e126ff61-4e21-4ef5-893e-1e9f80831107}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Alternative Markets">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{ac7bfc76-b78d-4115-8ab1-bc1439d38176}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="HLP_ALT_MARKETS_COVERAGE"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                      description="OLE DB Source"
+                      name="src_HLP_ALT_MARKETS_COVERAGE"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset"></property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CAST((CTIDDF*10+CTCKDF) AS VARCHAR) AS CERTNO,
+NUMADF AS COVERAGE_PCT,
+CFLDDF AS COVERAGE_TYPE,
+CAST((CAST(RLCMDF AS VARCHAR)+'/'+CAST(RLCDDF AS VARCHAR)+'/'+CAST(RLCYDF AS VARCHAR)) AS DATE)  AS CHANGED_DATE,
+GETDATE() AS EXTRACT_DATE
+
+FROM EDW_STAGING.DBO.STG_ISPFHDFA_SYSA HF 
+LEFT OUTER JOIN EDW_DM.DBO.FCT_DAILY_VOLUME FDV
+ON HF.CTIDDF*10+HF.CTCKDF=FDV.CERTIFICATE_NBR_BK_AMIWEST
+WHERE HF.CFLDDF IN('LCVGDECCM','LCVGCM')
+AND FDV.LOANPROGRAMNAME='Alternative Markets'</property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Connections[OleDbConnection]"
+                          connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                          connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output]"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CERTNO]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[CERTNO]"
+                              length="30"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CERTNO]"
+                              name="CERTNO"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_PCT]"
+                              dataType="numeric"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[COVERAGE_PCT]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_PCT]"
+                              name="COVERAGE_PCT"
+                              precision="28"
+                              scale="5"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_TYPE]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[COVERAGE_TYPE]"
+                              length="10"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_TYPE]"
+                              name="COVERAGE_TYPE"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CHANGED_DATE]"
+                              dataType="dbDate"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[CHANGED_DATE]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CHANGED_DATE]"
+                              name="CHANGED_DATE"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]"
+                              dataType="dbTimeStamp"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_DATE]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]"
+                              name="EXTRACT_DATE"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[CERTNO]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              name="CERTNO" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[COVERAGE_PCT]"
+                              dataType="numeric"
+                              name="COVERAGE_PCT"
+                              precision="28"
+                              scale="5" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[COVERAGE_TYPE]"
+                              codePage="1252"
+                              dataType="str"
+                              length="10"
+                              name="COVERAGE_TYPE" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[CHANGED_DATE]"
+                              dataType="dbDate"
+                              name="CHANGED_DATE" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].ExternalColumns[EXTRACT_DATE]"
+                              dataType="dbTimeStamp"
+                              name="EXTRACT_DATE" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output]"
+                          isErrorOut="true"
+                          name="OLE DB Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[CERTNO]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[CERTNO]"
+                              name="CERTNO" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[COVERAGE_PCT]"
+                              dataType="numeric"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[COVERAGE_PCT]"
+                              name="COVERAGE_PCT"
+                              precision="28"
+                              scale="5" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[COVERAGE_TYPE]"
+                              codePage="1252"
+                              dataType="str"
+                              length="10"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[COVERAGE_TYPE]"
+                              name="COVERAGE_TYPE" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[CHANGED_DATE]"
+                              dataType="dbDate"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[CHANGED_DATE]"
+                              name="CHANGED_DATE" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[EXTRACT_DATE]"
+                              dataType="dbTimeStamp"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[EXTRACT_DATE]"
+                              name="EXTRACT_DATE" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="trg_HLP_ALT_MARKETS_COVERAGE"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[dbo].[HLP_ALT_MARKETS_COVERAGE]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Connections[OleDbConnection]"
+                          connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                          connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].Columns[CERTNO]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="30"
+                              cachedName="CERTNO"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[CERTNO]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CERTNO]" />
+                            <inputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].Columns[COVERAGE_PCT]"
+                              cachedDataType="numeric"
+                              cachedName="COVERAGE_PCT"
+                              cachedPrecision="28"
+                              cachedScale="5"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[COVERAGE_PCT]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_PCT]" />
+                            <inputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].Columns[COVERAGE_TYPE]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="10"
+                              cachedName="COVERAGE_TYPE"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[COVERAGE_TYPE]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[COVERAGE_TYPE]" />
+                            <inputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].Columns[CHANGED_DATE]"
+                              cachedDataType="dbDate"
+                              cachedName="CHANGED_DATE"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[CHANGED_DATE]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[CHANGED_DATE]" />
+                            <inputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].Columns[EXTRACT_DATE]"
+                              cachedDataType="dbTimeStamp"
+                              cachedName="EXTRACT_DATE"
+                              externalMetadataColumnId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_DATE]"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output].Columns[EXTRACT_DATE]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[CERTNO]"
+                              codePage="1252"
+                              dataType="str"
+                              length="200"
+                              name="CERTNO" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[COVERAGE_PCT]"
+                              dataType="numeric"
+                              name="COVERAGE_PCT"
+                              precision="22"
+                              scale="3" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[COVERAGE_TYPE]"
+                              codePage="1252"
+                              dataType="str"
+                              length="200"
+                              name="COVERAGE_TYPE" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[CHANGED_DATE]"
+                              dataType="dbDate"
+                              name="CHANGED_DATE" />
+                            <externalMetadataColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input].ExternalColumns[EXTRACT_DATE]"
+                              dataType="dbTimeStamp"
+                              name="EXTRACT_DATE" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE.Paths[OLE DB Source Output]"
+                      endId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE.Inputs[OLE DB Destination Input]"
+                      name="OLE DB Source Output"
+                      startId="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE.Outputs[OLE DB Source Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Execute Miscellaneous Package\Alternative Markets\Truncate Table"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{114f0dfa-b391-459c-9fb6-a9162fd8e76a}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Truncate Table"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+                  SQLTask:SqlStatementSource="TRUNCATE TABLE EDW_STAGING.DBO.HLP_ALT_MARKETS_COVERAGE" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Execute Miscellaneous Package\Alternative Markets.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{bae263da-c690-41ac-adf1-df4e6a4a6f3a}"
+              DTS:From="Package\Execute Miscellaneous Package\Alternative Markets\Truncate Table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{f51518b9-a799-4883-a4f1-74598e1cd677}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="App Release Scorecard"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>AppReleaseScorecard.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Daily Ratestar"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{8b11e5aa-2297-4921-b352-9f2ded9eaed6}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Daily Ratestar"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ratestar.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Daily Stored Procedures"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{58af229c-5533-453e-9a49-6a7a3fd911d7}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Daily Stored Procedures"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>IDEASPsDaily.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\EDMS Extraction Daily"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{4add518f-b5ce-405c-85be-c717e20f2670}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EDMS Extraction Daily"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>EDMSExtractionDaily.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{c3434b4d-fbf6-4b43-8e2b-37e3a539513c}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="Arch MI BI Data Integration (Production) – IDEA Daily SPs Failed" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{508efcdf-e1c6-4ef6-bf0d-8248288057f9}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="LKP_NOD_SERVICER_EMAIL_IDs"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_LKP_NOD_SERVICER_EMAIL_IDs"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	"LenderID",
+	"MP",
+	"Servicer",
+	"email",
+	"ID",
+	"email1",
+	"email2",
+	"email3",
+	"email4",
+	"email5",
+cast(substring(ltrim(rtrim(MP)),0,CHARINDEX('-',ltrim(rtrim(MP)),0)) as bigint) * 10000000
++
+substring(Right(ltrim(rtrim(MP)), len(ltrim(rtrim(mp))) - CHARINDEX('-',ltrim(rtrim(MP)),0)),0,CHARINDEX('-',ltrim(rtrim(Right(ltrim(rtrim(MP)), len(ltrim(rtrim(mp))) - CHARINDEX('-',ltrim(rtrim(MP)),0)))),0))  * 1000
++
+right(ltrim(rtrim(MP)),1) as Lender_Branch_BK
+
+FROM   "dbo"."DQServicerContactEmail"</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Connections[OleDbConnection]"
+                      connectionManagerID="{1D8001CC-7E9D-4F71-9935-A97C3DB75E67}:invalid"
+                      connectionManagerRefId="{1D8001CC-7E9D-4F71-9935-A97C3DB75E67}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[LenderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[LenderID]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[LenderID]"
+                          name="LenderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[MP]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[MP]"
+                          length="12"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[MP]"
+                          name="MP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[Servicer]"
+                          length="250"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Servicer]"
+                          name="Servicer"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email]"
+                          length="5000"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email]"
+                          name="email"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[ID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[ID]"
+                          name="ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email1]"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email1]"
+                          name="email1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email2]"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email2]"
+                          name="email2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email3]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email3]"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email3]"
+                          name="email3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email4]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email4]"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email4]"
+                          name="email4"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email5]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email5]"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email5]"
+                          name="email5"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Lender_Branch_BK]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[Lender_Branch_BK]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Lender_Branch_BK]"
+                          name="Lender_Branch_BK"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[LenderID]"
+                          dataType="i4"
+                          name="LenderID" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[MP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          name="MP" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="250"
+                          name="Servicer" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5000"
+                          name="email" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email1]"
+                          dataType="wstr"
+                          length="50"
+                          name="email1" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email2]"
+                          dataType="wstr"
+                          length="50"
+                          name="email2" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email3]"
+                          dataType="wstr"
+                          length="50"
+                          name="email3" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email4]"
+                          dataType="wstr"
+                          length="50"
+                          name="email4" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[email5]"
+                          dataType="wstr"
+                          length="50"
+                          name="email5" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].ExternalColumns[Lender_Branch_BK]"
+                          dataType="i8"
+                          name="Lender_Branch_BK" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[LenderID]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[LenderID]"
+                          name="LenderID" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[MP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[MP]"
+                          name="MP" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="250"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[Servicer]"
+                          name="Servicer" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5000"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email]"
+                          name="email" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ID]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ID]"
+                          name="ID" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email1]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email1]"
+                          name="email1" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email2]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email2]"
+                          name="email2" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email3]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email3]"
+                          name="email3" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email4]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email4]"
+                          name="email4" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email5]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[email5]"
+                          name="email5" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[Lender_Branch_BK]"
+                          dataType="i8"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[Lender_Branch_BK]"
+                          name="Lender_Branch_BK" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_LKP_NOD_SERVICER_EMAIL_IDs"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[LKP_NOD_SERVICER_EMAIL_IDs]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[LenderID]"
+                          cachedDataType="i4"
+                          cachedName="LenderID"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[LenderID]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[LenderID]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[MP]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="12"
+                          cachedName="MP"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[MP]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[MP]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Servicer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="250"
+                          cachedName="Servicer"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Servicer]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Servicer]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="5000"
+                          cachedName="email"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[ID]"
+                          cachedDataType="i4"
+                          cachedName="ID"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[ID]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email1]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="email1"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email1]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email1]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email2]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="email2"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email2]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email2]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email3]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="email3"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email3]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email3]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email4]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="email4"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email4]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email4]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[email5]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="email5"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email5]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[email5]" />
+                        <inputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].Columns[Lender_Branch_BK]"
+                          cachedDataType="i8"
+                          cachedName="Lender_Branch_BK"
+                          externalMetadataColumnId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Lender_Branch_BK]"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output].Columns[Lender_Branch_BK]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[LenderID]"
+                          dataType="i4"
+                          name="LenderID" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[MP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          name="MP" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="250"
+                          name="Servicer" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5000"
+                          name="email" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email1]"
+                          dataType="wstr"
+                          length="50"
+                          name="email1" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email2]"
+                          dataType="wstr"
+                          length="50"
+                          name="email2" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email3]"
+                          dataType="wstr"
+                          length="50"
+                          name="email3" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email4]"
+                          dataType="wstr"
+                          length="50"
+                          name="email4" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[email5]"
+                          dataType="wstr"
+                          length="50"
+                          name="email5" />
+                        <externalMetadataColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input].ExternalColumns[Lender_Branch_BK]"
+                          dataType="i8"
+                          name="Lender_Branch_BK" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+                  name="Truncate table"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">truncate table dbo.LKP_NOD_SERVICER_EMAIL_IDs</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <externalMetadataColumns
+                        isUsed="True" />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs.Paths[OLE DB Command Output]"
+                  endId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Command Output"
+                  startId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Outputs[OLE DB Command Output]" />
+                <path
+                  refId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs.Paths[OLE DB Source Output]"
+                  endId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table.Inputs[OLE DB Command Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{b5294b86-0683-4956-a376-3a2640c1eb07}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Miscellaneous Package Failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="Arch MI BI Data Integration (Production) – One Of The Miscellaneous Tasks Has Failed"
+              SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Miscellaneous Package Success"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{8aaa71b9-5503-4ad8-835b-4b80d2041f23}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Miscellaneous Package Success"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="Arch MI BI Data Integration (Production) – All Miscellanous Tasks Completed Successfully" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\OPUS Delegated Apps Response XML Parse"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{eca14ebf-8eb6-471c-8c29-2ce02fe89227}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="OPUS Delegated Apps Response XML Parse"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>OPUS_Origination_XMLResponse_Extracts.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Rate Quote Excel Overrides Extract"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{d0d6a907-14b7-4b29-967e-f4c0c6485a6e}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Rate Quote Excel Overrides Extract"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>RqToEdwOveridesExtraction.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\RQ2 App Conversion"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{d7aa45c5-7608-438a-af4d-59246e23ca38}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="RQ2 App Conversion"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>RQ2AppConversion.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\RQ2 App Conversion Optimal Blue"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{fd1336ec-02de-47f7-8a14-10258ab163d3}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="RQ2 App Conversion Optimal Blue"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>RQ2AppConversion_OptimalBlue.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\Successful"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{61c7b643-33a2-46d2-a170-63e46e2e2384}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Successful"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="Arch MI BI Data Integration (Production) – IDEA Daily SPs Completed Successfully" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Execute Miscellaneous Package\UW Preferences Restrictions"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{b26084be-708d-4c63-8146-41d081aacde8}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UW Preferences Restrictions"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>UWPreferencesRestrictions.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{6e4e69bb-e8fc-4d3e-b6d3-27ce125155ef}"
+          DTS:From="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Execute Miscellaneous Package\Daily Ratestar" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{ae0cd979-d264-424f-a5ae-99e6e6d275c7}"
+          DTS:From="Package\Execute Miscellaneous Package\Daily Ratestar"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Execute Miscellaneous Package\RQ2 App Conversion" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 10]"
+          DTS:CreationName=""
+          DTS:DTSID="{e896ee56-7915-438b-86c4-0b617162686a}"
+          DTS:From="Package\Execute Miscellaneous Package\Daily Ratestar"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 10"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 11]"
+          DTS:CreationName=""
+          DTS:DTSID="{d1e0e60c-b35e-48b2-9497-a2650c51339d}"
+          DTS:From="Package\Execute Miscellaneous Package\RQ2 App Conversion"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 11"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 12]"
+          DTS:CreationName=""
+          DTS:DTSID="{923a3c46-c8c5-4ced-b108-eeb0548c8989}"
+          DTS:From="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:ObjectName="Constraint 12"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 13]"
+          DTS:CreationName=""
+          DTS:DTSID="{6ab18459-9f04-42e4-afc3-7c865690ecfe}"
+          DTS:From="Package\Execute Miscellaneous Package\Daily Ratestar"
+          DTS:ObjectName="Constraint 13"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 14]"
+          DTS:CreationName=""
+          DTS:DTSID="{b993b344-ace8-44a8-bf42-0e39bd53094b}"
+          DTS:From="Package\Execute Miscellaneous Package\RQ2 App Conversion"
+          DTS:ObjectName="Constraint 14"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 15]"
+          DTS:CreationName=""
+          DTS:DTSID="{8824960c-71ff-4ebb-a377-9ea72a1e9d72}"
+          DTS:From="Package\Execute Miscellaneous Package\UW Preferences Restrictions"
+          DTS:ObjectName="Constraint 15"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 16]"
+          DTS:CreationName=""
+          DTS:DTSID="{6ab14044-cb39-41c2-aa16-6be5ea9db18c}"
+          DTS:From="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs"
+          DTS:ObjectName="Constraint 16"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 17]"
+          DTS:CreationName=""
+          DTS:DTSID="{0c78ea22-e4aa-4003-bb42-5786310fa62a}"
+          DTS:From="Package\Execute Miscellaneous Package\OPUS Delegated Apps Response XML Parse"
+          DTS:ObjectName="Constraint 17"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 18]"
+          DTS:CreationName=""
+          DTS:DTSID="{84277fc5-9512-4311-871e-d7369df1876a}"
+          DTS:From="Package\Execute Miscellaneous Package\EDMS Extraction Daily"
+          DTS:ObjectName="Constraint 18"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 19]"
+          DTS:CreationName=""
+          DTS:DTSID="{0e61d4df-db14-4e90-be45-93e163309f31}"
+          DTS:From="Package\Execute Miscellaneous Package\RQ2 App Conversion Optimal Blue"
+          DTS:ObjectName="Constraint 19"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{fe317d84-304e-4a59-afd5-2e5469140142}"
+          DTS:From="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Execute Miscellaneous Package\UW Preferences Restrictions" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 20]"
+          DTS:CreationName=""
+          DTS:DTSID="{9391b37f-a13c-4f0e-ba3e-6e71d854b088}"
+          DTS:From="Package\Execute Miscellaneous Package\RQ2 App Conversion Optimal Blue"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 20"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 21]"
+          DTS:CreationName=""
+          DTS:DTSID="{b425cd3d-d3d5-43cc-ae6c-58e28fed596b}"
+          DTS:From="Package\Execute Miscellaneous Package\Rate Quote Excel Overrides Extract"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 21"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 22]"
+          DTS:CreationName=""
+          DTS:DTSID="{617d91df-e246-46e5-b899-e928005188ec}"
+          DTS:From="Package\Execute Miscellaneous Package\Rate Quote Excel Overrides Extract"
+          DTS:ObjectName="Constraint 22"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{ddac5a6a-aefc-4169-a733-0cce8438cd92}"
+          DTS:From="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{7a6d5b2e-c331-493c-bba9-11b113aa068b}"
+          DTS:From="Package\Execute Miscellaneous Package\Daily Stored Procedures"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Execute Miscellaneous Package\Failure"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{3d90a411-9c83-4add-add4-d6108731552b}"
+          DTS:From="Package\Execute Miscellaneous Package\Daily Stored Procedures"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\Execute Miscellaneous Package\Successful" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{cc81af12-feb2-4880-a0da-07127759fa01}"
+          DTS:From="Package\Execute Miscellaneous Package\App Release Scorecard"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 7]"
+          DTS:CreationName=""
+          DTS:DTSID="{60333ed9-7b8b-40d1-a083-bff309f77d25}"
+          DTS:From="Package\Execute Miscellaneous Package\UW Preferences Restrictions"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 7"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 8]"
+          DTS:CreationName=""
+          DTS:DTSID="{b6b11943-e6a3-4f88-8dc0-9fb59522bab2}"
+          DTS:From="Package\Execute Miscellaneous Package\OPUS Delegated Apps Response XML Parse"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 8"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 9]"
+          DTS:CreationName=""
+          DTS:DTSID="{f0c039a6-954f-4e05-a14e-39d9984d3b4f}"
+          DTS:From="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 9"
+          DTS:To="Package\Execute Miscellaneous Package\Miscellaneous Package Success" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute Recompile statements"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6732e9ab-bff0-4fbb-8959-649ebfb70963}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute Recompile statements"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="EXEC sp_recompile 'fct_daily_volume';&#xA;EXEC sp_recompile 'dim_lender';&#xA;EXEC sp_recompile 'fct_delinquency_status';&#xA;EXEC sp_recompile 'fct_claim_status';" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{988C907E-CA26-404C-96BC-7EB6C7D977DD}"
+      DTS:From="Package\Execute Recompile statements"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Execute Miscellaneous Package" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE"
+          TopLeft="44,77" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Execute Miscellaneous Package\Alternative Markets\Truncate Table"
+          TopLeft="79,10" />
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package\Alternative Markets.PrecedenceConstraints[Constraint]"
+          TopLeft="155.5,52">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="15.5,25"
+              Start="0,0"
+              End="15.5,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.5"
+                    Point2="0,12.5"
+                    Point3="4,12.5" />
+                  <mssgle:LineSegment
+                    End="11.5,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="11.5,12.5"
+                    Point2="15.5,12.5"
+                    Point3="15.5,16.5" />
+                  <mssgle:LineSegment
+                    End="15.5,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="333,174"
+          Size="333,217"
+          Id="Package\Execute Miscellaneous Package\Alternative Markets"
+          TopLeft="356.25,437.638888888889" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Execute Miscellaneous Package\App Release Scorecard"
+          TopLeft="30.6111111111111,191.405555555556" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\Daily Ratestar"
+          TopLeft="30.6111111111111,268.130555555556" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\Daily Stored Procedures"
+          TopLeft="43.4682539682539,69.384126984127" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Execute Miscellaneous Package\EDMS Extraction Daily"
+          TopLeft="263,35" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\Failure"
+          TopLeft="23.4682539682539,136.109126984127" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs"
+          TopLeft="290.222222222223,292.861111111111" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Execute Miscellaneous Package\Miscellaneous Package Failure"
+          TopLeft="558.065656565656,284.673737373738" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Execute Miscellaneous Package\Miscellaneous Package Success"
+          TopLeft="573.020202020203,148.98308080808" />
+        <NodeLayout
+          Size="285,42"
+          Id="Package\Execute Miscellaneous Package\OPUS Delegated Apps Response XML Parse"
+          TopLeft="277,352" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Execute Miscellaneous Package\Rate Quote Excel Overrides Extract"
+          TopLeft="488,51.75" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\RQ2 App Conversion"
+          TopLeft="30.6111111111111,344.855555555556" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Execute Miscellaneous Package\RQ2 App Conversion Optimal Blue"
+          TopLeft="42.9444444444446,429.777777777778" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\Successful"
+          TopLeft="286.111111111112,115.444444444444" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Execute Miscellaneous Package\UW Preferences Restrictions"
+          TopLeft="287.222222222222,189.044444444444" />
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint]"
+          TopLeft="94.6111111111111,233.405555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.99999999999999,34.725"
+              Start="0,0"
+              End="9.99999999999999,27.225">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.3874246339363" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.3874246339363"
+                    Point2="0,17.3874246339363"
+                    Point3="4,17.3874246339363" />
+                  <mssgle:LineSegment
+                    End="5.99999999999999,17.3874246339363" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.99999999999999,17.3874246339363"
+                    Point2="9.99999999999999,17.3874246339363"
+                    Point3="9.99999999999999,21.3874246339363" />
+                  <mssgle:LineSegment
+                    End="9.99999999999999,27.225" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="139.611111111111,310.130555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.725"
+              Start="0,0"
+              End="0,27.225">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.225" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 10]"
+          TopLeft="174.611111111111,268.130555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="446.409090909092,-77.1474747474757"
+              Start="0,0"
+              End="446.409090909092,-69.6474747474757">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-43.6160445544121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-43.6160445544121"
+                    Point2="0,-47.6160445544121"
+                    Point3="4,-47.6160445544121" />
+                  <mssgle:LineSegment
+                    End="442.409090909092,-47.6160445544121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="442.409090909092,-47.6160445544121"
+                    Point2="446.409090909092,-47.6160445544121"
+                    Point3="446.409090909092,-51.6160445544121" />
+                  <mssgle:LineSegment
+                    End="446.409090909092,-69.6474747474757" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 11]"
+          TopLeft="174.611111111111,344.855555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="446.409090909092,-153.872474747476"
+              Start="0,0"
+              End="446.409090909092,-146.372474747476">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-90.9713342822435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-90.9713342822435"
+                    Point2="0,-94.9713342822435"
+                    Point3="4,-94.9713342822435" />
+                  <mssgle:LineSegment
+                    End="442.409090909092,-94.9713342822435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="442.409090909092,-94.9713342822435"
+                    Point2="446.409090909092,-94.9713342822435"
+                    Point3="446.409090909092,-98.9713342822435" />
+                  <mssgle:LineSegment
+                    End="446.409090909092,-146.372474747476" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 12]"
+          TopLeft="169.611111111111,233.405555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="435.254545454545,51.2681818181818"
+              Start="0,0"
+              End="435.254545454545,43.7681818181818">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3433596500469" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.3433596500469"
+                    Point2="0,28.3433596500469"
+                    Point3="4,28.3433596500469" />
+                  <mssgle:LineSegment
+                    End="431.254545454545,28.3433596500469" />
+                  <mssgle:CubicBezierSegment
+                    Point1="431.254545454545,28.3433596500469"
+                    Point2="435.254545454545,28.3433596500469"
+                    Point3="435.254545454545,32.3433596500469" />
+                  <mssgle:LineSegment
+                    End="435.254545454545,43.7681818181818" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="202.385925071023,33.3433596500469,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 13]"
+          TopLeft="248.611111111111,289.130555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="309.454545454545,8.04318181818184"
+              Start="0,0"
+              End="301.954545454545,8.04318181818184">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="189.986431478969,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="189.986431478969,0"
+                    Point2="193.986431478969,0"
+                    Point3="193.986431478969,4" />
+                  <mssgle:LineSegment
+                    End="193.986431478969,4.04318181818184" />
+                  <mssgle:CubicBezierSegment
+                    Point1="193.986431478969,4.04318181818184"
+                    Point2="193.986431478969,8.04318181818184"
+                    Point3="197.986431478969,8.04318181818184" />
+                  <mssgle:LineSegment
+                    End="301.954545454545,8.04318181818184" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="178.745083822719,-15.7490234375,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 14]"
+          TopLeft="248.611111111111,365.855555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="309.454545454545,-51.6818181818182"
+              Start="0,0"
+              End="301.954545454545,-51.6818181818182">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="189.986431478969,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="189.986431478969,0"
+                    Point2="193.986431478969,0"
+                    Point3="193.986431478969,-4" />
+                  <mssgle:LineSegment
+                    End="193.986431478969,-47.6818181818182" />
+                  <mssgle:CubicBezierSegment
+                    Point1="193.986431478969,-47.6818181818182"
+                    Point2="193.986431478969,-51.6818181818182"
+                    Point3="197.986431478969,-51.6818181818182" />
+                  <mssgle:LineSegment
+                    End="301.954545454545,-51.6818181818182" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="178.745083822719,1,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 15]"
+          TopLeft="396.222222222222,231.044444444444">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="294.243434343434,53.6292929292938"
+              Start="0,0"
+              End="294.243434343434,46.1292929292938">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.6752318801177" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.6752318801177"
+                    Point2="0,29.6752318801177"
+                    Point3="4,29.6752318801177" />
+                  <mssgle:LineSegment
+                    End="290.243434343434,29.6752318801177" />
+                  <mssgle:CubicBezierSegment
+                    Point1="290.243434343434,29.6752318801177"
+                    Point2="294.243434343434,29.6752318801177"
+                    Point3="294.243434343434,33.6752318801177" />
+                  <mssgle:LineSegment
+                    End="294.243434343434,46.1292929292938" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="131.880369515467,34.6752318801177,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 16]"
+          TopLeft="508.222222222223,313.861111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="49.8434343434334,-8.18737373737315"
+              Start="0,0"
+              End="42.3434343434334,-8.18737373737315">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="20.9217171717167,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="20.9217171717167,0"
+                    Point2="24.9217171717167,0"
+                    Point3="24.9217171717167,-4" />
+                  <mssgle:LineSegment
+                    End="24.9217171717167,-4.18737373737315" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.9217171717167,-4.18737373737315"
+                    Point2="24.9217171717167,-8.18737373737315"
+                    Point3="28.9217171717167,-8.18737373737315" />
+                  <mssgle:LineSegment
+                    End="42.3434343434334,-8.18737373737315" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="9.68036951546672,1,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 17]"
+          TopLeft="465.666666666667,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="239.065656565656,-25.3262626262622"
+              Start="0,0"
+              End="239.065656565656,-17.8262626262622">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-8.63831091388004" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-8.63831091388004"
+                    Point2="0,-12.63831091388"
+                    Point3="4,-12.63831091388" />
+                  <mssgle:LineSegment
+                    End="235.065656565656,-12.63831091388" />
+                  <mssgle:CubicBezierSegment
+                    Point1="235.065656565656,-12.63831091388"
+                    Point2="239.065656565656,-12.63831091388"
+                    Point3="239.065656565656,-16.63831091388" />
+                  <mssgle:LineSegment
+                    End="239.065656565656,-17.8262626262622" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="104.291480626578,-7.63831091388004,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 18]"
+          TopLeft="358,77">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="289.665656565656,207.673737373738"
+              Start="0,0"
+              End="289.665656565656,200.173737373738">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,110.914181697332" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,110.914181697332"
+                    Point2="0,114.914181697332"
+                    Point3="4,114.914181697332" />
+                  <mssgle:LineSegment
+                    End="285.665656565656,114.914181697332" />
+                  <mssgle:CubicBezierSegment
+                    Point1="285.665656565656,114.914181697332"
+                    Point2="289.665656565656,114.914181697332"
+                    Point3="289.665656565656,118.914181697332" />
+                  <mssgle:LineSegment
+                    End="289.665656565656,200.173737373738" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="129.591480626578,119.914181697332,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 19]"
+          TopLeft="200.944444444445,429.777777777778">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="432.454545454545,-103.10404040404"
+              Start="0,0"
+              End="432.454545454545,-95.6040404040402">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-47.5195494964464" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-47.5195494964464"
+                    Point2="0,-51.5195494964464"
+                    Point3="4,-51.5195494964464" />
+                  <mssgle:LineSegment
+                    End="428.454545454545,-51.5195494964464" />
+                  <mssgle:CubicBezierSegment
+                    Point1="428.454545454545,-51.5195494964464"
+                    Point2="432.454545454545,-51.5195494964464"
+                    Point3="432.454545454545,-55.5195494964464" />
+                  <mssgle:LineSegment
+                    End="432.454545454545,-95.6040404040402" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="200.985925071023,-46.5195494964464,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="218.611111111111,206.975">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="68.6111111111109,0"
+              Start="0,0"
+              End="61.1111111111109,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="61.1111111111109,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 20]"
+          TopLeft="200.944444444445,429.777777777778">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="464.075757575759,-238.794696969698"
+              Start="0,0"
+              End="464.075757575759,-231.294696969698">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-105.008811143869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-105.008811143869"
+                    Point2="0,-109.008811143869"
+                    Point3="4,-109.008811143869" />
+                  <mssgle:LineSegment
+                    End="460.075757575759,-109.008811143869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="460.075757575759,-109.008811143869"
+                    Point2="464.075757575759,-109.008811143869"
+                    Point3="464.075757575759,-113.008811143869" />
+                  <mssgle:LineSegment
+                    End="464.075757575759,-231.294696969698" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 21]"
+          TopLeft="649.333333333333,93.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="37.6868686868698,55.2330808080803"
+              Start="0,0"
+              End="37.6868686868698,47.7330808080803">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.3091271016351" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.3091271016351"
+                    Point2="0,22.3091271016351"
+                    Point3="4,22.3091271016351" />
+                  <mssgle:LineSegment
+                    End="33.6868686868698,22.3091271016351" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33.6868686868698,22.3091271016351"
+                    Point2="37.6868686868698,22.3091271016351"
+                    Point3="37.6868686868698,26.3091271016351" />
+                  <mssgle:LineSegment
+                    End="37.6868686868698,47.7330808080803" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 22]"
+          TopLeft="649.333333333333,93.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="83.9323232323233,190.923737373738"
+              Start="0,0"
+              End="83.9323232323233,183.423737373738">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,113.692012021109" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,113.692012021109"
+                    Point2="0,117.692012021109"
+                    Point3="4,117.692012021109" />
+                  <mssgle:LineSegment
+                    End="79.9323232323233,117.692012021109" />
+                  <mssgle:CubicBezierSegment
+                    Point1="79.9323232323233,117.692012021109"
+                    Point2="83.9323232323233,117.692012021109"
+                    Point3="83.9323232323233,121.692012021109" />
+                  <mssgle:LineSegment
+                    End="83.9323232323233,183.423737373738" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="26.7248139599116,122.692012021109,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="154.611111111111,233.405555555556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="209.611111111112,59.455555555555"
+              Start="0,0"
+              End="209.611111111112,51.955555555555">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.7704533129164" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.7704533129164"
+                    Point2="0,29.7704533129164"
+                    Point3="4,29.7704533129164" />
+                  <mssgle:LineSegment
+                    End="205.611111111112,29.7704533129164" />
+                  <mssgle:CubicBezierSegment
+                    Point1="205.611111111112,29.7704533129164"
+                    Point2="209.611111111112,29.7704533129164"
+                    Point3="209.611111111112,33.7704533129164" />
+                  <mssgle:LineSegment
+                    End="209.611111111112,51.955555555555" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="152.468253968254,111.384126984127">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-20.0000000000001,24.7250000000005"
+              Start="0,0"
+              End="-20.0000000000001,17.2250000000005">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.36250000000023" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.36250000000023"
+                    Point2="0,12.3625000000002"
+                    Point3="-4,12.3625000000002" />
+                  <mssgle:LineSegment
+                    End="-16.0000000000001,12.3625000000002" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-16.0000000000001,12.3625000000002"
+                    Point2="-20.0000000000001,12.3625000000002"
+                    Point3="-20.0000000000001,16.3625000000002" />
+                  <mssgle:LineSegment
+                    End="-20.0000000000001,17.2250000000005" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.24134765625,17.3625000000002,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="261.468253968254,96.0507936507936">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="24.642857142858,40.3936507936504"
+              Start="0,0"
+              End="17.142857142858,40.3936507936504">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="6.39973787680247,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.39973787680247,0"
+                    Point2="10.3997378768025,0"
+                    Point3="10.3997378768025,4" />
+                  <mssgle:LineSegment
+                    End="10.3997378768025,36.3936507936504" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10.3997378768025,36.3936507936504"
+                    Point2="10.3997378768025,40.3936507936504"
+                    Point3="14.3997378768025,40.3936507936504" />
+                  <mssgle:LineSegment
+                    End="17.142857142858,40.3936507936504" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="218.611111111111,206.738888888889">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="354.409090909092,-31.0891414141423"
+              Start="0,0"
+              End="346.909090909092,-31.0891414141423">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="173.204545454546,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="173.204545454546,0"
+                    Point2="177.204545454546,0"
+                    Point3="177.204545454546,-4" />
+                  <mssgle:LineSegment
+                    End="177.204545454546,-27.0891414141423" />
+                  <mssgle:CubicBezierSegment
+                    Point1="177.204545454546,-27.0891414141423"
+                    Point2="177.204545454546,-31.0891414141423"
+                    Point3="181.204545454546,-31.0891414141423" />
+                  <mssgle:LineSegment
+                    End="346.909090909092,-31.0891414141423" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="505.222222222222,210.044444444444">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="67.7979797979811,-45.7280303030303"
+              Start="0,0"
+              End="60.2979797979811,-45.7280303030303">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="35.1859883236037,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="35.1859883236037,0"
+                    Point2="39.1859883236037,0"
+                    Point3="39.1859883236037,-4" />
+                  <mssgle:LineSegment
+                    End="39.1859883236037,-41.7280303030303" />
+                  <mssgle:CubicBezierSegment
+                    Point1="39.1859883236037,-41.7280303030303"
+                    Point2="39.1859883236037,-45.7280303030303"
+                    Point3="43.1859883236037,-45.7280303030303" />
+                  <mssgle:LineSegment
+                    End="60.2979797979811,-45.7280303030303" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="465.666666666667,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="287.353535353536,-161.01691919192"
+              Start="0,0"
+              End="287.353535353536,-153.51691919192">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-95.2193809093066" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-95.2193809093066"
+                    Point2="0,-99.2193809093066"
+                    Point3="4,-99.2193809093066" />
+                  <mssgle:LineSegment
+                    End="283.353535353536,-99.2193809093066" />
+                  <mssgle:CubicBezierSegment
+                    Point1="283.353535353536,-99.2193809093066"
+                    Point2="287.353535353536,-99.2193809093066"
+                    Point3="287.353535353536,-103.219380909307" />
+                  <mssgle:LineSegment
+                    End="287.353535353536,-153.51691919192" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="434.222222222223,292.861111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="274.79797979798,-101.878030303031"
+              Start="0,0"
+              End="274.79797979798,-94.3780303030306">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-42.5469596856784" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-42.5469596856784"
+                    Point2="0,-46.5469596856784"
+                    Point3="4,-46.5469596856784" />
+                  <mssgle:LineSegment
+                    End="270.79797979798,-46.5469596856784" />
+                  <mssgle:CubicBezierSegment
+                    Point1="270.79797979798,-46.5469596856784"
+                    Point2="274.79797979798,-46.5469596856784"
+                    Point3="274.79797979798,-50.5469596856784" />
+                  <mssgle:LineSegment
+                    End="274.79797979798,-94.3780303030306" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="813,759"
+          Size="813,802"
+          Id="Package\Execute Miscellaneous Package"
+          TopLeft="60,11.4285714285714" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\Execute Recompile statements"
+          TopLeft="979,112" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="979,133">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-106,279.428571428571"
+              Start="0,0"
+              End="-98.5,279.428571428571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-49,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-49,0"
+                    Point2="-53,0"
+                    Point3="-53,4" />
+                  <mssgle:LineSegment
+                    End="-53,275.428571428571" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-53,275.428571428571"
+                    Point2="-53,279.428571428571"
+                    Point3="-57,279.428571428571" />
+                  <mssgle:LineSegment
+                    End="-98.5,279.428571428571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\src_HLP_ALT_MARKETS_COVERAGE"
+          TopLeft="167,123" />
+        <NodeLayout
+          Size="273,42"
+          Id="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE\trg_HLP_ALT_MARKETS_COVERAGE"
+          TopLeft="154,252" />
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package\Alternative Markets\HLP_ALT_MARKETS_COVERAGE.Paths[OLE DB Source Output]"
+          TopLeft="304.5,165">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-14,87"
+              Start="0,0"
+              End="-14,79.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.5"
+                    Point2="0,43.5"
+                    Point3="-4,43.5" />
+                  <mssgle:LineSegment
+                    End="-10,43.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-10,43.5"
+                    Point2="-14,43.5"
+                    Point3="-14,47.5" />
+                  <mssgle:LineSegment
+                    End="-14,79.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\Truncate table"
+          TopLeft="187,156.5" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\src_LKP_NOD_SERVICER_EMAIL_IDs"
+          TopLeft="136,66" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs\trg_LKP_NOD_SERVICER_EMAIL_IDs"
+          TopLeft="136,251" />
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs.Paths[OLE DB Source Output]"
+          TopLeft="262.5,108">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.5"
+              Start="0,0"
+              End="0,41">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Execute Miscellaneous Package\LKP_NOD_SERVICER_EMAIL_IDs.Paths[OLE DB Command Output]"
+          TopLeft="262.5,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.5"
+              Start="0,0"
+              End="0,45">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

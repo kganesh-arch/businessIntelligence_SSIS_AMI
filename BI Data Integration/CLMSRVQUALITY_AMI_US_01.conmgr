@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CLMSRVQUALITY_AMI_US_01"
+  DTS:DTSID="{F878A70F-A5C0-4802-AE05-819F3ECE1287}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CLMSRVQUALITY_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=us-db-sac235\p_rptanl_ami_us;User ID=ds_conn;Initial Catalog=P_CLMSRVQUALITY_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="mOnWsoEKTPk="
+        p4:IV="6TKvMntNz2dDLMBPeqW8Pw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">7Ev0H7CxepXentpAmgR66wGTe+gr0j3j/9XOamkEQedJ5xL5NBMf2QFM3TYV5N3LP+keqswV9t9ZwO4vKnF736uXZ19mx/Y+Zfbsmz2hRSFtMEBfGcmGimNJJQDbuzDbudZRXjUQPr+GeFxHdrxCEz05tTnXb1gGWV11oG9qd20=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

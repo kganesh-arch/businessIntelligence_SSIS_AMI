@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="RATESTAR_STAGING"
+  DTS:DTSID="{9AC2EA7E-6EEF-4B94-A0C1-E6B063C3B922}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_RateStar_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0203\P_OPNG_AMI_US_01;User ID=ds_conn;Initial Catalog=P_RATESTAR_AMI_US_01;Provider=SQLNCLI11.1;Application Intent=READONLY;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="Ml5n8zPXcvw="
+        p4:IV="PZtupwfkIHmWtpnIyK7rvg=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">/3SIS04yY2vxHtOdz4MkU3/t5jj3WEN0m2CqFPu+JjYbcR+LTZpQKYmJApS3YjOsJuniEQX/dpZBu1+knl0ZXAlUnsEnqGCr1sq9V1tIyYKDlWOKNUWVcRYhtQlO7XOH+a+wimQsWx1Fl+FJ7ucHm7Sk2NrBkJcTtu/E5Kw+pqc=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

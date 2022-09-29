@@ -1,0 +1,929 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/20/2016 5:23:38 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-MHILARI"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{D59F0CE6-D91B-4BBA-B19A-CA391BF68C7A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="IDEACubePrepMonthly"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{612B670B-66F2-409C-88AE-BD023EE7A513}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create Indexes"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F42D1855-2D62-41A4-9900-BFC15AEC7845}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Indexes"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="exec dbo.SP_CREATE_PSH_INDEXES" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\IDEA Cube Prep Montly Builds"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{BE9AC89E-2C2A-4BC7-ABA8-912AAA2D18A0}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="IDEA Cube Prep Montly Builds">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{8DD553D4-2427-49F6-A189-6C7C6847BCBB}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="PSH_TOP_200_ORIGINATING_LENDER"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_PSH_TOP_200_ORIGINATING_LENDER"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select top 200 a2.PARENT_LENDER_NBR,
+	sum(NEW_INSURANCE_WRITTEN_AMT) as TTL_NIW
+from 	dbo.DIM_LENDER a1,
+	dbo.DIM_LENDER a2,
+	dbo.FCT_ORIGINATION_VOLUME f,
+	dbo.dim_date d1,
+	dbo.DIM_DATE d2
+where 	a1.lender_branch_bk = a2.lender_branch_bk
+and	a1.lender_branch_sk = f.originating_lender_branch_sk
+and	a2.curr_ind = 'Y'
+and	f.NIW_BOOK_YEAR_DT_SK = d1.Date_Key
+and	f.SNAPSHOT_MONTH_DATE_SK = d2.Date_Key
+and	d1.month_key = d2.month_key
+and	d2.year = (select max(left(SNAPSHOT_MONTH_DATE_SK,4)) from dbo.FCT_ORIGINATION_VOLUME )
+--and	d2.year = 2011
+/*(
+	select	max( year )
+	from 	dbo.FCT_ORIGINATION_VOLUME,
+		dbo.DIM_DATE
+	where	SNAPSHOT_MONTH_DATE_SK = Date_Key )
+*/
+group by a2.parent_lender_nbr
+order by 2 desc</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[PARENT_LENDER_NBR]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]"
+                          name="PARENT_LENDER_NBR"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_NIW]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[TTL_NIW]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_NIW]"
+                          name="TTL_NIW"
+                          precision="38"
+                          scale="2"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[TTL_NIW]"
+                          dataType="numeric"
+                          name="TTL_NIW"
+                          precision="38"
+                          scale="2" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[PARENT_LENDER_NBR]"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[TTL_NIW]"
+                          dataType="numeric"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[TTL_NIW]"
+                          name="TTL_NIW"
+                          precision="38"
+                          scale="2" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_PSH_TOP_200_ORIGINATING_LENDER"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[PSH_TOP_200_ORIGINATING_LENDER]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].Columns[PARENT_LENDER_NBR]"
+                          cachedDataType="numeric"
+                          cachedName="PARENT_LENDER_NBR"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[PARENT_LENDER_NBR]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]" />
+                        <inputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].Columns[TTL_NIW]"
+                          cachedDataType="numeric"
+                          cachedName="TTL_NIW"
+                          cachedPrecision="38"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[TTL_NIW]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_NIW]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[TTL_NIW]"
+                          dataType="numeric"
+                          name="TTL_NIW"
+                          precision="38"
+                          scale="2" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER.Paths[OLE DB Source Output]"
+                  endId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{f17ab227-a84b-40db-9df1-f360ade409bb}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="PSH_TOP_200_SERVICING_LENDER"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_PSH_TOP_200_SERVICING_LENDER"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	top 200 a2.PARENT_LENDER_NBR,
+	count(cast( INSURANCE_IN_FORCE_AMT as numeric(19,0))) as TTL_IIF
+from 	dbo.DIM_LENDER a1,
+	dbo.DIM_LENDER a2,
+	dbo.FCT_ORIGINATION_VOLUME f
+where 	a1.lender_branch_bk = a2.lender_branch_bk
+and	a1.lender_branch_sk = f.servicing_lender_branch_sk
+and	a2.curr_ind = 'Y'
+and	f.SNAPSHOT_MONTH_DATE_SK =  (
+	select	max( SNAPSHOT_MONTH_DATE_SK )
+	from 	dbo.FCT_ORIGINATION_VOLUME )
+group by a2.parent_lender_nbr
+order by 2 desc</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[PARENT_LENDER_NBR]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]"
+                          name="PARENT_LENDER_NBR"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_IIF]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[TTL_IIF]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_IIF]"
+                          name="TTL_IIF"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].ExternalColumns[TTL_IIF]"
+                          dataType="i4"
+                          name="TTL_IIF" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[PARENT_LENDER_NBR]"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[TTL_IIF]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[TTL_IIF]"
+                          name="TTL_IIF" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_PSH_TOP_200_SERVICING_LENDER"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[PSH_TOP_200_SERVICING_LENDER]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].Columns[PARENT_LENDER_NBR]"
+                          cachedDataType="numeric"
+                          cachedName="PARENT_LENDER_NBR"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[PARENT_LENDER_NBR]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[PARENT_LENDER_NBR]" />
+                        <inputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].Columns[TTL_IIF]"
+                          cachedDataType="i4"
+                          cachedName="TTL_IIF"
+                          externalMetadataColumnId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[TTL_NIW]"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output].Columns[TTL_IIF]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[PARENT_LENDER_NBR]"
+                          dataType="numeric"
+                          name="PARENT_LENDER_NBR"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input].ExternalColumns[TTL_NIW]"
+                          dataType="numeric"
+                          name="TTL_NIW"
+                          precision="38"
+                          scale="2" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER.Paths[OLE DB Source Output]"
+                  endId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\IDEA Cube Prep Montly Builds\SP_POPULATE_HLP_BIZCOMP_TABLE"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{910544E1-E07A-4C12-9071-D55E5DDFBA8B}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SP_POPULATE_HLP_BIZCOMP_TABLE"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="exec dbo.SP_POPULATE_HLP_BIZCOMP_TABLE" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\IDEA Cube Prep Montly Builds\SP_PPT_POPULATE_LOOKUPS"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6C8AE938-3A64-476C-B98D-189B718FB0ED}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SP_PPT_POPULATE_LOOKUPS"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="EXEC dbo.SP_PPT_POPULATE_LOOKUPS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate PSH Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D2B59118-C506-4372-A228-5D20775439A0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate PSH Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE dbo.PSH_TOP_200_ORIGINATING_LENDER&#xA;TRUNCATE TABLE dbo.PSH_TOP_200_SERVICING_LENDER" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{F8B48439-613A-4BC4-81E2-E1E759268174}"
+      DTS:From="Package\Truncate PSH Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\IDEA Cube Prep Montly Builds" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4E1F2FC5-D0C1-423A-A1DD-5C016FFC61EB}"
+      DTS:From="Package\IDEA Cube Prep Montly Builds"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Create Indexes" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Create Indexes"
+          TopLeft="354,592" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER"
+          TopLeft="45,43" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER"
+          TopLeft="363,43" />
+        <NodeLayout
+          Size="259,42"
+          Id="Package\IDEA Cube Prep Montly Builds\SP_POPULATE_HLP_BIZCOMP_TABLE"
+          TopLeft="363,132.5" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\IDEA Cube Prep Montly Builds\SP_PPT_POPULATE_LOOKUPS"
+          TopLeft="45,132.5" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="685,239"
+          Size="685,282"
+          Id="Package\IDEA Cube Prep Montly Builds"
+          TopLeft="95,172" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Truncate PSH Tables"
+          TopLeft="349,80" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="438,122">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="433.75,454">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,138"
+              Start="0,0"
+              End="0,130.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,130.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="285,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER"
+          TopLeft="135,317" />
+        <NodeLayout
+          Size="285,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER"
+          TopLeft="133,94" />
+        <EdgeLayout
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER.Paths[OLE DB Source Output]"
+          TopLeft="276.5,136">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,181"
+              Start="0,0"
+              End="0,173.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,173.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\src_PSH_TOP_200_ORIGINATING_LENDER">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_ORIGINATING_LENDER\trg_PSH_TOP_200_ORIGINATING_LENDER">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="271,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER"
+          TopLeft="135,317" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER"
+          TopLeft="133,94" />
+        <EdgeLayout
+          Id="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER.Paths[OLE DB Source Output]"
+          TopLeft="269.75,136">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,181"
+              Start="0,0"
+              End="0,173.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,173.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\src_PSH_TOP_200_SERVICING_LENDER">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\IDEA Cube Prep Montly Builds\PSH_TOP_200_SERVICING_LENDER\trg_PSH_TOP_200_SERVICING_LENDER">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

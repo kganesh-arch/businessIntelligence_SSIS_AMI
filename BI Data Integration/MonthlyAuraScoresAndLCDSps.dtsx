@@ -1,0 +1,692 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/21/2016 2:51:48 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-SHETE"
+  DTS:CreatorName="CMGMI\dshete"
+  DTS:DTSID="{826E4BFB-2384-4F4E-89C5-76E27AED64A1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MonthlyAuraScoresAndLCDSps"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="25"
+  DTS:VersionGUID="{90F4D52C-EB34-4D3B-8D2F-B9E232B419B8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D01FEEBA-C633-4404-B322-D3FD8426AE62}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="v_AURA_Scores_Update_Flag">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Check AURA Scores Update"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0314173A-921F-4D9D-A6CD-95FCD2C74EBE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Check AURA Scores Update"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}"
+          SQLTask:SqlStatementSource="SELECT COUNT(*) AS AURA_SCORES_UPDATED_YN FROM DBO.AURA_STATUS WHERE AURA_SOURCE = 'ARCH' AND AS_OF_MONTH = LEFT(convert(char(10),DATEADD(ss, -1, DATEADD(month, DATEDIFF(month, 0, getdate()), 0)),112),6)  "
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="AURA_SCORES_UPDATED_YN"
+            SQLTask:DtsVariableName="User::v_AURA_Scores_Update_Flag" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Disable Schedule"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B4913932-463F-4F5D-B7FF-0B89F7E8ABA9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Disable Schedule"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{877C415C-282C-4C4F-98BC-CF6F4A218CB6}"
+          SQLTask:SqlStatementSource="EXEC dbo.sp_update_job  &#xA;    @job_name = ?,  &#xA;    @enabled = 0 ;  &#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Project::pstr_AURA_SQLAgent_JobName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="50" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Job Schedule Disabled"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{CBDC04A9-C6F9-4068-ADDF-D952A956E371}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Job Schedule Disabled"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Arch AURA Builds SQL Agent Job Schedule Disabled : Month End Processing (" +   @[$Project::pstr_Environment] +  ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_Email_ETLTeam]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;mhilario@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Arch AURA Builds SQL Agent Job Schedule Disabled : Month End Processing (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\No AURA Scores"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{F25DE190-C293-4A12-8171-F27EB546F77F}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="No AURA Scores"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Arch AURA Scores Not Yet Available : Month End Processing (" +   @[$Project::pstr_Environment] +  ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_Email_ETLTeam]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;mhilario@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Arch AURA Scores Not Yet Available : Month End Processing (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Trigger AURA Scores Updates"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{EF964269-AAD9-4EEB-8F03-ADAE00719023}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Trigger AURA Scores Updates">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Trigger AURA Scores Updates\Failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{16829C97-E0A7-4AEA-975B-AEFAEC8B9EA1}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"Arch AURA Scores Update: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Monthly Arch AURA Scores Updates"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;MHilario@archmi.com"
+              SendMailTask:Subject="Arch AURA Scores Update: FAIL: BI Data Integration (Production) – Monthly Arch AURA Scores Updates" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Trigger AURA Scores Updates\Populate AURA Scores"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{186E2949-D156-4E87-8188-0A46334AAC72}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Populate AURA Scores"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Populate_AURA_Scores_AMI.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Trigger AURA Scores Updates\Successful"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{D93CB8B9-E475-4983-B29E-2F9A6A0B75F2}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Successful"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"Arch AURA Scores Update: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Monthly Arch AURA Scores Updates"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;MHilario@archmi.com"
+              SendMailTask:Subject="Arch AURA Scores Update: SUCCESS: BI Data Integration (Production) – Monthly Arch AURA Scores Updates" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Trigger AURA Scores Updates.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{116D2CA7-0752-4AC2-8CA2-3B99B50E2812}"
+          DTS:From="Package\Trigger AURA Scores Updates\Populate AURA Scores"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Trigger AURA Scores Updates\Successful" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Trigger AURA Scores Updates.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{BB592C08-82DD-476D-AB3B-DF7BF108B04D}"
+          DTS:From="Package\Trigger AURA Scores Updates\Populate AURA Scores"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Trigger AURA Scores Updates\Failure"
+          DTS:Value="1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Trigger LCD SPs"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{04380EF6-A5BB-41B1-B2D7-9471685DF87E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Trigger LCD SPs">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Trigger LCD SPs\Failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{D4EC53A2-C06E-4D58-AAA1-0EE90EF93DB7}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"Monthly LCD SPs: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Monthly LCD SPs Execution"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;MHilario@archmi.com"
+              SendMailTask:Subject="Monthly LCD SPs: FAIL: BI Data Integration (Production) – Monthly LCD SPs Execution" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Trigger LCD SPs\Successful"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{D9D49449-D401-448B-A436-92DD7C99A02D}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Successful"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"Monthly LCD SPs: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – Monthly LCD SPs Execution"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;MHilario@archmi.com"
+              SendMailTask:Subject="Monthly LCD SPs: SUCCESS: BI Data Integration (Production) – Monthly LCD SPs Execution" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Trigger LCD SPs\Trigger LCD SPs"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{08ABF550-FEBE-4968-962D-269B10B600AC}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Trigger LCD SPs"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>LCD_SPs_Monthly.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Trigger LCD SPs.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{161D561A-CF5B-4A90-940E-4391B853DAFD}"
+          DTS:From="Package\Trigger LCD SPs\Trigger LCD SPs"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Trigger LCD SPs\Successful" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Trigger LCD SPs.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A9CCEB81-D8E2-4BBC-BECA-3EE0C67239E3}"
+          DTS:From="Package\Trigger LCD SPs\Trigger LCD SPs"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Trigger LCD SPs\Failure"
+          DTS:Value="1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{DF8272AE-9D45-4BF5-A1FD-1BC937BFF2D7}"
+      DTS:From="Package\Disable Schedule"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Trigger AURA Scores Updates" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{DBE1BF7E-9044-4B18-9F2C-785B2A40B55E}"
+      DTS:From="Package\Disable Schedule"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Job Schedule Disabled" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{690560BB-5DA7-4B3F-9B68-9EF09DE86729}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::v_AURA_Scores_Update_Flag] == 0"
+      DTS:From="Package\Check AURA Scores Update"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\No AURA Scores" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{51EF246C-4B8A-4AF6-AA09-302844C749C9}"
+      DTS:From="Package\Trigger AURA Scores Updates"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Trigger LCD SPs" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{982CD6AD-632F-4F2A-827A-43B7E18EE795}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::v_AURA_Scores_Update_Flag] &gt; 0"
+      DTS:From="Package\Check AURA Scores Update"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Disable Schedule" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Check AURA Scores Update"
+          TopLeft="27,189" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Disable Schedule"
+          TopLeft="291,190" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Job Schedule Disabled"
+          TopLeft="282,319" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\No AURA Scores"
+          TopLeft="19,320" />
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Trigger AURA Scores Updates\Failure"
+          TopLeft="25.5,121" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Trigger AURA Scores Updates\Populate AURA Scores"
+          TopLeft="64.5,34" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Trigger AURA Scores Updates\Successful"
+          TopLeft="174.5,121" />
+        <EdgeLayout
+          Id="Package\Trigger AURA Scores Updates.PrecedenceConstraints[Constraint]"
+          TopLeft="187.166666666667,76">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="52.3333333333333,45"
+              Start="0,0"
+              End="52.3333333333333,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2302771855011" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2302771855011"
+                    Point2="0,18.2302771855011"
+                    Point3="4,18.2302771855011" />
+                  <mssgle:LineSegment
+                    End="48.3333333333333,18.2302771855011" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48.3333333333333,18.2302771855011"
+                    Point2="52.3333333333333,18.2302771855011"
+                    Point3="52.3333333333333,22.2302771855011" />
+                  <mssgle:LineSegment
+                    End="52.3333333333333,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Trigger AURA Scores Updates.PrecedenceConstraints[Constraint 1]"
+          TopLeft="127.833333333333,76">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-46.3333333333333,45"
+              Start="0,0"
+              End="-46.3333333333333,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2302771855011" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2302771855011"
+                    Point2="0,18.2302771855011"
+                    Point3="-4,18.2302771855011" />
+                  <mssgle:LineSegment
+                    End="-42.3333333333333,18.2302771855011" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-42.3333333333333,18.2302771855011"
+                    Point2="-46.3333333333333,18.2302771855011"
+                    Point3="-46.3333333333333,22.2302771855011" />
+                  <mssgle:LineSegment
+                    End="-46.3333333333333,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.4080143229167,23.2302771855011,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="336,218"
+          Size="336,261"
+          Id="Package\Trigger AURA Scores Updates"
+          TopLeft="522,80" />
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Trigger LCD SPs\Failure"
+          TopLeft="26.5,121" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Trigger LCD SPs\Successful"
+          TopLeft="175.5,121" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Trigger LCD SPs\Trigger LCD SPs"
+          TopLeft="82.5,27" />
+        <EdgeLayout
+          Id="Package\Trigger LCD SPs.PrecedenceConstraints[Constraint]"
+          TopLeft="185.833333333333,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.6666666666667,52"
+              Start="0,0"
+              End="54.6666666666667,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.1147540983607" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.1147540983607"
+                    Point2="0,21.1147540983607"
+                    Point3="4,21.1147540983607" />
+                  <mssgle:LineSegment
+                    End="50.6666666666667,21.1147540983607" />
+                  <mssgle:CubicBezierSegment
+                    Point1="50.6666666666667,21.1147540983607"
+                    Point2="54.6666666666667,21.1147540983607"
+                    Point3="54.6666666666667,25.1147540983607" />
+                  <mssgle:LineSegment
+                    End="54.6666666666667,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Trigger LCD SPs.PrecedenceConstraints[Constraint 1]"
+          TopLeft="136.166666666667,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-53.6666666666667,52"
+              Start="0,0"
+              End="-53.6666666666667,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.1147540983607" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.1147540983607"
+                    Point2="0,21.1147540983607"
+                    Point3="-4,21.1147540983607" />
+                  <mssgle:LineSegment
+                    End="-49.6666666666667,21.1147540983607" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-49.6666666666667,21.1147540983607"
+                    Point2="-53.6666666666667,21.1147540983607"
+                    Point3="-53.6666666666667,25.1147540983607" />
+                  <mssgle:LineSegment
+                    End="-53.6666666666667,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-42.0746809895833,26.1147540983607,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="336,218"
+          Size="336,261"
+          Id="Package\Trigger LCD SPs"
+          TopLeft="526,434" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="452,210.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="70,0"
+              Start="0,0"
+              End="62.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="62.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="373.25,232">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,87"
+              Start="0,0"
+              End="0,79.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,79.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="98.1666666666667,231">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,89"
+              Start="0,0"
+              End="0,81.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,81.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,32.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="692,341">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,93"
+              Start="0,0"
+              End="0,85.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,85.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="237,210.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54,0"
+              Start="0,0"
+              End="46.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="46.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="15.25,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1528 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/26/2018 10:41:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI012"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{ADCCE068-7A4A-48E6-94AD-49C94B352E22}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="GseSecuritizationGeosegment"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{940C5F88-A3F1-4B9A-9151-6BB26B0494E7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute Task Schedule To Kick Off GSE Cube Builds"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:Description="Execute Process Task"
+      DTS:DTSID="{5bddc8a2-8d68-4e68-953e-5f84e9222f07}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute Task Schedule To Kick Off GSE Cube Builds"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Arguments">@[$Project::pstr_COGNOS_GSECubes_Schedule_Trigger]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Executable">@[$Project::pstr_CmdEXE_Folder]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="C:\Windows\System32\cmd.exe"
+          Arguments="/C schtasks.exe /u pmi-us\cognos.job /p fvDC43$# /run /s US-AP-SAC193 /tn &quot;GSE Cube Builds - Triggered from ETL&quot;" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{21E30D37-5688-44F1-931C-BD62C0ABAC47}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Arch GSE Securitization Load: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") – GSE Securitization GeoSegment Loads "</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Arch GSE Securitization Load: FAIL: BI Data Integration (Production) – GSE Securitization GeoSegment Loads" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{94DCA36A-CF04-4510-A5BF-D653CA7E236E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="STG_GSE_SECURITIZATION_GEOSEGMENT">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{7F39DCF1-4CED-44EE-86B7-5FD0772E5581}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Target Table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_STG_GSE_SECURITIZATION_GEOSEGMENT"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select ds.[DataSourceName], convert(datetime, gse.[SecuritizationDate]) as SecuritizationDate,
+gse.OriginalPrincipalBalance as OUPB,
+case
+	when OriginalPrincipalBalance between 0 and 100000 then 'Upto 100K'
+	when OriginalPrincipalBalance between 100001 and 200000 then '101K - 200K'
+	when OriginalPrincipalBalance between 200001 and 300000 then '201K - 300K'
+	when OriginalPrincipalBalance between 300001 and 417000 then '300K - 417K'
+	when OriginalPrincipalBalance between 417001 and 625000 then '418K - 625K'
+	when OriginalPrincipalBalance &gt; 625000 then '&gt; 625K'
+	else 'Missing'
+end as OUPB_Bucket,
+gse.MI_Coverage as Coverage, mic.[MI_CoverageBucketName],
+convert(datetime, gse.[EstimatedOriginationDate]) as EstimatedOriginationDate,
+[OriginalLoanTermMonths],
+case
+	when [OriginalLoanTermMonths] between 0 and 60 then 'Upto 5 Years'
+	when [OriginalLoanTermMonths] between 61 and 120 then '6-10 Years'
+	when [OriginalLoanTermMonths] between 121 and 180 then '11-15 Years'
+	when [OriginalLoanTermMonths] between 181 and 240 then '16-20 Years'
+	when [OriginalLoanTermMonths] between 241 and 300 then '21-25 Years'
+	when [OriginalLoanTermMonths] between 301 and 360 then '26-30 Years'
+	when [OriginalLoanTermMonths] &gt; 360 then 'More than 30 Years'
+	else 'Missing'
+end as LoanTerm_Bucket,
+nlo.LenderName as Originator, nls.LenderName as Servicer,
+ns.StateName as State, ns.StateAbbr as StateCode,
+np.PurposeName, nc.ChannelName, npr.ProductName, npp.PropertyName,
+CreditScore, cs.CreditScoreBucketName, LTV, nltv.LTV_BucketCode,
+gse.DTI, ndti.DTI_BucketName,
+FirstTimeHomebuyerFlag, no.OccupancyName
+from
+[dbo].[loanLevel_GSE_Bucketed] gse
+	left join [dbo].[nameDataSource] ds
+		on gse.DataSourceCode = ds.[DataSourceCode]
+	left join [dbo].[nameLender] nlo
+		on gse.LenderCode = nlo.LenderCode
+	left join [dbo].[nameLender] nls
+		on gse.ServicerCode= nls.LenderCode
+	left join [dbo].[nameState] ns
+		on gse.StateCode = ns.StateCode
+	left join [dbo].[namePurpose] np
+		on gse.PurposeCode = np.PurposeCode
+	left join [dbo].[nameChannel] nc
+		on gse.ChannelCode = nc.ChannelCode
+	left join [dbo].[nameProduct] npr
+		on gse.ProductCode = npr.ProductCode
+	left join [dbo].[nameMI_CoverageBucket] mic
+		on gse.MI_CoverageBucketCode = mic.[MI_CoverageBucketCode]
+	left join [dbo].[nameCreditScoreBucket] cs
+		on gse.CreditScoreBucketCode = cs.CreditScoreBucketCode
+	left join [dbo].nameLTV_Bucket nltv
+		on gse.LTV_BucketCode = nltv.LTV_BucketCode
+	left join [dbo].[nameDTI_Bucket] ndti
+		on gse.DTI_BucketCode = ndti.DTI_BucketCode
+	left join [dbo].[nameProperty] npp
+		on gse.ProductCode = npp.PropertyCode
+	left join [dbo].[nameOccupancy] no
+		on gse.OccupancyCode = no.OccupancyCode</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Connections[OleDbConnection]"
+                      connectionManagerID="{FDC25211-451E-45A6-9891-A70A47FC8A15}:invalid"
+                      connectionManagerRefId="{FDC25211-451E-45A6-9891-A70A47FC8A15}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DataSourceName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DataSourceName]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DataSourceName]"
+                          name="DataSourceName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[SecuritizationDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[SecuritizationDate]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[SecuritizationDate]"
+                          name="SecuritizationDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          name="OUPB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OUPB_Bucket]"
+                          length="11"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB_Bucket]"
+                          name="OUPB_Bucket"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Coverage]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Coverage]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Coverage]"
+                          name="Coverage"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[MI_CoverageBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[MI_CoverageBucketName]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[MI_CoverageBucketName]"
+                          name="MI_CoverageBucketName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[EstimatedOriginationDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[EstimatedOriginationDate]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[EstimatedOriginationDate]"
+                          name="EstimatedOriginationDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OriginalLoanTermMonths]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OriginalLoanTermMonths]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OriginalLoanTermMonths]"
+                          name="OriginalLoanTermMonths"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LoanTerm_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LoanTerm_Bucket]"
+                          length="18"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LoanTerm_Bucket]"
+                          name="LoanTerm_Bucket"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Originator]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Originator]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Originator]"
+                          name="Originator"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Servicer]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Servicer]"
+                          name="Servicer"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                          length="50"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[State]"
+                          name="State"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[StateCode]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[StateCode]"
+                          length="2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[StateCode]"
+                          name="StateCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PurposeName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[PurposeName]"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PurposeName]"
+                          name="PurposeName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[ChannelName]"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ChannelName]"
+                          name="ChannelName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ProductName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ProductName]"
+                          name="ProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PropertyName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[PropertyName]"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PropertyName]"
+                          name="PropertyName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScore]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[CreditScore]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScore]"
+                          name="CreditScore"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScoreBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[CreditScoreBucketName]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScoreBucketName]"
+                          name="CreditScoreBucketName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LTV]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV]"
+                          name="LTV"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV_BucketCode]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LTV_BucketCode]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV_BucketCode]"
+                          name="LTV_BucketCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DTI]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI]"
+                          name="DTI"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI_BucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DTI_BucketName]"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI_BucketName]"
+                          name="DTI_BucketName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[FirstTimeHomebuyerFlag]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[FirstTimeHomebuyerFlag]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[FirstTimeHomebuyerFlag]"
+                          name="FirstTimeHomebuyerFlag"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OccupancyName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OccupancyName]"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OccupancyName]"
+                          name="OccupancyName"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DataSourceName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="DataSourceName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[SecuritizationDate]"
+                          dataType="dbTimeStamp"
+                          name="SecuritizationDate" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          dataType="i4"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OUPB_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="11"
+                          name="OUPB_Bucket" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Coverage]"
+                          dataType="i2"
+                          name="Coverage" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[MI_CoverageBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="MI_CoverageBucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[EstimatedOriginationDate]"
+                          dataType="dbTimeStamp"
+                          name="EstimatedOriginationDate" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OriginalLoanTermMonths]"
+                          dataType="i2"
+                          name="OriginalLoanTermMonths" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LoanTerm_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="18"
+                          name="LoanTerm_Bucket" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Originator]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Originator" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Servicer" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[StateCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="StateCode" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[PurposeName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="PurposeName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ChannelName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[PropertyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="PropertyName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[CreditScore]"
+                          dataType="i2"
+                          name="CreditScore" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[CreditScoreBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="CreditScoreBucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LTV]"
+                          dataType="i2"
+                          name="LTV" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[LTV_BucketCode]"
+                          dataType="ui1"
+                          name="LTV_BucketCode" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DTI]"
+                          dataType="i2"
+                          name="DTI" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[DTI_BucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="DTI_BucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[FirstTimeHomebuyerFlag]"
+                          dataType="ui1"
+                          name="FirstTimeHomebuyerFlag" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].ExternalColumns[OccupancyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="OccupancyName" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DataSourceName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DataSourceName]"
+                          name="DataSourceName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[SecuritizationDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[SecuritizationDate]"
+                          name="SecuritizationDate" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          dataType="i4"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          name="OUPB" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OUPB_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="11"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OUPB_Bucket]"
+                          name="OUPB_Bucket" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Coverage]"
+                          dataType="i2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Coverage]"
+                          name="Coverage" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[MI_CoverageBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[MI_CoverageBucketName]"
+                          name="MI_CoverageBucketName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[EstimatedOriginationDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[EstimatedOriginationDate]"
+                          name="EstimatedOriginationDate" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OriginalLoanTermMonths]"
+                          dataType="i2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OriginalLoanTermMonths]"
+                          name="OriginalLoanTermMonths" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LoanTerm_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="18"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LoanTerm_Bucket]"
+                          name="LoanTerm_Bucket" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Originator]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Originator]"
+                          name="Originator" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[Servicer]"
+                          name="Servicer" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[State]"
+                          name="State" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[StateCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[StateCode]"
+                          name="StateCode" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[PurposeName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[PurposeName]"
+                          name="PurposeName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ChannelName]"
+                          name="ChannelName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[PropertyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[PropertyName]"
+                          name="PropertyName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[CreditScore]"
+                          dataType="i2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[CreditScore]"
+                          name="CreditScore" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[CreditScoreBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[CreditScoreBucketName]"
+                          name="CreditScoreBucketName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LTV]"
+                          dataType="i2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LTV]"
+                          name="LTV" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LTV_BucketCode]"
+                          dataType="ui1"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[LTV_BucketCode]"
+                          name="LTV_BucketCode" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DTI]"
+                          dataType="i2"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DTI]"
+                          name="DTI" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DTI_BucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[DTI_BucketName]"
+                          name="DTI_BucketName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[FirstTimeHomebuyerFlag]"
+                          dataType="ui1"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[FirstTimeHomebuyerFlag]"
+                          name="FirstTimeHomebuyerFlag" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OccupancyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[OccupancyName]"
+                          name="OccupancyName" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="tgt_STG_GSE_SECURITIZATION_GEOSEGMENT"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_GSE_SECURITIZATION_GEOSEGMENT]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">CHECK_CONSTRAINTS,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[DataSourceName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="DataSourceName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DataSourceName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DataSourceName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[SecuritizationDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="SecuritizationDate"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[SecuritizationDate]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[SecuritizationDate]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[OUPB]"
+                          cachedDataType="i4"
+                          cachedName="OUPB"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[OUPB_Bucket]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="11"
+                          cachedName="OUPB_Bucket"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB_Bucket]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OUPB_Bucket]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[Coverage]"
+                          cachedDataType="i2"
+                          cachedName="Coverage"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Coverage]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Coverage]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[MI_CoverageBucketName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="MI_CoverageBucketName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[MI_CoverageBucketName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[MI_CoverageBucketName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[EstimatedOriginationDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EstimatedOriginationDate"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[EstimatedOriginationDate]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[EstimatedOriginationDate]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[OriginalLoanTermMonths]"
+                          cachedDataType="i2"
+                          cachedName="OriginalLoanTermMonths"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OriginalLoanTermMonths]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OriginalLoanTermMonths]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[LoanTerm_Bucket]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="18"
+                          cachedName="LoanTerm_Bucket"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LoanTerm_Bucket]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LoanTerm_Bucket]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[Originator]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="Originator"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Originator]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Originator]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[Servicer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="Servicer"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Servicer]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[Servicer]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[State]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="State"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[State]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[StateCode]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="2"
+                          cachedName="StateCode"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[StateCode]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[StateCode]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[PurposeName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="PurposeName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[PurposeName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PurposeName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[ChannelName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="ChannelName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[ChannelName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ChannelName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[ProductName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="ProductName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[ProductName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[PropertyName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="PropertyName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[PropertyName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[PropertyName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[CreditScore]"
+                          cachedDataType="i2"
+                          cachedName="CreditScore"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[CreditScore]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScore]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[CreditScoreBucketName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="CreditScoreBucketName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[CreditScoreBucketName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[CreditScoreBucketName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[LTV]"
+                          cachedDataType="i2"
+                          cachedName="LTV"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LTV]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[LTV_BucketCode]"
+                          cachedDataType="ui1"
+                          cachedName="LTV_BucketCode"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LTV_BucketCode]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[LTV_BucketCode]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[DTI]"
+                          cachedDataType="i2"
+                          cachedName="DTI"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DTI]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[DTI_BucketName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="DTI_BucketName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DTI_BucketName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[DTI_BucketName]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[FirstTimeHomebuyerFlag]"
+                          cachedDataType="ui1"
+                          cachedName="FirstTimeHomebuyerFlag"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[FirstTimeHomebuyerFlag]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[FirstTimeHomebuyerFlag]" />
+                        <inputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].Columns[OccupancyName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="OccupancyName"
+                          externalMetadataColumnId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OccupancyName]"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output].Columns[OccupancyName]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DataSourceName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="DataSourceName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[SecuritizationDate]"
+                          dataType="dbTimeStamp2"
+                          name="SecuritizationDate"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          dataType="i4"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="11"
+                          name="OUPB_Bucket" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Coverage]"
+                          dataType="i2"
+                          name="Coverage" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[MI_CoverageBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="MI_CoverageBucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[EstimatedOriginationDate]"
+                          dataType="dbTimeStamp2"
+                          name="EstimatedOriginationDate"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OriginalLoanTermMonths]"
+                          dataType="i2"
+                          name="OriginalLoanTermMonths" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LoanTerm_Bucket]"
+                          codePage="1252"
+                          dataType="str"
+                          length="18"
+                          name="LoanTerm_Bucket" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Originator]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Originator" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[Servicer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Servicer" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[StateCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="StateCode" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[PurposeName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="PurposeName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ChannelName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[PropertyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="PropertyName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[CreditScore]"
+                          dataType="i2"
+                          name="CreditScore" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[CreditScoreBucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="CreditScoreBucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LTV]"
+                          dataType="i2"
+                          name="LTV" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[LTV_BucketCode]"
+                          dataType="i2"
+                          name="LTV_BucketCode" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DTI]"
+                          dataType="i2"
+                          name="DTI" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[DTI_BucketName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="DTI_BucketName" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[FirstTimeHomebuyerFlag]"
+                          dataType="i2"
+                          name="FirstTimeHomebuyerFlag" />
+                        <externalMetadataColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input].ExternalColumns[OccupancyName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="OccupancyName" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table.Paths[OLE DB Source Output]"
+                  endId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Truncate Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{1EB025D1-5854-4B6A-937D-C6167CDA10D3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Table"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_GSE_SECURITIZATION_GEOSEGMENT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\STG_GSE_SECURITIZATION_GEOSEGMENT.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{4F66D03E-1647-41E9-B196-06F430031F95}"
+          DTS:From="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Truncate Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{4CED52C6-8E52-4E25-99EE-AF70C08073EE}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"Attn: BI Prod Support - GSE Data ETL Load Success, Cube build script triggered (" +  @[$Project::pstr_Environment] + ") – GSE Securitization GeoSegment Loads"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="Attn: BI Prod Support - GSE Data ETL Load Success, Cube build script triggered (Production) – GSE Securitization GeoSegment Loads"
+          SendMailTask:MessageSource="ETL job for GSE data load has completed and the script for building the GSE cubes has been triggered. There should be another email sent out once the cube build script completes. If the email is not received within the next 2 hrs, please check cube build logs to ensure cube build and copy was successful. " xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{86E4B1CD-0C5C-4EA3-9686-FF2A1FC7129B}"
+      DTS:From="Package\STG_GSE_SECURITIZATION_GEOSEGMENT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Execute Task Schedule To Kick Off GSE Cube Builds" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4C172724-293E-46D3-85EE-A81CB191269F}"
+      DTS:From="Package\STG_GSE_SECURITIZATION_GEOSEGMENT"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{F7231CF0-D88A-43CF-94FC-5350B8F97A9E}"
+      DTS:From="Package\Execute Task Schedule To Kick Off GSE Cube Builds"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D5807209-CE06-4CE3-BBA3-5B99FA6F3164}"
+      DTS:From="Package\Execute Task Schedule To Kick Off GSE Cube Builds"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="325,42"
+          Id="Package\Execute Task Schedule To Kick Off GSE Cube Builds"
+          TopLeft="268,257" />
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Failure"
+          TopLeft="592,369" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table"
+          TopLeft="262.5,31" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Truncate Table"
+          TopLeft="26.5,29" />
+        <EdgeLayout
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT.PrecedenceConstraints[Constraint]"
+          TopLeft="178.5,51">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="84,0"
+              Start="0,0"
+              End="76.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="76.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="451,111"
+          Size="451,154"
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT"
+          TopLeft="275,33" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Success"
+          TopLeft="317,366" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="428.583333333333,187">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,70"
+              Start="0,0"
+              End="0,62.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="574.333333333333,187">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="91.0000000000001,182"
+              Start="0,0"
+              End="91.0000000000001,174.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,85.8051822301407" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,85.8051822301407"
+                    Point2="0,89.8051822301407"
+                    Point3="4,89.8051822301407" />
+                  <mssgle:LineSegment
+                    End="87.0000000000001,89.8051822301407" />
+                  <mssgle:CubicBezierSegment
+                    Point1="87.0000000000001,89.8051822301407"
+                    Point2="91.0000000000001,89.8051822301407"
+                    Point3="91.0000000000001,93.8051822301407" />
+                  <mssgle:LineSegment
+                    End="91.0000000000001,174.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="30.2586523437501,94.8051822301407,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="376.833333333333,299">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,67"
+              Start="0,0"
+              End="0,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="483.333333333333,299">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="147.333333333333,70"
+              Start="0,0"
+              End="147.333333333333,62.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5999892686591" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.5999892686591"
+                    Point2="0,34.5999892686591"
+                    Point3="4,34.5999892686591" />
+                  <mssgle:LineSegment
+                    End="143.333333333333,34.5999892686591" />
+                  <mssgle:CubicBezierSegment
+                    Point1="143.333333333333,34.5999892686591"
+                    Point2="147.333333333333,34.5999892686591"
+                    Point3="147.333333333333,38.5999892686591" />
+                  <mssgle:LineSegment
+                    End="147.333333333333,62.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="58.4253190104167,39.5999892686591,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="307,42"
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT"
+          TopLeft="233,87" />
+        <NodeLayout
+          Size="306,42"
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT"
+          TopLeft="232,235" />
+        <EdgeLayout
+          Id="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table.Paths[OLE DB Source Output]"
+          TopLeft="385.75,129">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,106"
+              Start="0,0"
+              End="0,98.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,98.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\src_STG_GSE_SECURITIZATION_GEOSEGMENT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_GSE_SECURITIZATION_GEOSEGMENT\Load Target Table\tgt_STG_GSE_SECURITIZATION_GEOSEGMENT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

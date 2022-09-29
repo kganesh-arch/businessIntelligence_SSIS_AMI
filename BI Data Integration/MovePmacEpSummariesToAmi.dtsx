@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/26/2017 7:00:14 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-MHILARI"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{7A57BA4D-5070-46B5-BDF9-FC7E7B022247}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MovePmacEpSummariesToAmi"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{438387F1-AC20-4897-8E44-99DD50600C48}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load HLPer Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A31E8EB2-D432-4204-9A81-229377C2DB2F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load HLPer Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="insert into edw_dm.[dbo].[HLP_EP_ORIGINATION_VOLUME_SUMMARY]&#xA;(originating_lender_branch_sk, snapshot_month_dt_sk, [Book Year], Cert_Bulk_Flow_Cd, MI_Premium_Plan_Cd, MI_Premium_Paid_By, current_cert_status_cd, IIF$, PIF#, NIW$, RIF$, [Estimated First Year Premium], BUSINESS_ENTITY_ID, BUSINESS_ENTITY_CD)&#xA;select originating_lender_branch_sk, snapshot_month_dt_sk, [Book Year], Cert_Bulk_Flow_Cd, MI_Premium_Plan_Cd, MI_Premium_Paid_By, current_cert_status_cd, IIF$, PIF#, NIW$, RIF$, [Estimated First Year Premium], BUSINESS_ENTITY_ID, BUSINESS_ENTITY_CD&#xA;from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_ORIGINATION_VOLUME_SUMMARY]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and snapshot_month_dt_sk = 20140531&#xA;&#xA;insert into edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUM_DATA]&#xA;([Date], [Book Year], [Bulk/Flow], [MI Premium Plan], [Originating Lender], [MI Premium Paid By], [Cert Status], IIF$, PIF#, NIW$, RIF$, [Expected Renewal Premium], [Gross Premiums Earned], [Gross Premiums Written], [Change in Unearned Premium], [Amortization Earnings], [Termination Earnings], [Termination Refunds], [Claims Refunds], [Unearned Premium], [Estimated First Year Premium], [Change in Net EBNR], [BUSINESS_ENTITY_ID], [BUSINESS_ENTITY_CD])&#xA;select [Date], [Book Year], [Bulk/Flow], [MI Premium Plan], [Originating Lender], [MI Premium Paid By], [Cert Status], IIF$, PIF#, NIW$, RIF$, [Expected Renewal Premium], [Gross Premiums Earned], [Gross Premiums Written], [Change in Unearned Premium], [Amortization Earnings], [Termination Earnings], [Termination Refunds], [Claims Refunds], [Unearned Premium], [Estimated First Year Premium], [Change in Net EBNR], [BUSINESS_ENTITY_ID], [BUSINESS_ENTITY_CD]&#xA;from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUM_DATA]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and date in ('May-14')&#xA;&#xA;insert into edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUMS_SUMMARY]&#xA;(originating_lender_branch_sk, snapshot_month_dt_sk, [Book Year], Cert_Bulk_Flow_Cd, MI_Premium_Plan_Cd, MI_Premium_Paid_By, current_cert_status_cd, [Expected Renewal Premium], [Gross Premiums Written], [Change in Unearned Premium], [ammortization_earnings_amt], termination_earnings_amt, termination_refunds_amt, claims_refunds_amt, projected_revenue_amt, unearned_premium_amt, change_in_net_ebnr_amt, BUSINESS_ENTITY_ID, BUSINESS_ENTITY_CD)&#xA;select originating_lender_branch_sk, snapshot_month_dt_sk, [Book Year], Cert_Bulk_Flow_Cd, MI_Premium_Plan_Cd, MI_Premium_Paid_By, current_cert_status_cd, [Expected Renewal Premium], [Gross Premiums Written], [Change in Unearned Premium], [ammortization_earnings_amt], termination_earnings_amt, termination_refunds_amt, claims_refunds_amt, projected_revenue_amt, unearned_premium_amt, change_in_net_ebnr_amt, BUSINESS_ENTITY_ID, BUSINESS_ENTITY_CD&#xA;from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUMS_SUMMARY]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and snapshot_month_dt_sk = 20140531&#xA;&#xA;&#xA;delete from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_ORIGINATION_VOLUME_SUMMARY]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and snapshot_month_dt_sk = 20140531&#xA;&#xA;delete from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUM_DATA]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and date in ('May-14')&#xA;&#xA;delete from [BI_PMI_US].edw_dm.[dbo].[HLP_EP_PRIMARY_PREMIUMS_SUMMARY]&#xA;where BUSINESS_ENTITY_CD = 'PMAC'&#xA;--and snapshot_month_dt_sk = 20140531&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_PPT_POPULATE_HLP_EP_PP_DATA_ANAPLAN"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1F3F4E25-7B69-42A0-B99D-D5CFD2251DB8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_PPT_POPULATE_HLP_EP_PP_DATA_ANAPLAN"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="EXEC [dbo].[SP_PPT_POPULATE_HLP_EP_PP_DATA_ANAPLAN]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E1C30533-517C-4426-B724-AC1E4492FACF}"
+      DTS:From="Package\Load HLPer Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_PPT_POPULATE_HLP_EP_PP_DATA_ANAPLAN" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load HLPer Tables"
+          TopLeft="99,82" />
+        <NodeLayout
+          Size="315,42"
+          Id="Package\SP_PPT_POPULATE_HLP_EP_PP_DATA_ANAPLAN"
+          TopLeft="365,81" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="268,102.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97,0"
+              Start="0,0"
+              End="89.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="89.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

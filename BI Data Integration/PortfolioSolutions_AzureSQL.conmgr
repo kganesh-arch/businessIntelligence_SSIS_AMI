@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="PortfolioSolutions_AzureSQL"
+  DTS:DTSID="{3044C7B9-909B-4847-A7A1-53D490DC148E}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_PorftolioSolutionsAzureSQL_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=amfuse2prodsql.database.windows.net;User ID=bi_conn;Initial Catalog=PortfolioSolutions;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="AjUeuK/HvVA="
+        p4:IV="5sRYX8oAbyADebiYxe0YQQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">EIybmBNCFIup87z2/JuKkaU1zbPcfrnAy4QUaqiVuW1K7tMxugiRoEQQZQcHT3OdiFUY052h7eNdC0IoeHccyktV7eDU5O0Q+Uw2gI5xIFVOcsofebEsVyPvd4jd4kTynqZsS9E/EFY0qzPxj9BsE6f96vd+mddC9iImXN/BmVs=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

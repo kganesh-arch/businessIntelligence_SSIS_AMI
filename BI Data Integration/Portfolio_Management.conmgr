@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="Portfolio_Management"
+  DTS:DTSID="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_PortfolioManagementDB_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC243\P_RISK_AMI_US;User ID=EDW;Initial Catalog=PM_Scores;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="1ZlZlOQWWFI="
+        p4:IV="uZNvv2lVUS86n19I7sTgXw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">rqWqPlV6rUda2a+DS6bixwbnf/J3BVEjMaUDC+EucTMs7US2YV0ya8Dr/8UJWfFUzXK6ilozD2YViS3UMVRR0HqWnJoTzgDyeUdS7JsOPwV6vz+2H5RgM/tPDsKrTms2KilLvjYf+DHEH9RomJmCQhbejtNZi9KAWH/Pi+sBBTc=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

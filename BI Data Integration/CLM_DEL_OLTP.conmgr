@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CLM_DEL_OLTP"
+  DTS:DTSID="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_Claims_Deliquency_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=PCLMCM1;User ID=biappcmg;Provider=IBMDADB2.DB2COPY1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="mu4bCovtVcQ="
+        p4:IV="Nj+JspK/qPJTD/3wxwARyQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">wLhPSB0LWhGU9Qx4z4kh2mpoYUTi30x2BWykNcS57vyU4JkOzfWrfcN2jQ4MyhXrSfgDETAwLa1GiKe8VrBBU0D4xaa0WhoXBbJXMfkd7vvx4qQnqIPsNuojAmhKZDZvpX0tl3+/g+HbjouslGKNpMeMjtyb3dzdc+t5Y2Ny+yI=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

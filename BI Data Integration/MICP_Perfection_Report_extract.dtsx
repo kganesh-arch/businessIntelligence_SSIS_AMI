@@ -1,0 +1,1817 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/18/2020 2:15:16 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVDI-DVM0037"
+  DTS:CreatorName="CMGMI\award"
+  DTS:DTSID="{8EC8EBE8-5F8E-47EE-A271-4EFE3353C269}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MICP_Perfection_Report_extract"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="45"
+  DTS:VersionGUID="{81A84EA6-3998-41BA-8B49-74F83500CFE0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MICP_PERFECT_DATE_ARCH_file]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{65A4DF9A-A743-4AED-81FB-A952F3A8C2C4}"
+      DTS:ObjectName="MICP_PERFECT_DATE_ARCH_file">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_MICP_FNMA_Perfection_Report_Folder] + "MICP_PERFECT_DATE_ARCH_" + RIGHT("0" + (DT_WSTR,2)(MONTH(GETDATE())), 2) + RIGHT("0" + (DT_WSTR,2)(DAY(GETDATE())), 2) + (DT_WSTR,4)YEAR(GETDATE()) +  ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x007C_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="65001"
+          DTS:ConnectionString="\\ami-pavnas001\claims\AMI\SeverityFactors\FNMA\Outbound\Perfection\MICP_PERFECT_DATE_ARCH_06182022.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MI Certificate Number"
+              DTS:DTSID="{F32CBD36-864A-4BB7-9C45-E9275CCBE0B2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FNMA Loan Number"
+              DTS:DTSID="{7DD1301C-BB6E-4885-B7F5-BE3BA029B20A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Perfect Date"
+              DTS:DTSID="{96817822-CCA5-4DA5-9B68-0D2EDC6CE0DE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Change Reason"
+              DTS:DTSID="{0568C819-1F04-4B01-ADFA-5A8A53B2F5A3}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MICP_PERFECT_DATE_UGIC_file]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{BCFF3C5F-14C0-4D46-9111-7064B1CABB0E}"
+      DTS:ObjectName="MICP_PERFECT_DATE_UGIC_file">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_MICP_FNMA_Perfection_Report_Folder] + "MICP_PERFECT_DATE_UGIC_" + RIGHT("0" + (DT_WSTR,2)(MONTH(GETDATE())), 2) + RIGHT("0" + (DT_WSTR,2)(DAY(GETDATE())), 2) + (DT_WSTR,4)YEAR(GETDATE()) +  ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x007C_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="65001"
+          DTS:ConnectionString="\\ami-pavnas001\claims\AMI\SeverityFactors\FNMA\Outbound\Perfection\MICP_PERFECT_DATE_UGIC_06182022.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MI Certificate Number"
+              DTS:DTSID="{FDECA9DE-CCF2-4531-BD55-9B86BE020D52}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FNMA Loan Number"
+              DTS:DTSID="{3AEB97F4-4BC2-4996-ADCF-E4B39EA2E92D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x007C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Perfect Date"
+              DTS:DTSID="{D6977CB8-CAB0-4053-91C6-33E7C66D73A1}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Change Reason"
+              DTS:DTSID="{8F2D0FCF-379A-4958-9DD9-790C321F8A74}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\MICP Perefection Report Successful"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{a6809270-ff17-4b66-bf48-ae3098ed3670}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MICP Perefection Report Successful"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"MICP - Perfection Report: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MICP Extraction"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="MICP - Perfection Report: SUCCESS: BI Data Integration (Production) - MICP Extraction" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\MICP Perfection Report Failed"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{a5b06cfc-0d7c-40a9-a9da-7af7c47e0c66}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MICP Perfection Report Failed"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"MICP - Perfection Report: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MICP  Extraction"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="MICP - Perfection Report: FAIL: BI Data Integration (Production) - MICP  Extraction" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container Arch"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{E784AE2A-842A-400D-A4A2-9E760F61E825}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container Arch">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{03E3231F-A35F-4FFB-B479-9BA97EF5DD3D}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="v_RowCountArch">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container Arch\Execute SQL Task Arch"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6A925781-E735-4A11-B89A-B4E17B40433D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task Arch"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}"
+              SQLTask:SqlStatementSource="select count(*) as row_count_arch from (&#xA;select  distinct CLAIM.line_of_business,&#xA;        rtrim(&quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;) as &quot;MI Certificate Number&quot;   &#xA;       , sev.GSE_LOAN_NUMBER as &quot;FNMA Loan Number&quot; &#xA;       , perfect_dt as &quot;Perfect Date&quot;       &#xA;       , Cast(clog.LOG_TEXT as varchar) as &quot;Change Reason&quot;  &#xA;from  &#xA;&#x9;PMICNTRL_CLAIMS.severity_factor as sev &#xA;      INNER JOIN &#xA;        &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM&quot; as  &quot;CLAIM&quot;&#xA;              on sev.certificate_identifier = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;&#x9;&#x9;inner join &#x9;(select CERTIFICATE_IDENTIFIER, claim_id , min(Cast(audit_timestamp as Date)) as perfect_dt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where status_code = '5054' &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and audit_timestamp &gt; (select max(audit_timestamp) from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudtin &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where claudt.CERTIFICATE_IDENTIFIER = claudtin.CERTIFICATE_IDENTIFIER&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and claudt.claim_id = claudtin.claim_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and status_code = '5053')&#xA;      &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;group by CERTIFICATE_IDENTIFIER, claim_id&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;    &#x9;&#x9;&#x9;&#x9;) as clmad on clmad.CERTIFICATE_IDENTIFIER =  &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and clmad.claim_id = CLAIM.claim_id  &#xA;    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and perfect_dt = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;             &#xA;       inner join &quot;PMICNTRL_CLAIMS&quot;.&quot;CODE_VALUE&quot; &quot;code_value_claim_type&quot; on &quot;CLAIM&quot;.&quot;TYPE_CODE&quot; = &quot;code_value_claim_type&quot;.&quot;CODE_VALUE_ID&quot;&#xA;       LEFT OUTER JOIN &quot;PMICNTRL_PARTY&quot;.&quot;PARTY&quot; &quot;PARTY&quot; on &quot;CLAIM&quot;.&quot;FILER_PARTY_IDENTIFIER&quot; = &quot;PARTY&quot;.&quot;PARTY_ID&quot;&#xA;       LEFT OUTER JOIN &#xA;              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM &#xA;                     (&#xA;                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , &#xA;                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  &#xA;                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG &#xA;                     where 1=1&#xA;                     and SOURCE_TYPE_CODE = '7121'&#xA;                     )&#xA;                     WHERE RNUM = 1  &#xA;              ) as clog on clog.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;                 &#xA; where 1=1 &#xA;&#x9;  AND &quot;code_value_claim_type&quot;.&quot;SHORT_NAME&quot; = 'CLMI'&#xA;&#x9;&#x9;and &quot;CLAIM&quot;.&quot;STATUS_CODE&quot; &lt;&gt; '5053'  &#xA;&#x9;&#x9;and  CLAIM.line_of_business = 0   &#xA;&#x9;&#x9;&#xA;union&#xA;&#xA;select  distinct CLAIM.line_of_business,&#xA;        rtrim(&quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;) as &quot;MI Certificate Number&quot;   &#xA;       , sev.GSE_LOAN_NUMBER as &quot;FNMA Loan Number&quot; &#xA;       , Cast(CLAIM.audit_timestamp as Date) as &quot;Perfect Date&quot;        &#xA;       , Cast(clog.LOG_TEXT as varchar) as &quot;Change Reason&quot;  &#xA;from  &#xA;&#x9;PMICNTRL_CLAIMS.severity_factor as sev &#xA;        INNER JOIN &#xA;        &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM&quot; as &quot;CLAIM&quot;&#xA;              on sev.certificate_identifier = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;       inner join (select CERTIFICATE_IDENTIFIER, STATUS_CODE --, AUDIT_TIMESTAMP &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where AUDIT_TIMESTAMP = (select max(AUDIT_TIMESTAMP) from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudtin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where claudtin.CERTIFICATE_IDENTIFIER = claudt.CERTIFICATE_IDENTIFIER)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;) as clmad&#xA;&#x9;&#x9;&#x9;&#x9;on clmad.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;&#x9;&#x9;&#x9;&#x9;and clmad.STATUS_CODE = '5053'&#xA;       inner join &quot;PMICNTRL_CLAIMS&quot;.&quot;CODE_VALUE&quot; &quot;code_value_claim_type&quot; on &quot;CLAIM&quot;.&quot;TYPE_CODE&quot; = &quot;code_value_claim_type&quot;.&quot;CODE_VALUE_ID&quot;&#xA;       LEFT OUTER JOIN &quot;PMICNTRL_PARTY&quot;.&quot;PARTY&quot; &quot;PARTY&quot; on &quot;CLAIM&quot;.&quot;FILER_PARTY_IDENTIFIER&quot; = &quot;PARTY&quot;.&quot;PARTY_ID&quot;&#xA;       LEFT OUTER JOIN &#xA;              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM &#xA;                     (&#xA;                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , &#xA;                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  &#xA;                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG &#xA;                     where 1=1&#xA;                     and SOURCE_TYPE_CODE = '7121'&#xA;                     )&#xA;                     WHERE RNUM = 1  &#xA;              ) as clog on clog.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;                 &#xA; where 1=1 &#xA;&#x9;  AND &quot;code_value_claim_type&quot;.&quot;SHORT_NAME&quot; = 'CLMI'&#xA;&#x9;&#x9;and &quot;CLAIM&quot;.&quot;STATUS_CODE&quot; = '5054'  &#xA;&#x9;&#x9;and  CLAIM.line_of_business = 0&#xA;&#x9;&#x9;and Cast(CLAIM.audit_timestamp as Date) = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)&#xA;     )"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="row_count_arch"
+                SQLTask:DtsVariableName="User::v_RowCountArch" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{6191A121-E6D8-410F-AA23-133B0BDE596C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MICP_Perfection_Rep_Extract_Arch"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input].Columns[MI Certificate Number]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="MI Certificate Number"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input].Columns[FNMA Loan Number]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="FNMA Loan Number"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input].Columns[Perfect Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Perfect Date"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input].Columns[Change Reason]"
+                          cachedDataType="nText"
+                          cachedName="Change Reason"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input].Columns[LINE_OF_BUSINESS]"
+                          cachedDataType="numeric"
+                          cachedName="LINE_OF_BUSINESS"
+                          cachedPrecision="2"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]"
+                          name="Perfect Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]"
+                          name="Change Reason"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                    <property
+                      dataType="System.Boolean"
+                      description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                      name="EscapeQualifier">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[MICP_PERFECT_DATE_ARCH_file]"
+                      connectionManagerRefId="Package.ConnectionManagers[MICP_PERFECT_DATE_ARCH_file]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].Columns[MI Certificate Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="MI Certificate Number"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[MI Certificate Number]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].Columns[FNMA Loan Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="FNMA Loan Number"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[FNMA Loan Number]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].Columns[Perfect Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Perfect Date"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Perfect Date]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]" />
+                        <inputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].Columns[Change Reason]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="Change Reason"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Change Reason]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[MI Certificate Number]"
+                          dataType="nText"
+                          name="MI Certificate Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[FNMA Loan Number]"
+                          dataType="nText"
+                          name="FNMA Loan Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Perfect Date]"
+                          dataType="nText"
+                          name="Perfect Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Change Reason]"
+                          dataType="nText"
+                          name="Change Reason" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select  distinct CLAIM.line_of_business,
+        rtrim("CLAIM"."CERTIFICATE_IDENTIFIER") as "MI Certificate Number"   
+       , sev.GSE_LOAN_NUMBER as "FNMA Loan Number" 
+       , perfect_dt as "Perfect Date"       
+       , Cast(clog.LOG_TEXT as varchar) as "Change Reason"  
+from  
+	PMICNTRL_CLAIMS.severity_factor as sev 
+      INNER JOIN 
+        "PMICNTRL_CLAIMS"."CLAIM" as  "CLAIM"
+              on sev.certificate_identifier = "CLAIM"."CERTIFICATE_IDENTIFIER"
+		inner join 	(select CERTIFICATE_IDENTIFIER, claim_id , min(Cast(audit_timestamp as Date)) as perfect_dt
+						from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudt
+						where status_code = '5054' 
+						and audit_timestamp &gt; (select max(audit_timestamp) from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudtin 
+													where claudt.CERTIFICATE_IDENTIFIER = claudtin.CERTIFICATE_IDENTIFIER
+													and claudt.claim_id = claudtin.claim_id
+													and status_code = '5053')
+      						group by CERTIFICATE_IDENTIFIER, claim_id						
+    				) as clmad on clmad.CERTIFICATE_IDENTIFIER =  "CLAIM"."CERTIFICATE_IDENTIFIER"
+    						and clmad.claim_id = CLAIM.claim_id  
+    						and perfect_dt = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)    						             
+       inner join "PMICNTRL_CLAIMS"."CODE_VALUE" "code_value_claim_type" on "CLAIM"."TYPE_CODE" = "code_value_claim_type"."CODE_VALUE_ID"
+       LEFT OUTER JOIN "PMICNTRL_PARTY"."PARTY" "PARTY" on "CLAIM"."FILER_PARTY_IDENTIFIER" = "PARTY"."PARTY_ID"
+       LEFT OUTER JOIN 
+              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM 
+                     (
+                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , 
+                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  
+                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG 
+                     where 1=1
+                     and SOURCE_TYPE_CODE = '7121'
+                     )
+                     WHERE RNUM = 1  
+              ) as clog on clog.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"                 
+ where 1=1 
+	  AND "code_value_claim_type"."SHORT_NAME" = 'CLMI'
+		and "CLAIM"."STATUS_CODE" &lt;&gt; '5053'  
+		and  CLAIM.line_of_business = 0   
+		
+union
+
+select  distinct CLAIM.line_of_business,
+        rtrim("CLAIM"."CERTIFICATE_IDENTIFIER") as "MI Certificate Number"   
+       , sev.GSE_LOAN_NUMBER as "FNMA Loan Number" 
+       , Cast(CLAIM.audit_timestamp as Date) as "Perfect Date"        
+       , Cast(clog.LOG_TEXT as varchar) as "Change Reason"  
+from  
+	PMICNTRL_CLAIMS.severity_factor as sev 
+        INNER JOIN 
+        "PMICNTRL_CLAIMS"."CLAIM" as "CLAIM"
+              on sev.certificate_identifier = "CLAIM"."CERTIFICATE_IDENTIFIER"
+       inner join (select CERTIFICATE_IDENTIFIER, STATUS_CODE --, AUDIT_TIMESTAMP 
+						 from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudt
+						where AUDIT_TIMESTAMP = (select max(AUDIT_TIMESTAMP) from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudtin
+													where claudtin.CERTIFICATE_IDENTIFIER = claudt.CERTIFICATE_IDENTIFIER)
+					) as clmad
+				on clmad.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"
+				and clmad.STATUS_CODE = '5053'
+       inner join "PMICNTRL_CLAIMS"."CODE_VALUE" "code_value_claim_type" on "CLAIM"."TYPE_CODE" = "code_value_claim_type"."CODE_VALUE_ID"
+       LEFT OUTER JOIN "PMICNTRL_PARTY"."PARTY" "PARTY" on "CLAIM"."FILER_PARTY_IDENTIFIER" = "PARTY"."PARTY_ID"
+       LEFT OUTER JOIN 
+              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM 
+                     (
+                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , 
+                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  
+                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG 
+                     where 1=1
+                     and SOURCE_TYPE_CODE = '7121'
+                     )
+                     WHERE RNUM = 1  
+              ) as clog on clog.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"                 
+ where 1=1 
+	  AND "code_value_claim_type"."SHORT_NAME" = 'CLMI'
+		and "CLAIM"."STATUS_CODE" = '5054'  
+		and  CLAIM.line_of_business = 0
+		and Cast(CLAIM.audit_timestamp as Date) = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      connectionManagerRefId="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MI Certificate Number]"
+                          length="15"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FNMA Loan Number]"
+                          length="40"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Perfect Date]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]"
+                          name="Perfect Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Change Reason]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]"
+                          name="Change Reason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MI Certificate Number]"
+                          dataType="wstr"
+                          length="15"
+                          name="MI Certificate Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FNMA Loan Number]"
+                          dataType="wstr"
+                          length="40"
+                          name="FNMA Loan Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Perfect Date]"
+                          dataType="dbDate"
+                          name="Perfect Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Change Reason]"
+                          dataType="nText"
+                          name="Change Reason" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          name="LINE_OF_BUSINESS"
+                          precision="2" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MI Certificate Number]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FNMA Loan Number]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Perfect Date]"
+                          name="Perfect Date" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Change Reason]"
+                          dataType="nText"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Change Reason]"
+                          name="Change Reason" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination.Inputs[Flat File Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion.Inputs[Data Conversion Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container Arch.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{8BC96D1B-F632-4130-8731-F5A458DAE2AB}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::v_RowCountArch] &gt; 0"
+          DTS:From="Package\Sequence Container Arch\Execute SQL Task Arch"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container UG"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{62062a5a-9918-4322-8886-4980a67f1044}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container UG">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{f668aeb9-e08a-489d-9440-5b079f3dfccb}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="v_RowCountArch">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{3E5F86DB-8244-4FD3-8CCA-AF6D218DADF4}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="v_RowCountUG">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container UG\Execute SQL Task UG"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a0231931-b398-4e42-94c9-fa59f93afe56}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task UG"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}"
+              SQLTask:SqlStatementSource="select count(*) as row_count_ug  from (&#xA;select  distinct CLAIM.line_of_business,&#xA;        rtrim(&quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;) as &quot;MI Certificate Number&quot;   &#xA;       , sev.GSE_LOAN_NUMBER as &quot;FNMA Loan Number&quot; &#xA;       , perfect_dt as &quot;Perfect Date&quot;       &#xA;       , Cast(clog.LOG_TEXT as varchar) as &quot;Change Reason&quot;  &#xA;from  &#xA;&#x9;PMICNTRL_CLAIMS.severity_factor as sev &#xA;      INNER JOIN &#xA;        &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM&quot; as  &quot;CLAIM&quot;&#xA;              on sev.certificate_identifier = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;&#x9;&#x9;inner join &#x9;(select CERTIFICATE_IDENTIFIER, claim_id , min(Cast(audit_timestamp as Date)) as perfect_dt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where status_code = '5054' &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and audit_timestamp &gt; (select max(audit_timestamp) from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudtin &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where claudt.CERTIFICATE_IDENTIFIER = claudtin.CERTIFICATE_IDENTIFIER&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and claudt.claim_id = claudtin.claim_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and status_code = '5053')&#xA;      &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;group by CERTIFICATE_IDENTIFIER, claim_id&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;    &#x9;&#x9;&#x9;&#x9;) as clmad on clmad.CERTIFICATE_IDENTIFIER =  &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and clmad.claim_id = CLAIM.claim_id  &#xA;    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and perfect_dt = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)    &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;             &#xA;       inner join &quot;PMICNTRL_CLAIMS&quot;.&quot;CODE_VALUE&quot; &quot;code_value_claim_type&quot; on &quot;CLAIM&quot;.&quot;TYPE_CODE&quot; = &quot;code_value_claim_type&quot;.&quot;CODE_VALUE_ID&quot;&#xA;       LEFT OUTER JOIN &quot;PMICNTRL_PARTY&quot;.&quot;PARTY&quot; &quot;PARTY&quot; on &quot;CLAIM&quot;.&quot;FILER_PARTY_IDENTIFIER&quot; = &quot;PARTY&quot;.&quot;PARTY_ID&quot;&#xA;       LEFT OUTER JOIN &#xA;              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM &#xA;                     (&#xA;                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , &#xA;                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  &#xA;                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG &#xA;                     where 1=1&#xA;                     and SOURCE_TYPE_CODE = '7121'&#xA;                     )&#xA;                     WHERE RNUM = 1  &#xA;              ) as clog on clog.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;                 &#xA; where 1=1 &#xA;&#x9;  AND &quot;code_value_claim_type&quot;.&quot;SHORT_NAME&quot; = 'CLMI'&#xA;&#x9;&#x9;and &quot;CLAIM&quot;.&quot;STATUS_CODE&quot; &lt;&gt; '5053'  &#xA;&#x9;&#x9;and  CLAIM.line_of_business = 1   &#xA;&#x9;&#x9;&#xA;union&#xA;&#xA;select  distinct CLAIM.line_of_business,&#xA;        rtrim(&quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;) as &quot;MI Certificate Number&quot;   &#xA;       , sev.GSE_LOAN_NUMBER as &quot;FNMA Loan Number&quot; &#xA;       , Cast(CLAIM.audit_timestamp as Date) as &quot;Perfect Date&quot;        &#xA;       , Cast(clog.LOG_TEXT as varchar) as &quot;Change Reason&quot;  &#xA;from  &#xA;&#x9;PMICNTRL_CLAIMS.severity_factor as sev &#xA;        INNER JOIN &#xA;        &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM&quot; as &quot;CLAIM&quot;&#xA;              on sev.certificate_identifier = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;       inner join (select CERTIFICATE_IDENTIFIER, STATUS_CODE --, AUDIT_TIMESTAMP &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where AUDIT_TIMESTAMP = (select max(AUDIT_TIMESTAMP) from &quot;PMICNTRL_CLAIMS&quot;.&quot;CLAIM_AUDIT&quot; claudtin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where claudtin.CERTIFICATE_IDENTIFIER = claudt.CERTIFICATE_IDENTIFIER)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;) as clmad&#xA;&#x9;&#x9;&#x9;&#x9;on clmad.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;&#xA;&#x9;&#x9;&#x9;&#x9;and clmad.STATUS_CODE = '5053'&#xA;       inner join &quot;PMICNTRL_CLAIMS&quot;.&quot;CODE_VALUE&quot; &quot;code_value_claim_type&quot; on &quot;CLAIM&quot;.&quot;TYPE_CODE&quot; = &quot;code_value_claim_type&quot;.&quot;CODE_VALUE_ID&quot;&#xA;       LEFT OUTER JOIN &quot;PMICNTRL_PARTY&quot;.&quot;PARTY&quot; &quot;PARTY&quot; on &quot;CLAIM&quot;.&quot;FILER_PARTY_IDENTIFIER&quot; = &quot;PARTY&quot;.&quot;PARTY_ID&quot;&#xA;       LEFT OUTER JOIN &#xA;              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM &#xA;                     (&#xA;                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , &#xA;                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  &#xA;                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG &#xA;                     where 1=1&#xA;                     and SOURCE_TYPE_CODE = '7121'&#xA;                     )&#xA;                     WHERE RNUM = 1  &#xA;              ) as clog on clog.CERTIFICATE_IDENTIFIER = &quot;CLAIM&quot;.&quot;CERTIFICATE_IDENTIFIER&quot;                 &#xA; where 1=1 &#xA;&#x9;  AND &quot;code_value_claim_type&quot;.&quot;SHORT_NAME&quot; = 'CLMI'&#xA;&#x9;&#x9;and &quot;CLAIM&quot;.&quot;STATUS_CODE&quot; = '5054'  &#xA;&#x9;&#x9;and  CLAIM.line_of_business = 1&#xA;&#x9;&#x9;and Cast(CLAIM.audit_timestamp as Date) = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)&#xA;     )"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="row_count_ug"
+                SQLTask:DtsVariableName="User::v_RowCountUG" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{aa900b95-21bf-4072-8ce4-f84aaad4a076}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MICP_Perfection_Rep_Extract_UG"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input].Columns[MI Certificate Number]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="MI Certificate Number"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input].Columns[FNMA Loan Number]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="FNMA Loan Number"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input].Columns[Perfect Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Perfect Date"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input].Columns[Change Reason]"
+                          cachedDataType="nText"
+                          cachedName="Change Reason"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input].Columns[LINE_OF_BUSINESS]"
+                          cachedDataType="numeric"
+                          cachedName="LINE_OF_BUSINESS"
+                          cachedPrecision="2"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]"
+                          name="Perfect Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]"
+                          name="Change Reason"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination 1"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                    <property
+                      dataType="System.Boolean"
+                      description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                      name="EscapeQualifier">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[MICP_PERFECT_DATE_UGIC_file]"
+                      connectionManagerRefId="Package.ConnectionManagers[MICP_PERFECT_DATE_UGIC_file]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].Columns[MI Certificate Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="MI Certificate Number"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[MI Certificate Number]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[MI Certificate Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].Columns[FNMA Loan Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="FNMA Loan Number"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[FNMA Loan Number]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[FNMA Loan Number]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].Columns[Perfect Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Perfect Date"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Perfect Date]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Perfect Date]" />
+                        <inputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].Columns[Change Reason]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="Change Reason"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Change Reason]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output].Columns[Change Reason]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[MI Certificate Number]"
+                          dataType="nText"
+                          name="MI Certificate Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[FNMA Loan Number]"
+                          dataType="nText"
+                          name="FNMA Loan Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Perfect Date]"
+                          dataType="nText"
+                          name="Perfect Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Change Reason]"
+                          dataType="nText"
+                          name="Change Reason" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select  distinct CLAIM.line_of_business,
+        rtrim("CLAIM"."CERTIFICATE_IDENTIFIER") as "MI Certificate Number"   
+       , sev.GSE_LOAN_NUMBER as "FNMA Loan Number" 
+       , perfect_dt as "Perfect Date"       
+       , Cast(clog.LOG_TEXT as varchar) as "Change Reason"  
+from  
+	PMICNTRL_CLAIMS.severity_factor as sev 
+      INNER JOIN 
+        "PMICNTRL_CLAIMS"."CLAIM" as  "CLAIM"
+              on sev.certificate_identifier = "CLAIM"."CERTIFICATE_IDENTIFIER"
+		inner join 	(select CERTIFICATE_IDENTIFIER, claim_id , min(Cast(audit_timestamp as Date)) as perfect_dt
+						from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudt
+						where status_code = '5054' 
+						and audit_timestamp &gt; (select max(audit_timestamp) from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudtin 
+													where claudt.CERTIFICATE_IDENTIFIER = claudtin.CERTIFICATE_IDENTIFIER
+													and claudt.claim_id = claudtin.claim_id
+													and status_code = '5053')
+      						group by CERTIFICATE_IDENTIFIER, claim_id						
+    				) as clmad on clmad.CERTIFICATE_IDENTIFIER =  "CLAIM"."CERTIFICATE_IDENTIFIER"
+    						and clmad.claim_id = CLAIM.claim_id  
+    						and perfect_dt = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)    						             
+       inner join "PMICNTRL_CLAIMS"."CODE_VALUE" "code_value_claim_type" on "CLAIM"."TYPE_CODE" = "code_value_claim_type"."CODE_VALUE_ID"
+       LEFT OUTER JOIN "PMICNTRL_PARTY"."PARTY" "PARTY" on "CLAIM"."FILER_PARTY_IDENTIFIER" = "PARTY"."PARTY_ID"
+       LEFT OUTER JOIN 
+              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM 
+                     (
+                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , 
+                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  
+                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG 
+                     where 1=1
+                     and SOURCE_TYPE_CODE = '7121'
+                     )
+                     WHERE RNUM = 1  
+              ) as clog on clog.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"                 
+ where 1=1 
+	  AND "code_value_claim_type"."SHORT_NAME" = 'CLMI'
+		and "CLAIM"."STATUS_CODE" &lt;&gt; '5053'  
+		and  CLAIM.line_of_business = 1   
+		
+union
+
+select  distinct CLAIM.line_of_business,
+        rtrim("CLAIM"."CERTIFICATE_IDENTIFIER") as "MI Certificate Number"   
+       , sev.GSE_LOAN_NUMBER as "FNMA Loan Number" 
+       , Cast(CLAIM.audit_timestamp as Date) as "Perfect Date"        
+       , Cast(clog.LOG_TEXT as varchar) as "Change Reason"  
+from  
+	PMICNTRL_CLAIMS.severity_factor as sev 
+        INNER JOIN 
+        "PMICNTRL_CLAIMS"."CLAIM" as "CLAIM"
+              on sev.certificate_identifier = "CLAIM"."CERTIFICATE_IDENTIFIER"
+       inner join (select CERTIFICATE_IDENTIFIER, STATUS_CODE --, AUDIT_TIMESTAMP 
+						 from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudt
+						where AUDIT_TIMESTAMP = (select max(AUDIT_TIMESTAMP) from "PMICNTRL_CLAIMS"."CLAIM_AUDIT" claudtin
+													where claudtin.CERTIFICATE_IDENTIFIER = claudt.CERTIFICATE_IDENTIFIER)
+					) as clmad
+				on clmad.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"
+				and clmad.STATUS_CODE = '5053'
+       inner join "PMICNTRL_CLAIMS"."CODE_VALUE" "code_value_claim_type" on "CLAIM"."TYPE_CODE" = "code_value_claim_type"."CODE_VALUE_ID"
+       LEFT OUTER JOIN "PMICNTRL_PARTY"."PARTY" "PARTY" on "CLAIM"."FILER_PARTY_IDENTIFIER" = "PARTY"."PARTY_ID"
+       LEFT OUTER JOIN 
+              (SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT, RNUM FROM 
+                     (
+                     SELECT CERTIFICATE_IDENTIFIER, LOG_TEXT , 
+                     ROW_NUMBER() OVER (PARTITION BY CERTIFICATE_IDENTIFIER ORDER BY AUDIT_TIMESTAMP DESC) AS RNUM  
+                     FROM PMICNTRL_CLAIMS.COMMUNICATION_LOG 
+                     where 1=1
+                     and SOURCE_TYPE_CODE = '7121'
+                     )
+                     WHERE RNUM = 1  
+              ) as clog on clog.CERTIFICATE_IDENTIFIER = "CLAIM"."CERTIFICATE_IDENTIFIER"                 
+ where 1=1 
+	  AND "code_value_claim_type"."SHORT_NAME" = 'CLMI'
+		and "CLAIM"."STATUS_CODE" = '5054'  
+		and  CLAIM.line_of_business = 1
+		and Cast(CLAIM.audit_timestamp as Date) = (select Cast(current_date as Date) - 1 day as thedate from sysibm.sysdummy1)</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      connectionManagerRefId="{8F5A769C-0C1F-4BBE-8011-2ABD852DDCE2}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MI Certificate Number]"
+                          length="15"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FNMA Loan Number]"
+                          length="40"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Perfect Date]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Perfect Date]"
+                          name="Perfect Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Change Reason]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Change Reason]"
+                          name="Change Reason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MI Certificate Number]"
+                          dataType="wstr"
+                          length="15"
+                          name="MI Certificate Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FNMA Loan Number]"
+                          dataType="wstr"
+                          length="40"
+                          name="FNMA Loan Number" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Perfect Date]"
+                          dataType="dbDate"
+                          name="Perfect Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Change Reason]"
+                          dataType="nText"
+                          name="Change Reason" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          name="LINE_OF_BUSINESS"
+                          precision="2" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="numeric"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          precision="2" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MI Certificate Number]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MI Certificate Number]"
+                          name="MI Certificate Number" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FNMA Loan Number]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FNMA Loan Number]"
+                          name="FNMA Loan Number" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Perfect Date]"
+                          dataType="dbDate"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Perfect Date]"
+                          name="Perfect Date" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Change Reason]"
+                          dataType="nText"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Change Reason]"
+                          name="Change Reason" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1.Inputs[Flat File Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion.Inputs[Data Conversion Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container UG.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{7eefa653-1f65-4c42-adf9-429cf83b6eb8}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::v_RowCountUG]  &gt; 0"
+          DTS:From="Package\Sequence Container UG\Execute SQL Task UG"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C714D274-F7B6-41A6-861F-55A98EF4350D}"
+      DTS:From="Package\Sequence Container Arch"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\MICP Perefection Report Successful" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{13911947-432D-4F61-8045-1556045C803F}"
+      DTS:From="Package\Sequence Container UG"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\MICP Perefection Report Successful" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{2CCC6FB0-2830-42E8-A462-8ED5D570A3DB}"
+      DTS:From="Package\Sequence Container UG"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\MICP Perfection Report Failed"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{CAE347EA-12AE-42D7-B9C3-A9FC50865E7D}"
+      DTS:From="Package\Sequence Container Arch"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\MICP Perfection Report Failed"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="268,57"
+          Id="Package\MICP Perefection Report Successful"
+          TopLeft="723,488" />
+        <NodeLayout
+          Size="219,42"
+          Id="Package\MICP Perfection Report Failed"
+          TopLeft="145,501" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Sequence Container Arch\Execute SQL Task Arch"
+          TopLeft="75,31" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch"
+          TopLeft="54,156" />
+        <EdgeLayout
+          Id="Package\Sequence Container Arch.PrecedenceConstraints[Constraint]"
+          TopLeft="176.75,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,83"
+              Start="0,0"
+              End="0,75.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,75.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,29.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="373,253"
+          Size="373,296"
+          Id="Package\Sequence Container Arch"
+          TopLeft="121,30" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Sequence Container UG\Execute SQL Task UG"
+          TopLeft="75,31" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG"
+          TopLeft="54,156" />
+        <EdgeLayout
+          Id="Package\Sequence Container UG.PrecedenceConstraints[Constraint]"
+          TopLeft="176.75,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,83"
+              Start="0,0"
+              End="0,75.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,75.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,29.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="373,253"
+          Size="373,296"
+          Id="Package\Sequence Container UG"
+          TopLeft="651,40" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="307.5,326">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="549.5,162"
+              Start="0,0"
+              End="549.5,154.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,77" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,77"
+                    Point2="0,81"
+                    Point3="4,81" />
+                  <mssgle:LineSegment
+                    End="545.5,81" />
+                  <mssgle:CubicBezierSegment
+                    Point1="545.5,81"
+                    Point2="549.5,81"
+                    Point3="549.5,85" />
+                  <mssgle:LineSegment
+                    End="549.5,154.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="899.333333333333,336">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,152"
+              Start="0,0"
+              End="0,144.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,144.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="776.666666666667,336">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-487,165"
+              Start="0,0"
+              End="-487,157.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,78.1933788659483" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,78.1933788659483"
+                    Point2="0,82.1933788659483"
+                    Point3="-4,82.1933788659483" />
+                  <mssgle:LineSegment
+                    End="-483,82.1933788659483" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-483,82.1933788659483"
+                    Point2="-487,82.1933788659483"
+                    Point3="-487,86.1933788659483" />
+                  <mssgle:LineSegment
+                    End="-487,157.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-258.74134765625,87.1933788659483,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="250.583333333333,326">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,175"
+              Start="0,0"
+              End="0,167.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,167.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.24134765625,78.87548828125,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source"
+          TopLeft="221.25,2.68750152147063" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Data Conversion"
+          TopLeft="229,93.6249997336417" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\Flat File Destination"
+          TopLeft="221,197.270831911411" />
+        <EdgeLayout
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch.Paths[OLE DB Source Output]"
+          TopLeft="303.625,44.6875015214706">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.9374982121711"
+              Start="0,0"
+              End="0,41.4374982121711">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.4374982121711" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch.Paths[Data Conversion Output]"
+          TopLeft="307.25,135.624999733642">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.6458321777693"
+              Start="0,0"
+              End="0,54.1458321777693">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.1458321777693" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container Arch\MICP_Perfection_Rep_Extract_Arch\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source"
+          TopLeft="221.25,2.68750152147063" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Data Conversion"
+          TopLeft="224,81.6249997336417" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\Flat File Destination 1"
+          TopLeft="213.5,189.729165247434" />
+        <EdgeLayout
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG.Paths[OLE DB Source Output]"
+          TopLeft="301.125,44.6875015214706">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.9374982121711"
+              Start="0,0"
+              End="0,29.4374982121711">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.4374982121711" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG.Paths[Data Conversion Output]"
+          TopLeft="303,123.624999733642">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66.1041655137923"
+              Start="0,0"
+              End="0,58.6041655137923">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.6041655137923" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container UG\MICP_Perfection_Rep_Extract_UG\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

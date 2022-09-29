@@ -1,0 +1,1974 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/2/2020 1:25:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="RCMI-PWV-SSIS01"
+  DTS:CreatorName="CMGMI\cognos.job"
+  DTS:DTSID="{6BE3C845-4B36-48EA-85DE-B5D1D7F43CB8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="GSELoanNumbersExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{B8E88318-31E2-46FE-B96A-F464BDC5CDB1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Fail"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{bcb78005-2c01-4c7a-8a91-8c5cc1588103}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Fail"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAILED: Arch GSE Loan Number Extraction Monthly (" +  @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="FAILED: Arch GSE Loan Number Extraction Monthly (Production)"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{50163220-4AB2-44A1-B7FD-1C3BA0B44891}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{73a034f9-eb33-467a-9b62-a3d82df0fc20}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load STG_BA_FNMA_CERTS_UGC_Legacy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_BA_FNMA_CERTS_UGC_Legacy]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CertId]"
+                          cachedDataType="r8"
+                          cachedName="CertId"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERTID]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CertId]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FM_LOAN_NUMBER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="FM_LOAN_NUMBER"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FM_LOAN_NUMBER]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GSE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="7"
+                          cachedName="GSE"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gse]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SYSTEM]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="3"
+                          cachedName="SYSTEM"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[System]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERTID]"
+                          dataType="r8"
+                          name="CERTID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="FM_LOAN_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gse]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="gse" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[System]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="System" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CertId,FM_LOAN_NUMBER,GSE,SYSTEM  FROM DBO.FNMA_CERTS_UGC_LEGACY</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      connectionManagerRefId="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          length="100"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CertId]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CertId]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CertId]"
+                          name="CertId"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GSE]"
+                          length="7"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]"
+                          name="GSE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SYSTEM]"
+                          length="3"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]"
+                          name="SYSTEM"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="FM_LOAN_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CertId]"
+                          dataType="r8"
+                          name="CertId" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="GSE" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="SYSTEM" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CertId]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CertId]"
+                          name="CertId" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GSE]"
+                          name="GSE" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SYSTEM]"
+                          name="SYSTEM" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{245c5c90-0f49-423d-a546-9dc0b2f5c4ea}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load STG_BA_FREDDIE_CERTS_UGC_Legacy"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_BA_FREDDIE_CERTS_UGC_Legacy]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CERTID]"
+                          cachedDataType="r8"
+                          cachedName="CERTID"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERTID]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FM_LOAN_NUMBER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="21"
+                          cachedName="FM_LOAN_NUMBER"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FM_LOAN_NUMBER]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GSE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8"
+                          cachedName="GSE"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gse]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SYSTEM]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="3"
+                          cachedName="SYSTEM"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[System]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CERTID]"
+                          dataType="numeric"
+                          name="CERTID"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="FM_LOAN_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gse]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8"
+                          name="gse" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[System]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="System" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CERTID,FM_LOAN_NUMBER,GSE,SYSTEM,ASOF FROM DBO.FREDDIE_CERTS_UGC_Legacy</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      connectionManagerRefId="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          name="CERTID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          length="21"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GSE]"
+                          length="8"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[GSE]"
+                          name="GSE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SYSTEM]"
+                          length="3"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[SYSTEM]"
+                          name="SYSTEM"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASOF]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASOF]"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].Columns[ASOF]"
+                          name="ASOF"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          dataType="r8"
+                          name="CERTID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="FM_LOAN_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8"
+                          name="GSE" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="SYSTEM" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ASOF]"
+                          dataType="r8"
+                          name="ASOF" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          name="CERTID" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GSE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GSE]"
+                          name="GSE" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SYSTEM]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SYSTEM]"
+                          name="SYSTEM" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASOF]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ASOF]"
+                          name="ASOF" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{698810e0-c626-45fb-b07b-68e1c9e89d91}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STG_BA_VW_FNMA_CERTS_AMI"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_BA_vw_FNMA_CERTS_AMI]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CERTID]"
+                          cachedDataType="r8"
+                          cachedName="CERTID"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FN_LOAN_NUMBER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="21"
+                          cachedName="FN_LOAN_NUMBER"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FN_LOAN_NUMBER]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FN_LOAN_NUMBER]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                          dataType="numeric"
+                          name="certid"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FN_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="FN_LOAN_NUMBER" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CERTID, FN_LOAN_NUMBER FROM DBO.VW_FNMA_CERTS_AMI</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      connectionManagerRefId="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FN_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FN_LOAN_NUMBER]"
+                          length="21"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FN_LOAN_NUMBER]"
+                          name="FN_LOAN_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          name="CERTID"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FN_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="FN_LOAN_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          dataType="r8"
+                          name="CERTID" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          name="CERTID" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FN_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FN_LOAN_NUMBER]"
+                          name="FN_LOAN_NUMBER" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{68696E33-B893-46CA-BA03-7EBCF0F9B658}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STG_BA_VW_FREDDIE_CERTS_AMI"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_BA_VW_FREDDIE_CERTS_AMI]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CERTID]"
+                          cachedDataType="numeric"
+                          cachedName="CERTID"
+                          cachedPrecision="30"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FM_LOAN_NUMBER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="21"
+                          cachedName="FM_LOAN_NUMBER"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fm_loan_number]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                          dataType="numeric"
+                          name="certid"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fm_loan_number]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="fm_loan_number" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CERTID, FM_LOAN_NUMBER FROM DBO.VW_FREDDIE_CERTS_AMI</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      connectionManagerRefId="{e83de549-7b5e-4da5-8ffe-6de656aa4ae8}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CERTID]"
+                          name="CERTID"
+                          precision="30"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          length="21"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CERTID]"
+                          dataType="numeric"
+                          name="CERTID"
+                          precision="30" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          name="FM_LOAN_NUMBER" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          dataType="numeric"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CERTID]"
+                          name="CERTID"
+                          precision="30" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="21"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FM_LOAN_NUMBER]"
+                          name="FM_LOAN_NUMBER" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Truncate Table 2"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{168a7dfc-038a-4e24-90be-042f8e1a858f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Table 2"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_BA_FREDDIE_CERTS_UGC_LEGACY" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Truncate Table 3"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{b84925f1-cfbf-47fe-ad3e-1ae5b6f1337d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Table 3"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_BA_VW_FNMA_CERTS_AMI  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Truncate table 4"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5b22ec64-b26a-4c1d-be68-d6ec503613ce}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate table 4"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_BA_FNMA_CERTS_UGC_LEGACY" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Truncate Table1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B9C8258D-E4DE-443F-BBDE-48B077384611}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Table1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.stg_ba_vw_FREDDIE_CERTS_AMI" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{A5D53A94-C0EA-411C-A8A9-F1EBB7A8524B}"
+          DTS:From="Package\Sequence Container\Truncate Table1"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{8da5b1d1-51b7-42f6-bce7-c0375c570948}"
+          DTS:From="Package\Sequence Container\Truncate Table 3"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{3ac899d4-3a26-499b-8a7b-b84b6e7fece6}"
+          DTS:From="Package\Sequence Container\Truncate Table 2"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{1d9691e7-7fa4-4d6c-a971-86b68a5e273c}"
+          DTS:From="Package\Sequence Container\Truncate table 4"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{98279E23-62CF-4F3C-A339-773C2709C8A3}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS: Arch GSE Loan Number Extraction Monthly (" +  @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="SUCCESS: Arch GSE Loan Number Extraction Monthly (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B673A8FB-BFEE-4BEE-8AEC-36D334FE0800}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{275DF5C3-C27E-49FF-88BE-9DD2D2A78CB8}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Fail"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="95,42"
+          Id="Package\Fail"
+          TopLeft="494,532" />
+        <NodeLayout
+          Size="278,42"
+          Id="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy"
+          TopLeft="435.5,248.5" />
+        <NodeLayout
+          Size="293,42"
+          Id="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy"
+          TopLeft="408.5,76.5" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI"
+          TopLeft="67.5,251.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI"
+          TopLeft="46.5,82.5" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Sequence Container\Truncate Table 2"
+          TopLeft="485.5,14.5" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Sequence Container\Truncate Table 3"
+          TopLeft="103.5,176.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Sequence Container\Truncate table 4"
+          TopLeft="503.5,166.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Sequence Container\Truncate Table1"
+          TopLeft="91.5,17.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="170,59.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23"
+              Start="0,0"
+              End="0,15.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="183.5,218.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="485.5,35.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69.5,41"
+              Start="0,0"
+              End="69.5,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="65.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="65.5,0"
+                    Point2="69.5,0"
+                    Point3="69.5,4" />
+                  <mssgle:LineSegment
+                    End="69.5,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 3]"
+          TopLeft="578,208.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="751,386"
+          Size="751,429"
+          Id="Package\Sequence Container"
+          TopLeft="70,53" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\Success"
+          TopLeft="361,532" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="321.666666666667,482">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97.3333333333334,50"
+              Start="0,0"
+              End="97.3333333333334,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.063778899814" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.063778899814"
+                    Point2="0,20.063778899814"
+                    Point3="4,20.063778899814" />
+                  <mssgle:LineSegment
+                    End="93.3333333333334,20.063778899814" />
+                  <mssgle:CubicBezierSegment
+                    Point1="93.3333333333334,20.063778899814"
+                    Point2="97.3333333333334,20.063778899814"
+                    Point3="97.3333333333334,24.063778899814" />
+                  <mssgle:LineSegment
+                    End="97.3333333333334,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="569.333333333333,482">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-27.8333333333333,50"
+              Start="0,0"
+              End="-27.8333333333333,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.063778899814" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.063778899814"
+                    Point2="0,20.063778899814"
+                    Point3="-4,20.063778899814" />
+                  <mssgle:LineSegment
+                    End="-23.8333333333333,20.063778899814" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-23.8333333333333,20.063778899814"
+                    Point2="-27.8333333333333,20.063778899814"
+                    Point3="-27.8333333333333,24.063778899814" />
+                  <mssgle:LineSegment
+                    End="-27.8333333333333,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.1580143229166,25.063778899814,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source"
+          TopLeft="319,149" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination"
+          TopLeft="306,256" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy.Paths[OLE DB Source Output]"
+          TopLeft="392.75,191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,65"
+              Start="0,0"
+              End="0,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Load STG_BA_FNMA_CERTS_UGC_Legacy\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source"
+          TopLeft="178,126" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination"
+          TopLeft="160,258" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy.Paths[OLE DB Source Output]"
+          TopLeft="249.25,168">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,90"
+              Start="0,0"
+              End="0,82.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,82.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Load STG_BA_FREDDIE_CERTS_UGC_Legacy\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source"
+          TopLeft="226,194" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination"
+          TopLeft="214,268" />
+        <EdgeLayout
+          Id="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI.Paths[OLE DB Source Output]"
+          TopLeft="300.25,236">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\STG_BA_VW_FNMA_CERTS_AMI\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source"
+          TopLeft="150,113" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination"
+          TopLeft="141,211" />
+        <EdgeLayout
+          Id="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI.Paths[OLE DB Source Output]"
+          TopLeft="225.75,155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\STG_BA_VW_FREDDIE_CERTS_AMI\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

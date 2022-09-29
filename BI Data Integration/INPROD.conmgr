@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="INPROD"
+  DTS:DTSID="{CEA15391-C0CF-4730-940A-D0D2977C8C2D}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_UGCINPROD_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=us-db-sac212\p_bi_ami_us;User ID=ds_conn;Initial Catalog=P_MILAR_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="M/5KsFQj1gY="
+        p4:IV="47Y/LimnlzNJuRR3sMooiQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">u5PGrtHSGykfXuEZd7FzdE18OauYSeCfyf99QW+COUz1v0OYR6VekwtVRNT4uIsPF8uypb99V2idplMyl5kU/CWu43LxR0u0V77KwZ5QYPYp+JfCXo4b4yioM9ahFvt+pKyuzpu3f+qzS7uRBcA/qbEnGq/nzSWREgkQRC6b7kI=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

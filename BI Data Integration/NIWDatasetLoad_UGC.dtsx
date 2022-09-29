@@ -1,0 +1,611 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/1/2018 8:12:18 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI007"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{090E874F-84A9-48A8-A54B-5365AD434D74}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="NIWDatasetLoad_UGC"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{6C91341D-0F06-4411-8429-5529E3AE73EA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[East NIW File]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{2E57B87A-4BF2-4A6D-83F9-0C04A809C91D}"
+      DTS:ObjectName="East NIW File">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_NIW_Dataset_East] + "niw_" + (DT_WSTR,4)YEAR(DATEADD("mm",-1,GETDATE())) + RIGHT("0" + (DT_WSTR,2)(MONTH(DATEADD("mm",-1,GETDATE()))), 2) + ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sfofp001\mis data\IS\Business Intelligence Program\DM2SSIS\BI Data Integration\External Data Sources\NIW Dataset Arch East\niw_201907.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_CERT_NBR"
+              DTS:DTSID="{1CA244B8-2353-484C-AE7F-473E36C1801C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_LOAN_LINE_CD"
+              DTS:DTSID="{E026CF2C-7113-420D-A477-C03A6DE96B26}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="1"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_INS_LINE"
+              DTS:DTSID="{293DEAFB-9FAD-4CC2-96EB-F4FDAE6AACB8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_NIW_AMT"
+              DTS:DTSID="{387F05F2-1D49-40B7-86DE-E1745ED9F619}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_NIW_PERIOD_END_DT"
+              DTS:DTSID="{89B85C4E-A2C8-4E2D-9C9B-B5C123A5B0F3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UG_NIW_DT"
+              DTS:DTSID="{D8E08A3A-47B7-474D-8F0E-CA5C93A6F6E7}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load NIW Dataset"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5DAFADD0-7944-4A46-A404-1977D53589D5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load NIW Dataset"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load NIW Dataset\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load NIW Dataset\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[East NIW File]"
+                  connectionManagerRefId="Package.ConnectionManagers[East NIW File]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_CERT_NBR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_CERT_NBR]"
+                      length="50"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_CERT_NBR]"
+                      name="UG_CERT_NBR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_LOAN_LINE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_LOAN_LINE_CD]"
+                      length="1"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_LOAN_LINE_CD]"
+                      name="UG_LOAN_LINE_CD"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_INS_LINE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_INS_LINE]"
+                      length="1"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_INS_LINE]"
+                      name="UG_INS_LINE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_AMT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_AMT]"
+                      length="50"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_AMT]"
+                      name="UG_NIW_AMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_PERIOD_END_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_PERIOD_END_DT]"
+                      length="50"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_PERIOD_END_DT]"
+                      name="UG_NIW_PERIOD_END_DT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_DT]"
+                      length="50"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_DT]"
+                      name="UG_NIW_DT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_CERT_NBR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UG_CERT_NBR" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_LOAN_LINE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="UG_LOAN_LINE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_INS_LINE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="UG_INS_LINE" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_AMT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UG_NIW_AMT" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_PERIOD_END_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UG_NIW_PERIOD_END_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UG_NIW_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UG_NIW_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load NIW Dataset\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_NIW_MASTER_UG]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load NIW Dataset\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_CERT_NBR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="UG_CERT_NBR"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_CERT_NBR]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_CERT_NBR]" />
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_LOAN_LINE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="UG_LOAN_LINE_CD"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_LOAN_LINE_CD]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_LOAN_LINE_CD]" />
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_INS_LINE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="UG_INS_LINE"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_INS_LINE]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_INS_LINE]" />
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_NIW_AMT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="UG_NIW_AMT"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_AMT]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_AMT]" />
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_NIW_PERIOD_END_DT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="UG_NIW_PERIOD_END_DT"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_PERIOD_END_DT]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_PERIOD_END_DT]" />
+                    <inputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UG_NIW_DT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="UG_NIW_DT"
+                      externalMetadataColumnId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_DT]"
+                      lineageId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output].Columns[UG_NIW_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_CERT_NBR]"
+                      dataType="numeric"
+                      name="UG_CERT_NBR"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_LOAN_LINE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="UG_LOAN_LINE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_INS_LINE]"
+                      dataType="numeric"
+                      name="UG_INS_LINE"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_AMT]"
+                      dataType="numeric"
+                      name="UG_NIW_AMT"
+                      precision="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_PERIOD_END_DT]"
+                      dataType="numeric"
+                      name="UG_NIW_PERIOD_END_DT"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UG_NIW_DT]"
+                      dataType="numeric"
+                      name="UG_NIW_DT"
+                      precision="8" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load NIW Dataset\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load NIW Dataset\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load NIW Dataset\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load NIW Dataset\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load NIW Dataset.Paths[Flat File Source Output]"
+              endId="Package\Load NIW Dataset\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Flat File Source Output"
+              startId="Package\Load NIW Dataset\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Load NIW Dataset"
+          TopLeft="160,99" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load NIW Dataset">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Load NIW Dataset\Flat File Source"
+          TopLeft="135,103" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load NIW Dataset\OLE DB Destination"
+          TopLeft="122,210" />
+        <EdgeLayout
+          Id="Package\Load NIW Dataset.Paths[Flat File Source Output]"
+          TopLeft="210,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,65"
+              Start="0,0"
+              End="0,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load NIW Dataset\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

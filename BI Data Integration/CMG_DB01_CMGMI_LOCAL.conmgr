@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CMG_DB01_CMGMI_LOCAL"
+  DTS:DTSID="{1D8001CC-7E9D-4F71-9935-A97C3DB75E67}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CMG_DB01_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVDTBS007\P_SALES_AMI_US;User ID=ds_conn;Initial Catalog=CMG_Central;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="FFQ+DV2fDC8="
+        p4:IV="mxkqjuR4VsJ5Jje2/5mjxQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">oE2BOCDeuq7TiGikjdNcqQ5w2EqJwBacTB4aSKF7JuInY50uRiwPxW3NaBbhYugdVuLxc8nwgTvSa93XwVdFu5iMroj00xgcEE8AHMjAGi0ap2xnOdeM5rkwAJbxDJQMGV/XrPvFRV7AixfcUds0/+t8pJnxlssVjYEL1RltSkE=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

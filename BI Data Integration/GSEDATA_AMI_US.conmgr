@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="GSEDATA_AMI_US"
+  DTS:DTSID="{FDC25211-451E-45A6-9891-A70A47FC8A15}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_GSEData_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC212\P_BI_AMI_US;User ID=ds_conn;Initial Catalog=P_GSEData_AMI_US_01;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="pcYFnSwmOUM="
+        p4:IV="2H1nbY7N0QuxaUoCpu3Dcw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">0Jd4tTZjjj1r3Va8yUbINOngTSAnA1n5110NoyVwSddK1AVaFSf0EmyFQkfdzGBg5sJeUy+FVR4EQe8wpGBtgu60iaqc3dScE0IDzcz7mAlaW144zrmrMaQX8MqLIkgmbq7h5Vnvx1jY2RiVHs7w+phhQVG/tSC75pIyoTHboL0=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

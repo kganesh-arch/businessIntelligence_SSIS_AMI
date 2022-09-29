@@ -1,0 +1,622 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/20/2020 1:16:29 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="RCMI-PWV-SSIS01"
+  DTS:CreatorName="CMGMI\cognos.job"
+  DTS:DTSID="{F6CC5BAB-5F48-40E4-8335-1A04776077C8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="IntegrationDailyContractUnderwritingBuilds"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{B3F302FF-76B5-4A0C-9A9D-59B694A5E6AD}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\MongoDB Extractions - contractunderwritingModel"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{2907D9F1-70B9-43EC-833B-C06C5FAFEC2E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MongoDB Extractions - contractunderwritingModel">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\MongoDB Extractions - contractunderwritingModel\contractUnderwritingModel Extraction"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{175CC22F-0FAA-46A4-AD4F-ECB525333017}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="contractUnderwritingModel Extraction"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>SCUBA Mongo DB Extraction - ContractUnderwritingModel.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MongoDB Extractions - contractunderwritingModel\Fail"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{E3D57984-9B5D-417D-99BE-01DE532DF84B}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Fail"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"FAILED: Aqua Extraction for contractUnderwritingModel (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="FAILED: Aqua Extraction for contractUnderwritingModel (Production) Arch BI Data Integration"
+              SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MongoDB Extractions - contractunderwritingModel\Success"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{6D452452-B1B2-48E2-9FB6-C1D9DDFDC631}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Success"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"SUCCESS: Aqua Extraction for contractUnderwritingModel (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="SUCCESS: Aqua Extraction for contractUnderwritingModel (Production) Arch BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MongoDB Extractions - contractunderwritingModel.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{C408448C-49D2-43B5-99A0-78F2C0AA1279}"
+          DTS:From="Package\MongoDB Extractions - contractunderwritingModel\contractUnderwritingModel Extraction"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\MongoDB Extractions - contractunderwritingModel\Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MongoDB Extractions - contractunderwritingModel.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{D43BC02B-372B-442B-8C49-9247FE4496C7}"
+          DTS:From="Package\MongoDB Extractions - contractunderwritingModel\contractUnderwritingModel Extraction"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\MongoDB Extractions - contractunderwritingModel\Fail"
+          DTS:Value="1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL Server Extractions - SCUBA"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{D8EC7FEB-DE6D-40F3-814D-AD649D4E28D2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL Server Extractions - SCUBA">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SQL Server Extractions - SCUBA\Fail"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{1D47692B-4AB0-49E1-8ADC-43C258E2A800}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Fail"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"FAILED: SCUBA Extraction from SQL Server DB (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="FAILED: SCUBA Extraction from SQL Server DB (Production) Arch BI Data Integration"
+              SendMailTask:MessageSource="Check error in SSIS logs - If it is due to duplicate rows from DOCUMENT or DOCUMENT_AUD, the failure can be ignored and data will catch up in the next scheduled run after 30 mins. The error is due to the (NOLOCK) hint on the query causing an uncommitted read in data in flux as per DBE" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SQL Server Extractions - SCUBA\SCUBA Extraction Daily"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{3D357B90-2D1C-44DB-9C19-85F64F301B12}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SCUBA Extraction Daily"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>SCUBA SQL DB Extraction.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SQL Server Extractions - SCUBA\Success"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{E84D365D-D477-457E-8898-439707B1646B}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Success"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"SUCCESS: SCUBA Extraction From SQL Server DB Daily (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="SUCCESS: SCUBA Extraction From SQL Server DB Daily (Production) Arch BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SQL Server Extractions - SCUBA.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{F8CC1179-AAE9-4331-A8F5-F82B8E51F9EA}"
+          DTS:From="Package\SQL Server Extractions - SCUBA\SCUBA Extraction Daily"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SQL Server Extractions - SCUBA\Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SQL Server Extractions - SCUBA.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{2746F7BA-7D49-4639-8DF8-52CFEB7B02EA}"
+          DTS:From="Package\SQL Server Extractions - SCUBA\SCUBA Extraction Daily"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SQL Server Extractions - SCUBA\Fail"
+          DTS:Value="1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Underwriting Facts"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{5FD64DC8-7808-4B97-ABEC-CC210ECDBC3E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Underwriting Facts">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Underwriting Facts\Fail"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{F117ECDD-D4AF-4579-A619-A99D63E72015}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Fail"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"FAILED: Contract Underwriting Facts Daily (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="FAILED: Contract Underwriting Facts Daily (Production) Arch BI Data Integration"
+              SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Underwriting Facts\Success"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{360279D6-CF32-4C73-9D42-414F7506D301}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Success"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"SUCCESS: Contract Underwriting Facts Daily (" +  @[$Project::pstr_Environment] + ") Arch BI Data Integration"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+              SendMailTask:Subject="SUCCESS: Contract Underwriting Facts Daily (Production) Arch BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Underwriting Facts\Underwriting Facts Daily"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{4F5F6429-9B3C-4E8B-9475-82D61C2397D9}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Underwriting Facts Daily"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>ContractUnderwritingFactsDaily.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Underwriting Facts.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{62FDB61C-CF87-43CF-B107-6D83599FBAB9}"
+          DTS:From="Package\Underwriting Facts\Underwriting Facts Daily"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Underwriting Facts\Success" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Underwriting Facts.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{ECCB366D-77C4-4D62-88CA-26E5663A5E58}"
+          DTS:From="Package\Underwriting Facts\Underwriting Facts Daily"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Underwriting Facts\Fail"
+          DTS:Value="1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E19B0FB6-D427-4AA9-8BF9-B0F87EF6C2E7}"
+      DTS:From="Package\MongoDB Extractions - contractunderwritingModel"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Underwriting Facts" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="256,42"
+          Id="Package\MongoDB Extractions - contractunderwritingModel\contractUnderwritingModel Extraction"
+          TopLeft="44,31" />
+        <NodeLayout
+          Size="95,42"
+          Id="Package\MongoDB Extractions - contractunderwritingModel\Fail"
+          TopLeft="200,131" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\MongoDB Extractions - contractunderwritingModel\Success"
+          TopLeft="69,129" />
+        <EdgeLayout
+          Id="Package\MongoDB Extractions - contractunderwritingModel.PrecedenceConstraints[Constraint]"
+          TopLeft="128.833333333333,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MongoDB Extractions - contractunderwritingModel.PrecedenceConstraints[Constraint 1]"
+          TopLeft="213.333333333333,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.1666666666667,58"
+              Start="0,0"
+              End="34.1666666666667,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.416149068323" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.416149068323"
+                    Point2="0,23.416149068323"
+                    Point3="4,23.416149068323" />
+                  <mssgle:LineSegment
+                    End="30.1666666666667,23.416149068323" />
+                  <mssgle:CubicBezierSegment
+                    Point1="30.1666666666667,23.416149068323"
+                    Point2="34.1666666666667,23.416149068323"
+                    Point3="34.1666666666667,27.416149068323" />
+                  <mssgle:LineSegment
+                    End="34.1666666666667,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="1.84198567708334,28.416149068323,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="338,229"
+          Size="338,272"
+          Id="Package\MongoDB Extractions - contractunderwritingModel"
+          TopLeft="42.5555555555555,341.444444444444" />
+        <NodeLayout
+          Size="95,42"
+          Id="Package\SQL Server Extractions - SCUBA\Fail"
+          TopLeft="209,91" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\SQL Server Extractions - SCUBA\SCUBA Extraction Daily"
+          TopLeft="64,19" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\SQL Server Extractions - SCUBA\Success"
+          TopLeft="62,88" />
+        <EdgeLayout
+          Id="Package\SQL Server Extractions - SCUBA.PrecedenceConstraints[Constraint]"
+          TopLeft="128,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8,27"
+              Start="0,0"
+              End="-8,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,6.93670886075949" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,6.93670886075949"
+                    Point2="0,10.9367088607595"
+                    Point3="-4,10.9367088607595" />
+                  <mssgle:LineSegment
+                    End="-4,10.9367088607595" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4,10.9367088607595"
+                    Point2="-8,10.9367088607595"
+                    Point3="-8,14.9367088607595" />
+                  <mssgle:LineSegment
+                    End="-8,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SQL Server Extractions - SCUBA.PrecedenceConstraints[Constraint 1]"
+          TopLeft="188,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="68.5,30"
+              Start="0,0"
+              End="68.5,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.15189873417722" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.15189873417722"
+                    Point2="0,12.1518987341772"
+                    Point3="4,12.1518987341772" />
+                  <mssgle:LineSegment
+                    End="64.5,12.1518987341772" />
+                  <mssgle:CubicBezierSegment
+                    Point1="64.5,12.1518987341772"
+                    Point2="68.5,12.1518987341772"
+                    Point3="68.5,16.1518987341772" />
+                  <mssgle:LineSegment
+                    End="68.5,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="19.00865234375,17.1518987341772,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="340,206"
+          Size="340,249"
+          Id="Package\SQL Server Extractions - SCUBA"
+          TopLeft="39.555555555555,56" />
+        <NodeLayout
+          Size="95,42"
+          Id="Package\Underwriting Facts\Fail"
+          TopLeft="216,160" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\Underwriting Facts\Success"
+          TopLeft="85,158" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Underwriting Facts\Underwriting Facts Daily"
+          TopLeft="86,53" />
+        <EdgeLayout
+          Id="Package\Underwriting Facts.PrecedenceConstraints[Constraint]"
+          TopLeft="151.666666666667,95">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8.66666666666666,63"
+              Start="0,0"
+              End="-8.66666666666666,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5107913669065" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.5107913669065"
+                    Point2="0,25.5107913669065"
+                    Point3="-4,25.5107913669065" />
+                  <mssgle:LineSegment
+                    End="-4.66666666666666,25.5107913669065" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4.66666666666666,25.5107913669065"
+                    Point2="-8.66666666666666,25.5107913669065"
+                    Point3="-8.66666666666666,29.5107913669065" />
+                  <mssgle:LineSegment
+                    End="-8.66666666666666,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Underwriting Facts.PrecedenceConstraints[Constraint 1]"
+          TopLeft="213.333333333333,95">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50.1666666666667,65"
+              Start="0,0"
+              End="50.1666666666667,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.3206577595067" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.3206577595067"
+                    Point2="0,26.3206577595067"
+                    Point3="4,26.3206577595067" />
+                  <mssgle:LineSegment
+                    End="46.1666666666667,26.3206577595067" />
+                  <mssgle:CubicBezierSegment
+                    Point1="46.1666666666667,26.3206577595067"
+                    Point2="50.1666666666667,26.3206577595067"
+                    Point3="50.1666666666667,30.3206577595067" />
+                  <mssgle:LineSegment
+                    End="50.1666666666667,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="9.84198567708334,31.3206577595067,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="348,257"
+          Size="348,300"
+          Id="Package\Underwriting Facts"
+          TopLeft="472.555555555556,331" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="380.555555555556,479.222222222222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="92,0"
+              Start="0,0"
+              End="84.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="84.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

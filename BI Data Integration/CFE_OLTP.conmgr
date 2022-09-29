@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CFE_OLTP"
+  DTS:DTSID="{DA97BAB4-9F3C-489E-8151-B4F52E566D1B}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CFE_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0301\P_CD_AMI_US_01;User ID=ds_conn;Initial Catalog=P_CFE_AMI_US_01;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;Application Intent=ReadOnly;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="4QTJpEUl0Rc="
+        p4:IV="5EzoO7pJ9nOj6zarIMFjsA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">PT4Hhq5nVRcmbNLxw86bgkW7YgDXey7laQEXV4ppmv8vo8aXoxEtQ2wCHME7Wejo8dFnQbrUmhoTI91lD6L0l/GQQoOTA2wrlh/mAXRgHHItQ6haiBDqS6dd2mBec+4HR8rG7JAPr21hJlqKDTUoUc1xlelQnru0CR+m4pJO4Vc=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

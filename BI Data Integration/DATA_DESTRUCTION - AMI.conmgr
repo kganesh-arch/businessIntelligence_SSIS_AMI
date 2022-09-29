@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DATA_DESTRUCTION - AMI"
+  DTS:DTSID="{d860cb5f-e8e4-4353-8393-6517fac44c76}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_DATADESTRUCTION_AMI_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0201\P_MIPS_AMI_US_02;User ID=ds_conn;Initial Catalog=P_DATADESTRUCT_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;Application Intent=ReadOnly;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="2fsvrmnUVpM="
+        p4:IV="f0f6EsUyf25VvtQ6gya4dw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">v54vmPvnB3csntF1CXJ0V58GnZenX/ybpk3zMPz0CxsXa4J0itjHchNzr3u3N4T8atuHMMG5MwydkHYeIgd2fiZd1oL03COyoKT00gbR2qO0fopr+PBadt6CES1PjsNJzXvhHK0OBTOnTXMvTMYiRcNIRCCdl4aGpvnmFW2L/OI=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

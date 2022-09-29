@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="SMTP Connection Manager"
+  DTS:DTSID="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+  DTS:CreationName="SMTP">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_Email_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <SmtpConnectionManager
+      ConnectionString="SmtpServer=Smtp_internal.cmgmi.local;UseWindowsAuthentication=False;EnableSsl=False;"
+      ConnectByProxy="False" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

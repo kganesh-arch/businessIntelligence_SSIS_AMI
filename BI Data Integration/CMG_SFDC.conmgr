@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CMG_SFDC"
+  DTS:DTSID="{39E0E546-8E6B-47AF-AB81-A6A980858F78}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_SFDC_Staging_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVDTBS007\P_SALES_AMI_US;User ID=ds_conn;Initial Catalog=CMG_SFDC;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="ovSRkCxkegA="
+        p4:IV="Lzh/xAVCduE3NNWh2azE2g=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">oZBqxEII2IJi92TO3oKuV3hw6EW15II1qs+xdWTZvBYnB7V4nvPD74OgUB8YHc9FmAEazykLwJXyrfILj4uV9Nfgy9arJozx13tWu/5hNhtAf1M7GOuD+I6hbyA+tyqT0LQ8aTKv2at74pTeTu9Yskmmgn0UQLZ9paFokKAtXMc=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,3020 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/31/2016 10:05:46 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-BRIVADU"
+  DTS:CreatorName="CMGMI\brivadulla"
+  DTS:DTSID="{E8FE334A-1E5B-4047-8591-D17E6E245E12}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FLESExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="151"
+  DTS:VersionGUID="{B4066586-272B-4686-90E3-34756669B067}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{395CAB7C-D21F-48B6-8400-B51EBA0FF8D7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="control_date">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\C&amp;D HELPER TABLES"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{05BA227E-F84F-4954-9938-ECE9AF86DD76}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="C&amp;D HELPER TABLES">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{022CA2B8-8955-4A93-9482-35DB8B93C44B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="HLP_LES_CLAIMS"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_HLP_LES_CLAIMS"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">--TRUNCATE TABLE HLP_LES_CLAIM_TMP
+
+SELECT a.* --INTO dbo.HLP_LES_CLAIM_TMP
+	FROM (
+	select 
+		--concat(CAST(CERTIFICATE_IDENTIFIER AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12))) as compound_key,
+		c.CLAIM_ID,
+			NULL as CONTRACT_IDENTIFIER,
+			NULL as INSURED_LOAN_IDENTIFIER,
+			CERTIFICATE_IDENTIFIER,
+			cv1.SHORT_NAME as STATUS_CODE,
+			cv2.SHORT_NAME as TYPE_CODE,
+			cv3.SHORT_NAME as STATUS_CHANGE_REASON_CODE,
+			ISNULL(C.LINE_OF_BUSINESS,0) AS LINE_OF_BUSINESS -- Modified 20170118; BI-1610
+	from   dbo.STG_CLAIM c
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv1
+				on c.STATUS_CODE = cv1.CODE_VALUE_ID
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv2
+				on c.TYPE_CODE = cv2.CODE_VALUE_ID
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv3
+				on STATUS_CHANGE_REASON_CODE = cv3.CODE_VALUE_ID,
+				edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKP
+	where  CERTIFICATE_IDENTIFIER is not NULL
+	and           cv2.SHORT_NAME = 'CLMI'
+	and    c.audit_timestamp &gt;=time_offset_start_date
+	and    c.audit_timestamp &lt; time_offset_end_date
+	and    dateadd(hh,time_offset,c.audit_timestamp) = ( select max(dateadd(hh,time_offset,ci.audit_timestamp))
+															from   dbo.STG_CLAIM ci,
+																		edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKPi,
+																		dbo.STG_CLAIM_CODE_VALUE cvi
+																where       ci.CERTIFICATE_IDENTIFIER is not NULL
+																and           ci.TYPE_CODE = cvi.CODE_VALUE_ID
+																and           cvi.SHORT_NAME = 'CLMI'
+																and    ci.audit_timestamp &gt;=LKPi.time_offset_start_date
+																and    ci.audit_timestamp &lt; LKPi.time_offset_end_date
+																and       dateadd(hh,time_offset,ci.audit_timestamp) &lt; cast(ltrim(rtrim(cast(year(getdate()) as char))) +ltrim(rtrim('-'))+
+																ltrim(rtrim(cast(month(getdate()) as char)))+ltrim(rtrim('-'))+ltrim(rtrim('01'))
+																as datetime)
+																and    c.CERTIFICATE_IDENTIFIER =ci.CERTIFICATE_IDENTIFIER
+																group by ci.CERTIFICATE_IDENTIFIER)
+
+	UNION
+
+	select
+		--concat(CAST(CERTIFICATE_IDENTIFIER AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12))) as compound_key, 
+		c.CLAIM_ID,
+			CONTRACT_IDENTIFIER,
+			INSURED_LOAN_IDENTIFIER,
+			NULL as CERTIFICATE_IDENTIFIER,
+			cv1.SHORT_NAME as STATUS_CODE,
+			cv2.SHORT_NAME as TYPE_CODE,
+			cv3.SHORT_NAME as STATUS_CHANGE_REASON_CODE,
+			ISNULL(C.LINE_OF_BUSINESS,0) AS LINE_OF_BUSINESS -- Modified 20170118; BI-1610
+	from   dbo.STG_CLAIM c
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv1
+				on c.STATUS_CODE = cv1.CODE_VALUE_ID
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv2
+				on c.TYPE_CODE = cv2.CODE_VALUE_ID
+			left outer join dbo.STG_CLAIM_CODE_VALUE cv3
+				on STATUS_CHANGE_REASON_CODE = cv3.CODE_VALUE_ID,
+				edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKP
+	where  CONTRACT_IDENTIFIER is not NULL
+	and    INSURED_LOAN_IDENTIFIER is not NULL
+	and    cv2.SHORT_NAME  ='CLMI'
+	and    c.audit_timestamp &gt;=time_offset_start_date
+	and    c.audit_timestamp &lt; time_offset_end_date
+	and    dateadd(hh,time_offset,c.audit_timestamp) = ( select max(dateadd(hh,time_offset,ci.audit_timestamp))
+															from   dbo.STG_CLAIM ci,
+																		dbo.STG_CLAIM_CODE_VALUE cvi,
+																		edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKPi
+																where  ci.CONTRACT_IDENTIFIER is not NULL
+																and       ci.INSURED_LOAN_IDENTIFIER is not NULL
+																and    ci.TYPE_CODE = cvi.CODE_VALUE_ID
+																and    cvi.SHORT_NAME  ='CLMI'
+																and    ci.audit_timestamp &gt;=LKPi.time_offset_start_date
+																and    ci.audit_timestamp &lt; LKPi.time_offset_end_date
+																and       dateadd(hh,time_offset,ci.audit_timestamp) &lt; cast(ltrim(rtrim(cast(year(getdate()) as char))) +ltrim(rtrim('-'))+
+																ltrim(rtrim(cast(month(getdate()) as char)))+ltrim(rtrim('-'))+ltrim(rtrim('01'))
+																as datetime)
+																and    c.CONTRACT_IDENTIFIER =ci.CONTRACT_IDENTIFIER
+																and       c.INSURED_LOAN_IDENTIFIER =ci.INSURED_LOAN_IDENTIFIER
+																group by ci.INSURED_LOAN_IDENTIFIER,ci.CONTRACT_IDENTIFIER)
+) a;</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]"
+                          name="CONTRACT_IDENTIFIER"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          name="INSURED_LOAN_IDENTIFIER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          name="CERTIFICATE_IDENTIFIER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CODE]"
+                          name="STATUS_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CLAIM_ID]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CLAIM_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CLAIM_ID]"
+                          name="CLAIM_ID"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[TYPE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[TYPE_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[TYPE_CODE]"
+                          name="TYPE_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CHANGE_REASON_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CHANGE_REASON_CODE]"
+                          name="STATUS_CHANGE_REASON_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          dataType="i8"
+                          name="CONTRACT_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[CLAIM_ID]"
+                          dataType="i8"
+                          name="CLAIM_ID" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[TYPE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="TYPE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CHANGE_REASON_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          name="LINE_OF_BUSINESS" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CLAIM_ID]"
+                          dataType="i8"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CLAIM_ID]"
+                          name="CLAIM_ID" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CONTRACT_IDENTIFIER]"
+                          dataType="i8"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CONTRACT_IDENTIFIER]"
+                          name="CONTRACT_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[STATUS_CODE]"
+                          name="STATUS_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[TYPE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[TYPE_CODE]"
+                          name="TYPE_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[STATUS_CHANGE_REASON_CODE]"
+                          name="STATUS_CHANGE_REASON_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_HLP_LES_CLAIMS"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[HLP_LES_CLAIM_TMP]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[CONTRACT_IDENTIFIER]"
+                          cachedDataType="numeric"
+                          cachedName="CONTRACT_IDENTIFIER"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[INSURED_LOAN_IDENTIFIER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="INSURED_LOAN_IDENTIFIER"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[CERTIFICATE_IDENTIFIER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="CERTIFICATE_IDENTIFIER"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[STATUS_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="STATUS_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[CLAIM_ID]"
+                          cachedDataType="numeric"
+                          cachedName="CLAIM_ID"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CLAIM_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[CLAIM_ID]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[TYPE_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="TYPE_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[TYPE_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[TYPE_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[STATUS_CHANGE_REASON_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="STATUS_CHANGE_REASON_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CHANGE_REASON_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[STATUS_CHANGE_REASON_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].Columns[LINE_OF_BUSINESS]"
+                          cachedDataType="i4"
+                          cachedName="LINE_OF_BUSINESS"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          dataType="numeric"
+                          name="CONTRACT_IDENTIFIER"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[CLAIM_ID]"
+                          dataType="numeric"
+                          name="CLAIM_ID"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[TYPE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="TYPE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CHANGE_REASON_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          name="LINE_OF_BUSINESS" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS.Paths[OLE DB Source Output]"
+                  endId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{D1B20FCC-E2B5-432D-A114-220001CAF783}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="HLP_LES_DELINQUENCY"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.EventHandlers[OnPreExecute]"
+              DTS:CreationName="OnPreExecute"
+              DTS:DTSID="{959C1BD1-83AA-470A-AC7F-01913E15B357}"
+              DTS:EventID="0"
+              DTS:EventName="OnPreExecute"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="The propagate property of the event"
+                  DTS:DTSID="{F747B8FF-42C3-46DA-AC78-513C0387CAFB}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.EventHandlers[OnPreExecute]\truncate HLP_LES_DELINQUENCY"
+                  DTS:CreationName="Microsoft.ExecuteSQLTask"
+                  DTS:Description="Execute SQL Task"
+                  DTS:DTSID="{1285453F-6EF3-4BF5-B9D3-6DFCBBB29498}"
+                  DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="truncate HLP_LES_DELINQUENCY"
+                  DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <SQLTask:SqlTaskData
+                      SQLTask:Connection="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+                      SQLTask:SqlStatementSource="truncate table HLP_LES_DELINQUENCY" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_HLP_LES_DELINQUENCY"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT
+        a.*, 
+		--concat(CAST(CERTIFICATE_IDENTIFIER AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12)), '*', CAST(NULL AS VARCHAR(12))) as compound_key,
+		max(delinquency_id) over(partition by  CERTIFICATE_IDENTIFIER) as MAX_DEL_ID --into HLP_LES_DELINQUENCY_TMP
+FROM (
+        select 
+                dlc.DELINQUENCY_ID,
+                lc.CONTRACT_IDENTIFIER,
+                lc.INSURED_LOAN_IDENTIFIER,
+                NULL as CERTIFICATE_IDENTIFIER,
+                cv1.SHORT_NAME as STATUS_CODE,
+                cv2.SHORT_NAME as DELINQUENCY_STAGE_CODE,
+                cv3.SHORT_NAME as DEL_STATUS_CHANGE_REASON_CODE,
+				ISNULL(lc.LINE_OF_BUSINESS,0) as LINE_OF_BUSINESS
+        from    dbo.STG_LOAN_COVERAGE lc,
+                dbo.STG_DELINQUENCY_LOAN_COVERAGE dlc
+                left outer join dbo.STG_CODE_VALUE cv1
+                on dlc.STATUS_CODE = cv1.CODE_VALUE_ID
+                left outer join dbo.STG_CODE_VALUE cv2
+                on dlc.DELINQUENCY_STAGE_CODE = cv2.CODE_VALUE_ID
+                left outer join dbo.STG_CODE_VALUE cv3
+                on dlc.STATUS_CHANGE_REASON_CODE = cv3.CODE_VALUE_ID,
+                edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKP
+        where  lc.LOAN_COVERAGE_ID = dlc.LOAN_COVERAGE_ID
+        and    lc.CONTRACT_IDENTIFIER is not NULL
+        and    lc.INSURED_LOAN_IDENTIFIER is not NULL
+        and    dlc.audit_timestamp &gt;=time_offset_start_date
+        and    dlc.audit_timestamp &lt; time_offset_end_date
+        and    dateadd(hh,time_offset,dlc.audit_timestamp) = ( select max(dateadd(hh,time_offset,dlci.audit_timestamp))
+                                                                from   dbo.STG_LOAN_COVERAGE lci,
+                                                                    dbo.STG_DELINQUENCY_LOAN_COVERAGE dlci,
+                                                                    edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKPi
+                                                                    where  lci.LOAN_COVERAGE_ID = dlci.LOAN_COVERAGE_ID
+                                                                    and    lci.CONTRACT_IDENTIFIER is not NULL
+                                                                    and       lci.INSURED_LOAN_IDENTIFIER is not NULL
+                                                                    and    dlci.audit_timestamp &gt;=LKPi.time_offset_start_date
+                                                                    and    dlci.audit_timestamp &lt; LKPi.time_offset_end_date
+                                                                    and       dateadd(hh,time_offset,dlci.audit_timestamp) &lt; cast(ltrim(rtrim(cast(year(getdate()) as char))) +ltrim(rtrim('-'))+
+                                                                    ltrim(rtrim(cast(month(getdate()) as char)))+ltrim(rtrim('-'))+ltrim(rtrim('01'))
+                                                                    as datetime)
+                                                                    and    lc.LOAN_COVERAGE_ID =lci.LOAN_COVERAGE_ID
+                                                                    group by lci.LOAN_COVERAGE_ID)
+       
+        UNION 
+
+        select dlc.DELINQUENCY_ID,
+                    NULL as CONTRACT_IDENTIFIER,
+                    NULL as INSURED_LOAN_IDENTIFIER,
+                    lc.CERTIFICATE_IDENTIFIER,
+                    cv1.SHORT_NAME as STATUS_CODE,
+                    cv2.SHORT_NAME as DELINQUENCY_STAGE_CODE,
+                    cv3.SHORT_NAME as DEL_STATUS_CHANGE_REASON_CODE,
+					ISNULL(lc.LINE_OF_BUSINESS,0) as LINE_OF_BUSINESS
+        from   
+                dbo.STG_LOAN_COVERAGE lc,
+                dbo.STG_DELINQUENCY_LOAN_COVERAGE dlc
+                left outer join dbo.STG_CODE_VALUE cv1
+                on dlc.STATUS_CODE = cv1.CODE_VALUE_ID
+                left outer join dbo.STG_CODE_VALUE cv2
+                on dlc.DELINQUENCY_STAGE_CODE = cv2.CODE_VALUE_ID
+                left outer join dbo.STG_CODE_VALUE cv3
+                on dlc.STATUS_CHANGE_REASON_CODE = cv3.CODE_VALUE_ID,
+                edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKP
+        where  lc.LOAN_COVERAGE_ID = dlc.LOAN_COVERAGE_ID
+        and    lc.CERTIFICATE_IDENTIFIER is not NULL
+        and    dlc.audit_timestamp &gt;=time_offset_start_date
+        and    dlc.audit_timestamp &lt; time_offset_end_date
+        and    dateadd(hh,time_offset,dlc.audit_timestamp) = ( select max(dateadd(hh,time_offset,dlci.audit_timestamp))
+                                                                from   dbo.STG_LOAN_COVERAGE lci,
+                                                                    dbo.STG_DELINQUENCY_LOAN_COVERAGE dlci,
+                                                                    edw_dm.dbo.LKP_TIME_ZONE_CONVERSION LKPi
+                                                                    where  lci.LOAN_COVERAGE_ID = dlci.LOAN_COVERAGE_ID
+                                                                    and       lci.CERTIFICATE_IDENTIFIER is not NULL
+                                                                    and    dlci.audit_timestamp &gt;=LKPi.time_offset_start_date
+                                                                    and    dlci.audit_timestamp &lt; LKPi.time_offset_end_date
+                                                                    and       dateadd(hh,time_offset,dlci.audit_timestamp) &lt; cast(ltrim(rtrim(cast(year(getdate()) as char))) +ltrim(rtrim('-'))+
+                                                                    ltrim(rtrim(cast(month(getdate()) as char)))+ltrim(rtrim('-'))+ltrim(rtrim('01'))
+                                                                    as datetime)
+                                                                    and    lc.LOAN_COVERAGE_ID =lci.LOAN_COVERAGE_ID
+                                                                    group by lci.LOAN_COVERAGE_ID)
+) a;</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]"
+                          name="CONTRACT_IDENTIFIER"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          name="INSURED_LOAN_IDENTIFIER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          name="CERTIFICATE_IDENTIFIER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[STATUS_CODE]"
+                          name="STATUS_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]"
+                          name="DELINQUENCY_ID"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_STAGE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_STAGE_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_STAGE_CODE]"
+                          name="DELINQUENCY_STAGE_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          name="DEL_STATUS_CHANGE_REASON_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[MAX_DEL_ID]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[MAX_DEL_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[MAX_DEL_ID]"
+                          name="MAX_DEL_ID"
+                          precision="19"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          dataType="i8"
+                          name="CONTRACT_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          name="DELINQUENCY_ID" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DELINQUENCY_STAGE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="DELINQUENCY_STAGE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="DEL_STATUS_CHANGE_REASON_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[MAX_DEL_ID]"
+                          dataType="i8"
+                          name="MAX_DEL_ID" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          name="LINE_OF_BUSINESS" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_ID]"
+                          dataType="i8"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_ID]"
+                          name="DELINQUENCY_ID" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[CONTRACT_IDENTIFIER]"
+                          dataType="i8"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[CONTRACT_IDENTIFIER]"
+                          name="CONTRACT_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[INSURED_LOAN_IDENTIFIER]"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_IDENTIFIER]"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[STATUS_CODE]"
+                          name="STATUS_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_STAGE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DELINQUENCY_STAGE_CODE]"
+                          name="DELINQUENCY_STAGE_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          name="DEL_STATUS_CHANGE_REASON_CODE" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[LINE_OF_BUSINESS]"
+                          name="LINE_OF_BUSINESS" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[MAX_DEL_ID]"
+                          dataType="i8"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[MAX_DEL_ID]"
+                          name="MAX_DEL_ID" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_HLP_LES_DELINQUENCY"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[HLP_LES_DELINQUENCY_TMP]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Connections[OleDbConnection]"
+                      connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[DELINQUENCY_ID]"
+                          cachedDataType="numeric"
+                          cachedName="DELINQUENCY_ID"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_ID]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[CONTRACT_IDENTIFIER]"
+                          cachedDataType="numeric"
+                          cachedName="CONTRACT_IDENTIFIER"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CONTRACT_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[INSURED_LOAN_IDENTIFIER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="INSURED_LOAN_IDENTIFIER"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[INSURED_LOAN_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[CERTIFICATE_IDENTIFIER]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="CERTIFICATE_IDENTIFIER"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[CERTIFICATE_IDENTIFIER]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[STATUS_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="STATUS_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[STATUS_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[DELINQUENCY_STAGE_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="DELINQUENCY_STAGE_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_STAGE_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DELINQUENCY_STAGE_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[MAX_DEL_ID]"
+                          cachedDataType="numeric"
+                          cachedName="MAX_DEL_ID"
+                          cachedPrecision="19"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[MAX_DEL_ID]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[MAX_DEL_ID]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="40"
+                          cachedName="DEL_STATUS_CHANGE_REASON_CODE"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[DEL_STATUS_CHANGE_REASON_CODE]" />
+                        <inputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].Columns[LINE_OF_BUSINESS]"
+                          cachedDataType="i4"
+                          cachedName="LINE_OF_BUSINESS"
+                          externalMetadataColumnId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[LINE_OF_BUSINESS]"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output].Columns[LINE_OF_BUSINESS]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_ID]"
+                          dataType="numeric"
+                          name="DELINQUENCY_ID"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[CONTRACT_IDENTIFIER]"
+                          dataType="numeric"
+                          name="CONTRACT_IDENTIFIER"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[INSURED_LOAN_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="INSURED_LOAN_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[CERTIFICATE_IDENTIFIER]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="CERTIFICATE_IDENTIFIER" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[STATUS_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="STATUS_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DELINQUENCY_STAGE_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="DELINQUENCY_STAGE_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[DEL_STATUS_CHANGE_REASON_CODE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="40"
+                          name="DEL_STATUS_CHANGE_REASON_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[MAX_DEL_ID]"
+                          dataType="numeric"
+                          name="MAX_DEL_ID"
+                          precision="19" />
+                        <externalMetadataColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input].ExternalColumns[LINE_OF_BUSINESS]"
+                          dataType="i4"
+                          name="LINE_OF_BUSINESS" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.Paths[OLE DB Source Output]"
+                  endId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Drop Create Helper Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4C740218-0990-4E4C-94E8-5320801F3BB0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Drop Create Helper Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+          SQLTask:SqlStatementSource="IF OBJECT_ID (N'HLP_LES_DELINQUENCY_TMP', N'U') IS NOT NULL DROP TABLE dbo.HLP_LES_DELINQUENCY_TMP;&#xA;&#xA;CREATE TABLE [dbo].[HLP_LES_DELINQUENCY_TMP](&#xA;&#x9;[DELINQUENCY_ID] [numeric](19, 0) NOT NULL,&#xA;&#x9;[CONTRACT_IDENTIFIER] [numeric](19, 0) NULL,&#xA;&#x9;[INSURED_LOAN_IDENTIFIER] [varchar](15) NULL,&#xA;&#x9;[CERTIFICATE_IDENTIFIER] [varchar](15) NULL,&#xA;&#x9;[STATUS_CODE] [varchar](40) NULL,&#xA;&#x9;[DELINQUENCY_STAGE_CODE] [varchar](40) NULL,&#xA;&#x9;[DEL_STATUS_CHANGE_REASON_CODE] [varchar](40) NULL,&#xA;&#x9;[MAX_DEL_ID] [numeric](19, 0) NULL,&#xA;&#x9;[LINE_OF_BUSINESS] [int] NULL -- BI1491&#xA;) ON [PRIMARY];&#xA;&#xA;&#xA;IF OBJECT_ID (N'HLP_LES_CLAIM_TMP', N'U') IS NOT NULL DROP TABLE dbo.HLP_LES_CLAIM_TMP;&#xA;&#xA;CREATE TABLE [dbo].[HLP_LES_CLAIM_TMP](&#xA;&#x9;[CLAIM_ID] [numeric](19, 0) NOT NULL,&#xA;&#x9;[CONTRACT_IDENTIFIER] [numeric](19, 0) NULL,&#xA;&#x9;[INSURED_LOAN_IDENTIFIER] [varchar](15) NULL,&#xA;&#x9;[CERTIFICATE_IDENTIFIER] [varchar](15) NULL,&#xA;&#x9;[STATUS_CODE] [varchar](40) NULL,&#xA;&#x9;[TYPE_CODE] [varchar](40) NULL,&#xA;&#x9;[STATUS_CHANGE_REASON_CODE] [varchar](40) NULL,&#xA;&#x9;[LINE_OF_BUSINESS] [int] NULL -- BI1491&#xA;) ON [PRIMARY];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\drop Helper Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2CA20703-6055-4E92-8636-1A2D4C0E9278}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="drop Helper Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+          SQLTask:SqlStatementSource="IF OBJECT_ID (N'HLP_LES_DELINQUENCY_TMP', N'U') IS NOT NULL DROP TABLE dbo.HLP_LES_DELINQUENCY_TMP; &#xA;IF OBJECT_ID (N'HLP_LES_CLAIM_TMP', N'U') IS NOT NULL DROP TABLE dbo.HLP_LES_CLAIM_TMP; &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Control Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E835358B-0FC5-4A3A-AE59-1780A76DB712}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Control Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+          SQLTask:SqlStatementSource="Select int_last_date_in_period as control_date from EDW_STAGING.dbo.stg_primary_job_control where current_flag = 'Y'"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="control_date"
+            SQLTask:DtsVariableName="User::control_date" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B2E21E97-AE27-4354-B931-72FF1B2F1286}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="HLP_FCT_LOAN_EVOLUTION_STATUS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+              usesDispositions="true"
+              validateExternalMetadata="False"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">DECLARE @Cntrl_Dt int
+
+SET @Cntrl_Dt = ? --BI-1897 put back to ?
+
+BEGIN
+
+WITH src_HLP_FCT_LOAN_EVOL_STATUS_BK_BASE AS 
+(
+       select x.*, 
+       MAX(FILED_DATE) over(partition by COVERAGE_BK) as MAX_FILED_DT, 
+       MAX(AUDIT_TIMESTAMP) over(partition by COVERAGE_BK, FILED_DATE) as MAX_AUDIT_TS,
+       MAX(BANKRUPTCY_ID) over(partition by COVERAGE_BK, FILED_DATE, AUDIT_TIMESTAMP) as MAX_BANK_ID
+       from
+       (
+              select 
+                     lc.LOAN_COVERAGE_ID,
+                     lc.CONTRACT_IDENTIFIER,
+                     lc.INSURED_LOAN_IDENTIFIER,
+                     lc.CERTIFICATE_IDENTIFIER,
+                     b.BANKRUPTCY_ID,
+                     cv1.SHORT_NAME as CHAPTER_CODE,
+                     cv2.SHORT_NAME as STATUS_CODE,
+                     cast( convert( varchar, b.FILED_DATE, 112 ) as int ) as FILED_DATE,
+                     cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) as DISCHARGE_DATE,
+                     case
+                           when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &gt; @Cntrl_Dt or b.DISCHARGE_DATE is NULL
+                           then 'Current Bankrupt'
+                           else
+                                  case
+                                         when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &lt;= @Cntrl_Dt
+                                         then 'Past Bankrupt'
+                                         else 'Never Bankrupt'
+                                  end
+                     end as BANKRUPTSY_STAGE,
+                     case
+                           when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &gt; @Cntrl_Dt or b.DISCHARGE_DATE is NULL
+                           then 2
+                           else
+                                  case
+                                         when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &lt;= @Cntrl_Dt
+                                         then 1
+                                         else 0
+                                  end
+                     end as BANKRUPTSY_STAGE_SCORE,
+                     concat(CAST(lc.CERTIFICATE_IDENTIFIER AS VARCHAR(12)), '*', CAST(lc.CONTRACT_IDENTIFIER AS VARCHAR(12)), '*', CAST(lc.INSURED_LOAN_IDENTIFIER AS VARCHAR(12))) as COVERAGE_BK,
+                     convert( varchar(26), b.AUDIT_TIMESTAMP, 109) as AUDIT_TIMESTAMP,
+					 ISNULL(lc.LINE_OF_BUSINESS,0) as LINE_OF_BUSINESS
+              from   
+                     dbo.STG_BANKRUPTCY b,
+                     dbo.STG_BANKRUPTCY_LOAN_COVERAGE blc,
+                     dbo.STG_LOAN_COVERAGE lc,
+                     dbo.STG_CODE_VALUE cv1,
+                     dbo.STG_CODE_VALUE cv2
+              where  
+              b.BANKRUPTCY_ID = blc.BANKRUPTCY_ID
+              and    blc.LOAN_COVERAGE_ID = lc.LOAN_COVERAGE_ID
+              and    b.CHAPTER_CODE = cv1.CODE_VALUE_ID
+              and    b.STATUS_CODE = cv2.CODE_VALUE_ID
+              and    b.FILED_DATE is not NULL
+              and    b.CHAPTER_CODE is not NULL
+              and    cv2.SHORT_NAME = 'A'
+              and    b.FILED_DATE = (
+                     select max( b1.FILED_DATE )
+                     from   dbo.STG_BANKRUPTCY b1
+                     where  b1.BANKRUPTCY_ID = b.BANKRUPTCY_ID )
+
+              union
+
+              select 
+                     lc.LOAN_COVERAGE_ID,
+                     lc.CONTRACT_IDENTIFIER,
+                     lc.INSURED_LOAN_IDENTIFIER,
+                     lc.CERTIFICATE_IDENTIFIER,
+                     b.BANKRUPTCY_ID,
+                     cv1.SHORT_NAME as CHAPTER_CODE,
+                     cv2.SHORT_NAME as STATUS_CODE,
+                     cast( convert( varchar, b.FILED_DATE, 112 ) as int ) as FILED_DATE,
+                     cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) as DISCHARGE_DATE,
+                     case
+                           when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &gt; @Cntrl_Dt or b.DISCHARGE_DATE is NULL
+                           then 'Current Bankrupt'
+                           else
+                                  case
+                                         when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &lt;= @Cntrl_Dt
+                                         then 'Past Bankrupt'
+                                         else 'Never Bankrupt'
+                                  end
+                     end as BANKRUPTSY_STAGE,
+                     case
+                           when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &gt; @Cntrl_Dt or b.DISCHARGE_DATE is NULL
+                           then 2
+                           else
+                                  case
+                                         when cast( convert( varchar, b.DISCHARGE_DATE, 112 ) as int ) &lt;= @Cntrl_Dt
+                                         then 1
+                                         else 0
+                                  end
+                     end as BANKRUPTSY_STAGE_SCORE,
+                     concat(CAST(lc.CERTIFICATE_IDENTIFIER AS VARCHAR(12)), '*', CAST(lc.CONTRACT_IDENTIFIER AS VARCHAR(12)), '*', CAST(lc.INSURED_LOAN_IDENTIFIER AS VARCHAR(12))) as COVERAGE_BK,
+                     convert( varchar(26), b.AUDIT_TIMESTAMP, 109) as AUDIT_TIMESTAMP,
+					 ISNULL(lc.LINE_OF_BUSINESS,0) as LINE_OF_BUSINESS
+              from   
+                     dbo.STG_BANKRUPTCY_AUDIT b,
+                     dbo.STG_BANKRUPTCY_LOAN_COVERAGE blc,
+                     dbo.STG_LOAN_COVERAGE lc,
+                     dbo.STG_CODE_VALUE cv1,
+                     dbo.STG_CODE_VALUE cv2
+              where  
+                     b.BANKRUPTCY_ID = blc.BANKRUPTCY_ID
+                     and    b.BPA_AUDIT_TRAIL_ID = blc.BPA_AUDIT_TRAIL_ID
+                     and    blc.LOAN_COVERAGE_ID = lc.LOAN_COVERAGE_ID
+                     and    blc.BPA_AUDIT_TRAIL_ID = lc.BPA_AUDIT_TRAIL_ID
+                     and    b.CHAPTER_CODE = cv1.CODE_VALUE_ID
+                     and    b.STATUS_CODE = cv2.CODE_VALUE_ID
+                     and    b.FILED_DATE is not NULL
+                     and    b.CHAPTER_CODE is not NULL
+                     and    cv2.SHORT_NAME = 'A'
+                     and    b.FILED_DATE = (
+                           select max( b1.FILED_DATE )
+                           from   dbo.STG_BANKRUPTCY b1
+                           where  b1.BANKRUPTCY_ID = b.BANKRUPTCY_ID )
+       ) x
+)
+select distinct z.*,
+CASE SCORE 
+              WHEN 12 THEN 'PD'
+              WHEN 11 THEN 'RC'
+              WHEN 10 THEN 'RNC'
+              WHEN 9 THEN 'TCI'
+              WHEN 8 THEN 'TNCNR'
+              WHEN 7 THEN 'F'
+              WHEN 6 THEN 'A'
+              WHEN 5 THEN 'B'
+              WHEN 4 THEN 'C'
+              WHEN 3 THEN 'D'
+              WHEN 2 THEN 'E'
+              WHEN 1 THEN 'AC'
+              WHEN 0 THEN 'Active'
+       END as Loan_Evolution_Status_Cd,
+       CASE score
+              WHEN 12 THEN 'Paid'
+              WHEN 11 THEN 'Rescinded (Claim)'
+              WHEN 10 THEN 'Rescinded (Non-Claim)'
+              WHEN 9 THEN 'Terminated (Coverage Ineligible)'
+              WHEN 8 THEN 'Terminated (Non-Claim/Rescission)'
+              WHEN 7 THEN 'Claim Filed'
+              WHEN 6 THEN 'Less than 4 months DQ'
+              WHEN 5 THEN 'Greater than 4 months DQ'
+              WHEN 4 THEN 'Foreclosure Begins'
+              WHEN 3 THEN 'Foreclosure Date Set'
+              WHEN 2 THEN 'Lender Has Title'
+              WHEN 1 THEN 'Active - Cured'
+              WHEN 0 THEN 'Active'
+       END as Loan_Evolution_Status_Desc
+from
+(
+       select 
+			 case when lesb.line_of_business = 0 OR lesb.CERTIFICATE_NBR_BK_UG is null then --BI-1897
+				-- West
+				case when dm_cert.CERTIFICATE_SK is not null then dm_cert.CERTIFICATE_SK 
+					else (select CERTIFICATE_SK from edw_dm.dbo.DIM_MI_Certificate where CERTIFICATE_NBR_BK = '-1')
+				end
+				else
+				-- East
+				case when dm_cert_east.CERTIFICATE_SK is not null then dm_cert_east.CERTIFICATE_SK
+					else (select CERTIFICATE_SK from edw_dm.dbo.DIM_MI_Certificate where CERTIFICATE_NBR_BK = '-1')
+				end
+              end as certificate_sk,
+              @Cntrl_Dt AS fiscal_period_sid,
+              
+			  case when lesb.line_of_business = 0 OR lesb.CERTIFICATE_NBR_BK_UG is null then --BI-1897
+			    -- West
+				case when dm_ln.LOAN_SK is not null then dm_ln.LOAN_SK 
+                     else (select LOAN_SK from edw_dm.dbo.DIM_LOAN where CERTIFICATE_NBR_BK = '-1')
+				end
+				else
+				-- East
+				case when dm_ln_east.LOAN_SK is not null then dm_ln_east.LOAN_SK 
+                     else (select LOAN_SK from edw_dm.dbo.DIM_LOAN where CERTIFICATE_NBR_BK = '-1')
+				end
+              end as LOAN_SK,
+
+              case when dm_cov.loan_coverage_sid is not null
+                           then dm_cov.loan_coverage_sid 
+                     else (select loan_coverage_sid from edw_dm.dbo.DIM_LOAN_COVERAGE where loan_coverage_nbr_bk = 'Invalid')
+              end as loan_coverage_sid,
+              case when dm_mort.mortgage_loan_sid is not null
+                           then dm_mort.mortgage_loan_sid 
+                     else (select mortgage_loan_sid from edw_dm.dbo.DIM_MORTGAGE_LOAN where mortgage_loan_id_bk = 'Invalid')
+              end as mortgage_loan_sid,
+              case when dm_prd.product_sid is not null
+                           then dm_prd.product_sid 
+                     else (select product_sid from edw_dm.dbo.DIM_PRODUCT where product_cd_bk = 'Invalid')
+              end as product_sid,
+              case when dm_con.contract_sid is not null
+                           then dm_con.contract_sid 
+                     else (select contract_sid from edw_dm.dbo.DIM_CONTRACT where contract_policy_nbr_bk = 'Invalid')
+              end as contract_sid,
+              
+			  ISNULL(b.FILED_DATE,-1) as valid_bankruptcy_filed_dt_sk,
+              (CASE WHEN lesc.STATUS_CODE = 'PCLM' and lesc.TYPE_CODE = 'CLMI' AND ISNULL( lesc.STATUS_CHANGE_REASON_CODE, '' ) &lt;&gt; 'RES'
+                           THEN 12
+                     ELSE 
+                           CASE WHEN --((lesb.COVERAGE_TYPE = 'SECONDARY' and lesb.LOAN_COVERAGE_STATUS_CODE = 'T')or
+                                  /*lesb.COVERAGE_TYPE = 'PRIMARY' and*/ lesb.STATUS_CODE = 'T'
+                                  and lesc.STATUS_CODE = 'DLCLM' 
+                                  and lesc.TYPE_CODE = 'CLMI' 
+                                  and ISNULL( lesc.STATUS_CHANGE_REASON_CODE, '' ) in ('RES','DLTRSN9')
+                                  THEN 11
+                           ELSE
+                                  CASE WHEN --( lesb.COVERAGE_TYPE = 'SECONDARY' and lesb.LOAN_COVERAGE_STATUS_CODE = 'T' and lesb.CVRG_TERMINATION_REASON_CODE = 'RS' ) or
+                                         /*lesb.COVERAGE_TYPE = 'PRIMARY' and*/ lesb.STATUS_CODE = 'T' and lesb.TERMINATION_TYPE_CODE = 'RS'
+                                         THEN 10
+                                  ELSE
+                                         CASE WHEN --( lesb.COVERAGE_TYPE = 'SECONDARY' and lesb.LOAN_COVERAGE_STATUS_CODE = 'T' and lesb.CVRG_TERMINATION_REASON_CODE = 'IN' ) or
+                                                /*lesb.COVERAGE_TYPE = 'PRIMARY' and*/ lesb.STATUS_CODE = 'T' and lesb.TERMINATION_TYPE_CODE = 'IN'
+                                                THEN 9
+                                         ELSE
+                                                CASE WHEN --( ISNULL(lesc.STATUS_CODE,'') &lt;&gt; 'PCLM') and (( lesb.COVERAGE_TYPE = 'SECONDARY' and lesb.lesb.STATUS_CODE = 'T' and ISNULL(lesb.CVRG_TERMINATION_REASON_CODE,'') NOT IN ('RS','IN') ) or
+                                                       /*lesb.COVERAGE_TYPE = 'PRIMARY' and*/ lesb.STATUS_CODE = 'T' and ISNULL(lesb.TERMINATION_TYPE_CODE,'') NOT IN ('RS','IN')
+                                                       THEN 8
+                                                ELSE
+                                                       CASE WHEN CAST( ISNULL( lesc.CLAIM_ID, 0 ) AS INTEGER) &lt;&gt; CAST(0 AS INTEGER) and ISNULL(lesc.STATUS_CODE,'') not in('PCLM','DLCLM')
+                                                              THEN 7
+                                                       ELSE
+                                                              CASE WHEN lesd.STATUS_CODE = 'A' and lesd.DELINQUENCY_STAGE_CODE = 'A'
+                                                                     THEN 6
+                                                              ELSE
+                                                                     CASE WHEN lesd.STATUS_CODE = 'A' and lesd.DELINQUENCY_STAGE_CODE = 'B'
+                                                                                  THEN 5
+                                                                           WHEN lesd.STATUS_CODE = 'A' and lesd.DELINQUENCY_STAGE_CODE = 'C'
+                                                                                  THEN 4
+                                                                           WHEN lesd.STATUS_CODE = 'A' and lesd.DELINQUENCY_STAGE_CODE = 'D'
+                                                                                  THEN 3
+                                                                            WHEN lesd.STATUS_CODE = 'A' and lesd.DELINQUENCY_STAGE_CODE = 'E'
+                                                                                  THEN 2
+                                                                     ELSE
+                                                                           CASE WHEN ISNULL(lesd.STATUS_CODE,'ZZZ') in ('C','D') and ISNULL(lesd.DEL_STATUS_CHANGE_REASON_CODE,'ZZZ') not in ('CP','CPDM')
+                                                                                  THEN 1
+                                                                           ELSE 0
+                                                                           END
+                                                                     END
+                                                              END
+                                                       END
+                                                END 
+                                         END 
+                                  END
+                           END
+                     END) score,
+              b.CHAPTER_CODE as valid_bankruptcy_chapter_cd,
+              ISNULL(b.DISCHARGE_DATE,-1) as valid_bankruptcy_discharge_dt_sk,
+              ISNULL(b.BANKRUPTSY_STAGE, 'Never Bankrupt' ) as bankruptcy_stage,
+              c.Score as early_indicator_score 
+		FROM    
+		(	-- West, East not in UGC400
+			SELECT 
+				CTIDCM * 10 + CTCKCM as CERTIFICATE_IDENTIFIER,
+				STS@CM AS STATUS_CODE,
+				TTP@CM AS TERMINATION_TYPE_CODE,
+				--0 AS LINE_OF_BUSINESS --BI-1897
+				LOB#CM AS LINE_OF_BUSINESS,
+				NULL CERTIFICATE_NBR_BK_UG --BI-1897
+			FROM 
+				EDW_STAGING.dbo.STG_ISPFPCM 
+			UNION
+			-- Legacy East
+			SELECT 
+				CERTIFICATE_NBR_BK,
+				CURRENT_CERTIFICATE_STATUS_CD,
+				CERT_TERMINATION_TYPE_CD,
+				INSURANCE_LINE_CODE,
+				CERTIFICATE_NBR_BK CERTIFICATE_NBR_BK_UG --BI-1897
+			FROM 
+				EDW_STAGING.dbo.STG_FCT_DAILY_VOLUME_UG
+		) lesb
+          			  
+		LEFT OUTER JOIN dbo.HLP_LES_DELINQUENCY_TMP lesd
+        -- on CTIDCM * 10 + CTCKCM = lesd.CERTIFICATE_IDENTIFIER 
+		on lesb.CERTIFICATE_IDENTIFIER = lesd.CERTIFICATE_IDENTIFIER 
+		and lesb.LINE_OF_BUSINESS = lesd.LINE_OF_BUSINESS
+		and lesd.delinquency_id = lesd.MAX_DEL_ID
+
+        LEFT OUTER JOIN dbo.HLP_LES_CLAIM_TMP lesc
+        --on CTIDCM * 10 + CTCKCM = lesc.CERTIFICATE_IDENTIFIER
+		on lesb.CERTIFICATE_IDENTIFIER = lesc.CERTIFICATE_IDENTIFIER
+		and lesb.LINE_OF_BUSINESS = lesc.LINE_OF_BUSINESS
+
+        LEFT OUTER JOIN
+        (
+                SELECT distinct 
+                    b1.CONTRACT_IDENTIFIER,
+                    b1.INSURED_LOAN_IDENTIFIER,
+                    b1.CERTIFICATE_IDENTIFIER,
+                    b1.CHAPTER_CODE,
+                    b1.FILED_DATE,
+                    b1.DISCHARGE_DATE,
+                    b1.BANKRUPTSY_STAGE,
+                    b1.coverage_bk,
+                    b1.BANKRUPTCY_ID,
+                    b1.AUDIT_TIMESTAMP,
+					b1.LINE_OF_BUSINESS
+                FROM   
+                    src_HLP_FCT_LOAN_EVOL_STATUS_BK_BASE b1
+                WHERE  
+                    b1.FILED_DATE = b1.MAX_FILED_DT
+                    and b1.AUDIT_TIMESTAMP = b1.MAX_AUDIT_TS
+                    and b1.BANKRUPTCY_ID = b1.MAX_BANK_ID
+        ) b
+        -- on CTIDCM * 10 + CTCKCM = b.CERTIFICATE_IDENTIFIER 
+		on lesb.CERTIFICATE_IDENTIFIER = b.CERTIFICATE_IDENTIFIER
+			and lesb.LINE_OF_BUSINESS = b.LINE_OF_BUSINESS
+			and b.CONTRACT_IDENTIFIER IS NULL 
+			and b.INSURED_LOAN_IDENTIFIER IS NULL
+        
+		LEFT OUTER JOIN
+        (
+                SELECT 
+                    CTIDWS,
+                    score,
+                    TapeDate,
+					ISNULL(Line_of_business,0) as Line_of_business
+                FROM   
+                    dbo.STG_EARLY_INDICATOR_SCORE a left join DBO.STG_LOAN_COVERAGE b
+				on  
+					a.CTIDWS = b.CERTIFICATE_IDENTIFIER
+                where 
+                    fatalerror = 'N'
+                    and CAST(TapeDate AS INT) = @Cntrl_Dt
+        ) c
+        --on CTIDCM * 10 + CTCKCM = c.CTIDWS
+		on lesb.CERTIFICATE_IDENTIFIER = c.CTIDWS
+		and lesb.LINE_OF_BUSINESS = c.LINE_OF_BUSINESS
+        
+		LEFT OUTER JOIN EDW_DM.dbo.DIM_MI_Certificate dm_cert
+        --ON CTIDCM * 10 + CTCKCM = dm_cert.CERTIFICATE_NBR_BK
+		ON lesb.CERTIFICATE_IDENTIFIER = dm_cert.CERTIFICATE_NBR_BK_AMIWEST AND dm_cert.curr_ind = 'Y'
+        
+		LEFT OUTER JOIN EDW_DM.dbo.DIM_MI_Certificate dm_cert_east
+		ON lesb.CERTIFICATE_IDENTIFIER = dm_cert_east.CERTIFICATE_NBR_BK_UG AND dm_cert_east.curr_ind = 'Y'
+
+		LEFT OUTER JOIN EDW_DM.dbo.DIM_LOAN_COVERAGE dm_cov
+        ON dm_cov.loan_coverage_nbr_bk = 'Invalid' AND dm_cov.curr_ind = 'Y'
+        LEFT OUTER JOIN EDW_DM.dbo.DIM_MORTGAGE_LOAN dm_mort
+        ON dm_mort.mortgage_loan_id_bk = 'Invalid' AND dm_mort.curr_ind = 'Y'
+        LEFT OUTER JOIN EDW_DM.dbo.DIM_CONTRACT dm_con
+        ON dm_con.contract_policy_nbr_bk = 'Invalid'AND dm_con.curr_ind = 'Y'
+        LEFT OUTER JOIN EDW_DM.dbo.DIM_PRODUCT dm_prd
+        ON dm_prd.product_cd_bk = 'Invalid' AND dm_prd.curr_ind = 'Y'
+        
+		LEFT OUTER JOIN EDW_DM.dbo.DIM_LOAN dm_ln
+        --ON CTIDCM * 10 + CTCKCM = dm_ln.CERTIFICATE_NBR_BK 
+		ON lesb.CERTIFICATE_IDENTIFIER = dm_ln.CERTIFICATE_NBR_BK_AMIWEST AND dm_ln.curr_ind = 'Y'
+
+		LEFT OUTER JOIN EDW_DM.dbo.DIM_LOAN dm_ln_east
+		ON lesb.CERTIFICATE_IDENTIFIER = dm_ln_east.CERTIFICATE_NBR_BK_UG AND dm_ln_east.curr_ind = 'Y'
+
+) z
+
+END</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"Parameter0:Input",{395CAB7C-D21F-48B6-8400-B51EBA0FF8D7};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Connections[OleDbConnection]"
+                  connectionManagerID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                  connectionManagerRefId="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[bankruptcy_stage]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[bankruptcy_stage]"
+                      length="16"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[bankruptcy_stage]"
+                      name="bankruptcy_stage"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_chapter_cd]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_chapter_cd]"
+                      length="40"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_chapter_cd]"
+                      name="valid_bankruptcy_chapter_cd"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_discharge_dt_sk]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_discharge_dt_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_discharge_dt_sk]"
+                      name="valid_bankruptcy_discharge_dt_sk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_filed_dt_sk]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_filed_dt_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_filed_dt_sk]"
+                      name="valid_bankruptcy_filed_dt_sk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[early_indicator_score]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[early_indicator_score]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[early_indicator_score]"
+                      name="early_indicator_score"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[certificate_sk]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[certificate_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[certificate_sk]"
+                      name="certificate_sk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[loan_coverage_sid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[loan_coverage_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[loan_coverage_sid]"
+                      name="loan_coverage_sid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[mortgage_loan_sid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[mortgage_loan_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[mortgage_loan_sid]"
+                      name="mortgage_loan_sid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[contract_sid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[contract_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[contract_sid]"
+                      name="contract_sid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[product_sid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[product_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[product_sid]"
+                      name="product_sid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[LOAN_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[LOAN_SK]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[LOAN_SK]"
+                      name="LOAN_SK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[fiscal_period_sid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[fiscal_period_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[fiscal_period_sid]"
+                      name="fiscal_period_sid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Cd]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[Loan_Evolution_Status_Cd]"
+                      length="6"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Cd]"
+                      name="Loan_Evolution_Status_Cd"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Desc]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[Loan_Evolution_Status_Desc]"
+                      length="33"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Desc]"
+                      name="Loan_Evolution_Status_Desc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[score]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[score]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[score]"
+                      name="score"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[bankruptcy_stage]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="bankruptcy_stage" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_chapter_cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="valid_bankruptcy_chapter_cd" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_discharge_dt_sk]"
+                      dataType="i4"
+                      name="valid_bankruptcy_discharge_dt_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[valid_bankruptcy_filed_dt_sk]"
+                      dataType="i4"
+                      name="valid_bankruptcy_filed_dt_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[early_indicator_score]"
+                      dataType="numeric"
+                      name="early_indicator_score"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[certificate_sk]"
+                      dataType="i4"
+                      name="certificate_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[loan_coverage_sid]"
+                      dataType="i4"
+                      name="loan_coverage_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[mortgage_loan_sid]"
+                      dataType="i4"
+                      name="mortgage_loan_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[contract_sid]"
+                      dataType="i4"
+                      name="contract_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[product_sid]"
+                      dataType="i4"
+                      name="product_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[LOAN_SK]"
+                      dataType="i4"
+                      name="LOAN_SK" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[fiscal_period_sid]"
+                      dataType="i4"
+                      name="fiscal_period_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[Loan_Evolution_Status_Cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="Loan_Evolution_Status_Cd" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[Loan_Evolution_Status_Desc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="33"
+                      name="Loan_Evolution_Status_Desc" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].ExternalColumns[score]"
+                      dataType="i4"
+                      name="score" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[bankruptcy_stage]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[bankruptcy_stage]"
+                      name="bankruptcy_stage" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_chapter_cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_chapter_cd]"
+                      name="valid_bankruptcy_chapter_cd" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_discharge_dt_sk]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_discharge_dt_sk]"
+                      name="valid_bankruptcy_discharge_dt_sk" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_filed_dt_sk]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[valid_bankruptcy_filed_dt_sk]"
+                      name="valid_bankruptcy_filed_dt_sk" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[early_indicator_score]"
+                      dataType="numeric"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[early_indicator_score]"
+                      name="early_indicator_score"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[certificate_sk]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[certificate_sk]"
+                      name="certificate_sk" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[loan_coverage_sid]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[loan_coverage_sid]"
+                      name="loan_coverage_sid" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[mortgage_loan_sid]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[mortgage_loan_sid]"
+                      name="mortgage_loan_sid" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[score]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[score]"
+                      name="score" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[Loan_Evolution_Status_Cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[Loan_Evolution_Status_Cd]"
+                      name="Loan_Evolution_Status_Cd" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[Loan_Evolution_Status_Desc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="33"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[Loan_Evolution_Status_Desc]"
+                      name="Loan_Evolution_Status_Desc" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[contract_sid]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[contract_sid]"
+                      name="contract_sid" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[product_sid]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[product_sid]"
+                      name="product_sid" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[LOAN_SK]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[LOAN_SK]"
+                      name="LOAN_SK" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[fiscal_period_sid]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[fiscal_period_sid]"
+                      name="fiscal_period_sid" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable">User::vstr_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS_controldate</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">25000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Connections[OleDbConnection]"
+                  connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[bankruptcy_stage]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="16"
+                      cachedName="bankruptcy_stage"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[bankruptcy_stage]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[bankruptcy_stage]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[valid_bankruptcy_chapter_cd]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="40"
+                      cachedName="valid_bankruptcy_chapter_cd"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_chapter_cd]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_chapter_cd]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[valid_bankruptcy_discharge_dt_sk]"
+                      cachedDataType="i4"
+                      cachedName="valid_bankruptcy_discharge_dt_sk"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_discharge_dt_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_discharge_dt_sk]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[valid_bankruptcy_filed_dt_sk]"
+                      cachedDataType="i4"
+                      cachedName="valid_bankruptcy_filed_dt_sk"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_filed_dt_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[valid_bankruptcy_filed_dt_sk]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[early_indicator_score]"
+                      cachedDataType="numeric"
+                      cachedName="early_indicator_score"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[early_indicator_score]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[early_indicator_score]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[certificate_sk]"
+                      cachedDataType="i4"
+                      cachedName="certificate_sk"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[certificate_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[certificate_sk]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[loan_coverage_sid]"
+                      cachedDataType="i4"
+                      cachedName="loan_coverage_sid"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_coverage_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[loan_coverage_sid]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[mortgage_loan_sid]"
+                      cachedDataType="i4"
+                      cachedName="mortgage_loan_sid"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[mortgage_loan_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[mortgage_loan_sid]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[product_sid]"
+                      cachedDataType="i4"
+                      cachedName="product_sid"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[product_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[product_sid]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[LOAN_SK]"
+                      cachedDataType="i4"
+                      cachedName="LOAN_SK"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_sk]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[LOAN_SK]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[fiscal_period_sid]"
+                      cachedDataType="i4"
+                      cachedName="fiscal_period_sid"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[fiscal_period_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[fiscal_period_sid]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[contract_sid]"
+                      cachedDataType="i4"
+                      cachedName="contract_sid"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[contract_sid]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[contract_sid]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[Loan_Evolution_Status_Cd]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="Loan_Evolution_Status_Cd"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_evolution_status_cd]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Cd]" />
+                    <inputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].Columns[Loan_Evolution_Status_Desc]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="33"
+                      cachedName="Loan_Evolution_Status_Desc"
+                      externalMetadataColumnId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_evolution_status_desc]"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output].Columns[Loan_Evolution_Status_Desc]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[certificate_sk]"
+                      dataType="i4"
+                      name="certificate_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[fiscal_period_sid]"
+                      dataType="i4"
+                      name="fiscal_period_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_sk]"
+                      dataType="i4"
+                      name="loan_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_coverage_sid]"
+                      dataType="i4"
+                      name="loan_coverage_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[mortgage_loan_sid]"
+                      dataType="i4"
+                      name="mortgage_loan_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[product_sid]"
+                      dataType="i4"
+                      name="product_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[contract_sid]"
+                      dataType="i4"
+                      name="contract_sid" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_filed_dt_sk]"
+                      dataType="i4"
+                      name="valid_bankruptcy_filed_dt_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_evolution_status_cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="loan_evolution_status_cd" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[loan_evolution_status_desc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="loan_evolution_status_desc" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_chapter_cd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="valid_bankruptcy_chapter_cd" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[valid_bankruptcy_discharge_dt_sk]"
+                      dataType="i4"
+                      name="valid_bankruptcy_discharge_dt_sk" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[bankruptcy_stage]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="bankruptcy_stage" />
+                    <externalMetadataColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input].ExternalColumns[early_indicator_score]"
+                      dataType="numeric"
+                      name="early_indicator_score"
+                      precision="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS.Paths[OLE DB Source Output]"
+              endId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Post insert"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{79AB4A6D-5E7F-44F8-9673-44ED5E11AA06}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Post insert"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="exec [dbo].[usp_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS_Step3_PostInsert] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::control_date"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="131"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Pre Insert Step"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CAE8E693-5963-4726-964E-167F414992A6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Pre Insert Step"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="exec [dbo].[usp_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS_Step1_PreInsert] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::control_date"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="131"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Switch In Partition"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{54F9E102-C01C-4E3B-AA07-7EA0652DB901}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Switch In Partition"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="exec [dbo].[usp_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS_Step4_SwitchInPartition] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::control_date"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="131"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Stats"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1F8C88EF-3A73-4228-B2D1-B4477E2B0A5F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Stats"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="update statistics dbo.FCT_REO_SALES with fullscan, norecompute &#xA;update statistics dbo.FCT_SUBROGATION_CASE with fullscan, norecompute &#xA;update statistics dbo.FCT_CLAIM_COMPONENT with fullscan, norecompute &#xA;update statistics dbo.FCT_LOAN_EVOLUTION_STATUS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Status Change Reason"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B8C3BD26-7B42-40BB-84CC-DE67D916E9AE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Status Change Reason"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+          SQLTask:SqlStatementSource="update dbo.STG_CLAIM&#xA;set STATUS_CHANGE_REASON_CODE = ctl.REASON_CODE&#xA;from dbo.STG_CLAIM clm,&#xA; PMIC_STAGING.dbo.STG_CD_CLAIM_TRANSACTION_LOG ctl,&#xA; dbo.stg_claim_code_value cv,&#xA; dbo.stg_claim_code_value cv1&#xA;where clm.claim_id = ctl.claim_id&#xA;and clm.bpa_audit_trail_id = ctl.bpa_audit_trail_id&#xA;and clm.status_code = cv.code_value_id&#xA;and cv.short_name = 'DLCLM'&#xA;and clm.bpa_audit_trail_id &gt; 10000000&#xA;and  ctl.type_code = cv1.code_value_id&#xA;and  cv1.short_name ='CLMDEL'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7F4179D3-356A-4458-BA66-44EB49F717D6}"
+      DTS:From="Package\Get Control Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Pre Insert Step" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D951FA03-D512-4EC7-A117-AACBFEED5242}"
+      DTS:From="Package\Pre Insert Step"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\C&amp;D HELPER TABLES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{DCA3540C-EE4D-46BB-B9AA-936A072C96E4}"
+      DTS:From="Package\HLP_FCT_LOAN_EVOLUTION_STATUS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Post insert" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{7DB847CE-0B05-47DB-A6D4-8126DEB312AC}"
+      DTS:From="Package\Post insert"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Switch In Partition" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{B0A8ECDF-B901-4C4F-8970-707490FA34B6}"
+      DTS:From="Package\C&amp;D HELPER TABLES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\HLP_FCT_LOAN_EVOLUTION_STATUS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{7CDF0767-02C7-43E5-94B5-EC3745D7A480}"
+      DTS:From="Package\Drop Create Helper Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\C&amp;D HELPER TABLES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{15C46C46-425E-461E-9973-A44AF56BFBA0}"
+      DTS:From="Package\HLP_FCT_LOAN_EVOLUTION_STATUS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\drop Helper Tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{D20BDA7A-9058-4A43-A5B8-02397D61F54B}"
+      DTS:From="Package\Update Status Change Reason"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Get Control Date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{BC6A6F29-5BF7-4767-97F8-C74174E67E6D}"
+      DTS:From="Package\Switch In Partition"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Update Stats" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="204,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS"
+          TopLeft="28.75,27.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY"
+          TopLeft="29,93.5" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="265,170"
+          Size="265,213"
+          Id="Package\C&amp;D HELPER TABLES"
+          TopLeft="520,63.75" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Drop Create Helper Tables"
+          TopLeft="316.694444444445,108.375" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\drop Helper Tables"
+          TopLeft="835.75,306.5" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Get Control Date"
+          TopLeft="112.75,187.25" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\HLP_FCT_LOAN_EVOLUTION_STATUS"
+          TopLeft="519.75,312.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Post insert"
+          TopLeft="835.75,230" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Pre Insert Step"
+          TopLeft="316.694444444445,187.25" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Switch In Partition"
+          TopLeft="835.75,153.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Update Stats"
+          TopLeft="835.75,77" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Update Status Change Reason"
+          TopLeft="112.75,108.375" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="279.75,208.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36.944444444445,0"
+              Start="0,0"
+              End="29.444444444445,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="29.444444444445,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="483.694444444445,206.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36.305555555555,0"
+              Start="0,0"
+              End="28.805555555555,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="28.805555555555,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="695.75,312.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="225,-40.5"
+              Start="0,0"
+              End="225,-33">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-12.3452914798206" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-12.3452914798206"
+                    Point2="0,-16.3452914798206"
+                    Point3="4,-16.3452914798206" />
+                  <mssgle:LineSegment
+                    End="221,-16.3452914798206" />
+                  <mssgle:CubicBezierSegment
+                    Point1="221,-16.3452914798206"
+                    Point2="225,-16.3452914798206"
+                    Point3="225,-20.3452914798206" />
+                  <mssgle:LineSegment
+                    End="225,-33" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="920.75,230">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-34.5"
+              Start="0,0"
+              End="0,-27">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-27" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="652.5,276.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-42.75,35.75"
+              Start="0,0"
+              End="-42.75,28.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.3217488789238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.3217488789238"
+                    Point2="0,21.3217488789238"
+                    Point3="-4,21.3217488789238" />
+                  <mssgle:LineSegment
+                    End="-38.75,21.3217488789238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-38.75,21.3217488789238"
+                    Point2="-42.75,21.3217488789238"
+                    Point3="-42.75,25.3217488789238" />
+                  <mssgle:LineSegment
+                    End="-42.75,28.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="483.694444444445,132.729166666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36.305555555555,0"
+              Start="0,0"
+              End="28.805555555555,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="28.805555555555,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="785.75,330.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50,0"
+              Start="0,0"
+              End="42.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="42.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="196.25,150.375">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.875"
+              Start="0,0"
+              End="0,29.375">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.375" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="920.75,153.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-34.5"
+              Start="0,0"
+              End="0,-27">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-27" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="184,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS"
+          TopLeft="240,195" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS"
+          TopLeft="239,93" />
+        <EdgeLayout
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS.Paths[OLE DB Source Output]"
+          TopLeft="331.5,135">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\src_HLP_LES_CLAIMS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_CLAIMS\trg_HLP_LES_CLAIMS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="217,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY"
+          TopLeft="245,206" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY"
+          TopLeft="239,93" />
+        <EdgeLayout
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.Paths[OLE DB Source Output]"
+          TopLeft="350.5,135">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71"
+              Start="0,0"
+              End="0,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.EventHandlers[OnPreExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="240,42"
+          Id="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY.EventHandlers[OnPreExecute]\truncate HLP_LES_DELINQUENCY"
+          TopLeft="95,46" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <PipelineComponentMetadata
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\src_HLP_LES_DELINQUENCY">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\C&amp;D HELPER TABLES\HLP_LES_DELINQUENCY\trg_HLP_LES_DELINQUENCY">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\HLP_FCT_LOAN_EVOLUTION_STATUS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="367,42"
+          Id="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+          TopLeft="198,229" />
+        <NodeLayout
+          Size="367,42"
+          Id="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS"
+          TopLeft="198,109" />
+        <EdgeLayout
+          Id="Package\HLP_FCT_LOAN_EVOLUTION_STATUS.Paths[OLE DB Source Output]"
+          TopLeft="381.5,151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,78"
+              Start="0,0"
+              End="0,70.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\src_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\HLP_FCT_LOAN_EVOLUTION_STATUS\trg_PARTITION_STAGING_FCT_LOAN_EVOLUTION_STATUS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

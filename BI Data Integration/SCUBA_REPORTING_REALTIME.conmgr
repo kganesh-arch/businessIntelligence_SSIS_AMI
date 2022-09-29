@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="SCUBA_REPORTING_REALTIME"
+  DTS:DTSID="{CBE67170-B787-4ABD-878D-2CE4EA77B361}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_SCUBA_REPORTING_REALTIME_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0202\P_UWA_AMI_US_01;User ID=ds_conn;Initial Catalog=P_SCUBA_AMI_US_01;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;Application Intent=ReadOnly;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="rT26NjWppK4="
+        p4:IV="9bGY0UvyIC4SBrxAeODodw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">/615/SR9U6eh11imab81rspXySR4AXIb+5JMVITJTbuWDrBfW8UBEzYZvfaijKBMlPcWHbh1Bov6OGHI569/p5keP4hMnothINPX5OyWJhSVW/aH5sPiT/TVB2o0eYZlU4DJK9jx9hEK/VRcVqHY+Oh5Bz21pX7B6TGjkOFFepI=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

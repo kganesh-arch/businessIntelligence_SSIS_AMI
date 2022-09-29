@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="RISKSHARE_OLTP"
+  DTS:DTSID="{E7675D09-B509-476A-9ECE-04403EB2CB0B}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_RiskShare_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=prskcm1;User ID=biappcmg;Provider=IBMDADB2.DB2COPY1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="ym6v7zWazBM="
+        p4:IV="v/hCWeUTYavbTjg/9FG18A=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">orOpRahtrXGhDuw/FGSt2JQaRIM6LrBrjhxnr//6Oz8SnanEk/LKM3nuYkW2FhFX6bcXNojY6bZAWI1E1jxTIoWL83PIX+M1JvuYELUFEgaOSrhcDz0qR1VkaF4lI5F2fXKd5mGXqGiBQti/wOasg/ep26g5/d4WC65oCXf8q5Y=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

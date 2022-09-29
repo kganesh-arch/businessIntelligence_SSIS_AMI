@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CoreIntegrator_CI_ARCHMI_CFEngine"
+  DTS:DTSID="{F40EEADA-E9AC-46AB-864E-974E789F0A5D}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CoreIntegrator_CI_ARCHMI_CFEngine_connectionstring]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=ACSI-DWCSQLSCI1.archgroup.io;User ID=ds_conn;Initial Catalog=CI_ARCHMI_CFEngine;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="6xo0I9eRWg=="
+        p4:IV="hT9rWYnoHoA=" xmlns:p4="www.microsoft.com/SqlServer/SSIS">G1/jEzzg0Z6Nmj9XvCYL6DFpsYOZc53W4QInW2TKvjXI26C0e9zl/UGs3N8SXXVUrZmYOAGo9TpNIZ2LiC9hErzly1XCgOWQ7gFdxuHS1WtgWX0ipWUMn6W/vw2PZL9qMkWWUGQaoY9PcRUwl97pFJCnWQsxgNqLwiTwpnOsx0g=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

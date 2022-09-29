@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="UGC400"
+  DTS:DTSID="{fe362cbb-0860-4df7-a206-d5408abb077b}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_UGC400_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=UGC400.UGCORP.COM;User ID=UGETLHRP;Initial Catalog=UGC400;Provider=IBMDASQL.DataSource.1;Persist Security Info=True;Default Collection=UGC;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="nQrCN2m8GJo="
+        p4:IV="ZERyQE53JW53HUV12HtksA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">b7VLFsVsHpq2eDP7wUeHgS18lJnOmfD5eBuGkqO5lIVTveqovJwZ3A1fLQWwngpJKT3gKhjHrFE0aytl9D3bP/1Tw7EAptELEeNSao2RStUfZppnkQ9PJmEolXJgBI0fV28tcSHQgq0uBUVh/xMUuEhonM+9Y8ROr67WcCmK04I=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

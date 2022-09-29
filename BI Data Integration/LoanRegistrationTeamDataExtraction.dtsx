@@ -1,0 +1,2746 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/27/2020 1:29:58 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVI-W10DVM046"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{946628C5-348F-465F-BCEE-A79682895F6F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="LoanRegistrationTeamDataExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{13C46E30-7885-485C-B40C-3B61E93DED95}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LoanRegTeamData]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{FC0CAEA4-3867-41A3-9C59-0E81D8BE3519}"
+      DTS:ObjectName="LoanRegTeamData">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[$Project::pstr_xl_LoanRegEmployeeList_ConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\sharepoint\cts\bi\EDW Source Data Files\LoanRegistration\LoanRegistrationTeamInfo.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Extract LoanReg Data"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{CF741A0E-8A5C-4671-8371-E25245C54D67}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Extract LoanReg Data">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{c96da5f2-d29a-4bdf-9ffd-d66e565af6e4}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STG_LOANREG_AMI_tblEmployee_Current"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[txtFName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="txtFName"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtFName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[txtLName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="txtLName"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtLName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[pkEmpID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="pkEmpID"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[pkEmpID]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[TeamLead]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="TeamLead"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[TeamLead]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[Manager]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Manager"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Manager]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[Location]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Location"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Location]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[Current_Flag]"
+                          cachedDataType="r8"
+                          cachedName="Current_Flag"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Current_Flag]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input].Columns[Last_Updated]"
+                          cachedDataType="date"
+                          cachedName="Last_Updated"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Last_Updated]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtFName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtFName]"
+                          name="Copy of txtFName"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtFName]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtLName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtLName]"
+                          name="Copy of txtLName"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtLName]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of pkEmpID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of pkEmpID]"
+                          name="Copy of pkEmpID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[pkEmpID]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of TeamLead]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of TeamLead]"
+                          name="Copy of TeamLead"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[TeamLead]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Manager]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Manager]"
+                          name="Copy of Manager"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Manager]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Location]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Location]"
+                          name="Copy of Location"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Location]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Current_Flag]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Current_Flag]"
+                          name="Copy of Current_Flag"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Current_Flag]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Last_Updated]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Last_Updated]"
+                          name="Copy of Last_Updated"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Last_Updated]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="src_STG_LOANREG_AMI_tblEmployee_Current"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">LoanRegTeamInfo$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LoanRegTeamData]"
+                      connectionManagerRefId="Package.ConnectionManagers[LoanRegTeamData]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtFName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[txtFName]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtFName]"
+                          name="txtFName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtLName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[txtLName]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[txtLName]"
+                          name="txtLName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[pkEmpID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[pkEmpID]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[pkEmpID]"
+                          name="pkEmpID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[TeamLead]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[TeamLead]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[TeamLead]"
+                          name="TeamLead"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Manager]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Manager]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Manager]"
+                          name="Manager"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Location]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Location]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Location]"
+                          name="Location"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Current_Flag]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Current_Flag]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Current_Flag]"
+                          name="Current_Flag"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Last_Updated]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Last_Updated]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Last_Updated]"
+                          name="Last_Updated"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[txtFName]"
+                          dataType="wstr"
+                          length="255"
+                          name="txtFName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[txtLName]"
+                          dataType="wstr"
+                          length="255"
+                          name="txtLName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[pkEmpID]"
+                          dataType="wstr"
+                          length="255"
+                          name="pkEmpID" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[TeamLead]"
+                          dataType="wstr"
+                          length="255"
+                          name="TeamLead" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Manager]"
+                          dataType="wstr"
+                          length="255"
+                          name="Manager" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Location]"
+                          dataType="wstr"
+                          length="255"
+                          name="Location" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Current_Flag]"
+                          dataType="r8"
+                          name="Current_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].ExternalColumns[Last_Updated]"
+                          dataType="date"
+                          name="Last_Updated" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[txtFName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[txtFName]"
+                          name="txtFName" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[txtLName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[txtLName]"
+                          name="txtLName" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[pkEmpID]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[pkEmpID]"
+                          name="pkEmpID" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[TeamLead]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[TeamLead]"
+                          name="TeamLead" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Manager]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Manager]"
+                          name="Manager" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Location]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Location]"
+                          name="Location" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Current_Flag]"
+                          dataType="r8"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Current_Flag]"
+                          name="Current_Flag" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Last_Updated]"
+                          dataType="date"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[Last_Updated]"
+                          name="Last_Updated" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_STG_LOANREG_AMI_tblEmployee_Current"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_LOANREG_AMI_tblEmployee_Current]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[EDW_STAGING]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Current_Flag]"
+                          cachedDataType="r8"
+                          cachedName="Current_Flag"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Current_Flag]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Current_Flag]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Last_Updated]"
+                          cachedDataType="date"
+                          cachedName="Last_Updated"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Last_Updated]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output].Columns[Last_Updated]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of txtFName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of txtFName"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtFName]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtFName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of txtLName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of txtLName"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtLName]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of txtLName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of pkEmpID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of pkEmpID"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[pkEmpID]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of pkEmpID]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of TeamLead]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of TeamLead"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[TeamLead]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of TeamLead]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of Manager]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of Manager"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Manager]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Manager]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Copy of Location]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Copy of Location"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Location]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtFName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtFName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtLName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtLName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[pkEmpID]"
+                          dataType="wstr"
+                          length="50"
+                          name="pkEmpID" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[TeamLead]"
+                          dataType="wstr"
+                          length="50"
+                          name="TeamLead" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Manager]"
+                          dataType="wstr"
+                          length="50"
+                          name="Manager" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                          dataType="wstr"
+                          length="50"
+                          name="Location" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Current_Flag]"
+                          dataType="bool"
+                          name="Current_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Last_Updated]"
+                          dataType="wstr"
+                          length="50"
+                          name="Last_Updated" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current.Paths[Data Conversion Output]"
+                  endId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current.Paths[Excel Source Output]"
+                  endId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Extract LoanReg Data\tblEmployee_Current"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{D9A85329-6C5E-4A0A-BB9E-F6B07BC37532}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="tblEmployee_Current"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_tblEmployee_Current"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT [txtFName]
+      ,[txtLName]
+      ,[pkEmpID]
+      ,[TeamLead]
+      ,[Manager]
+      ,[Location]
+      ,[Current_Flag]
+      ,[Last_Updated]
+  FROM [dbo].[tblEmployee_Current]</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Connections[OleDbConnection]"
+                      connectionManagerID="{AFEC74E7-4D9D-4446-B496-7EED5EF3EFE5}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[LOANREG_AMI]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtFName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[txtFName]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtFName]"
+                          name="txtFName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtLName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[txtLName]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtLName]"
+                          name="txtLName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[pkEmpID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[pkEmpID]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[pkEmpID]"
+                          name="pkEmpID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[TeamLead]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[TeamLead]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[TeamLead]"
+                          name="TeamLead"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Manager]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Manager]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Manager]"
+                          name="Manager"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Location]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Location]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Location]"
+                          name="Location"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Last_Updated]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Last_Updated]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Last_Updated]"
+                          name="Last_Updated"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Current_Flag]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Current_Flag]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Current_Flag]"
+                          name="Current_Flag"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[txtFName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtFName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[txtLName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtLName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[pkEmpID]"
+                          dataType="wstr"
+                          length="50"
+                          name="pkEmpID" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[TeamLead]"
+                          dataType="wstr"
+                          length="50"
+                          name="TeamLead" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Manager]"
+                          dataType="wstr"
+                          length="50"
+                          name="Manager" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Location]"
+                          dataType="wstr"
+                          length="50"
+                          name="Location" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Last_Updated]"
+                          dataType="wstr"
+                          length="50"
+                          name="Last_Updated" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].ExternalColumns[Current_Flag]"
+                          dataType="bool"
+                          name="Current_Flag" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[txtFName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[txtFName]"
+                          name="txtFName" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[txtLName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[txtLName]"
+                          name="txtLName" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[pkEmpID]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[pkEmpID]"
+                          name="pkEmpID" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[TeamLead]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[TeamLead]"
+                          name="TeamLead" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Manager]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Manager]"
+                          name="Manager" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Location]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Location]"
+                          name="Location" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Current_Flag]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Current_Flag]"
+                          name="Current_Flag" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Last_Updated]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[Last_Updated]"
+                          name="Last_Updated" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt_STG_LOANREG_AMI_tblEmployee_Current"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_LOANREG_AMI_tblEmployee_Current]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[EDW_STAGING]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[txtFName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="txtFName"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtFName]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtFName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[txtLName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="txtLName"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtLName]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[txtLName]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[pkEmpID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="pkEmpID"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[pkEmpID]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[pkEmpID]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[TeamLead]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="TeamLead"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[TeamLead]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[TeamLead]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Manager]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Manager"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Manager]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Manager]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Location]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Location"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Location]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Last_Updated]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Last_Updated"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Last_Updated]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Last_Updated]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].Columns[Current_Flag]"
+                          cachedDataType="bool"
+                          cachedName="Current_Flag"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Current_Flag]"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output].Columns[Current_Flag]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtFName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtFName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[txtLName]"
+                          dataType="wstr"
+                          length="50"
+                          name="txtLName" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[pkEmpID]"
+                          dataType="wstr"
+                          length="50"
+                          name="pkEmpID" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[TeamLead]"
+                          dataType="wstr"
+                          length="50"
+                          name="TeamLead" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Manager]"
+                          dataType="wstr"
+                          length="50"
+                          name="Manager" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                          dataType="wstr"
+                          length="50"
+                          name="Location" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Last_Updated]"
+                          dataType="wstr"
+                          length="50"
+                          name="Last_Updated" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input].ExternalColumns[Current_Flag]"
+                          dataType="bool"
+                          name="Current_Flag" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Extract LoanReg Data\tblEmployee_Current.Paths[OLE DB Source Output]"
+                  endId="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Extract LoanReg Data\tblRegistration"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{683C6438-C727-4649-B0D2-7ED729EA132F}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="tblRegistration"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_tblRegistration"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT [EntryNumber]
+      ,[ProcessStartA]
+      ,[ProcessStartB]
+      ,[User]
+      ,[Cert]
+      ,[Lender]
+      ,[Task]
+      ,[drive]
+      ,[trisk]
+      ,[mari]
+      ,[rmic]
+      ,[other]
+      ,[pmi]
+      ,[ProcessEndA]
+      ,[ProcessEndB]
+      ,[Additional]
+      ,[QCd]
+      ,[creditreport]
+      ,[Rework]
+      ,[Unassign]
+      ,[CBC]
+      ,[addlCBC]
+      ,[maricount]
+      ,[ReceivedMethod]
+      ,[Specific_Issue]
+  FROM [dbo].[tblRegistration]</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Connections[OleDbConnection]"
+                      connectionManagerID="{AFEC74E7-4D9D-4446-B496-7EED5EF3EFE5}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[LOANREG_AMI]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[EntryNumber]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[EntryNumber]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[EntryNumber]"
+                          name="EntryNumber"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartA]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessStartA]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartA]"
+                          name="ProcessStartA"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartB]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessStartB]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartB]"
+                          name="ProcessStartB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[User]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[User]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[User]"
+                          name="User"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Cert]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Cert]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Cert]"
+                          name="Cert"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Lender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Lender]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Lender]"
+                          name="Lender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Task]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Task]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Task]"
+                          name="Task"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[drive]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[drive]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[drive]"
+                          name="drive"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[trisk]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[trisk]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[trisk]"
+                          name="trisk"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[mari]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[mari]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[mari]"
+                          name="mari"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[rmic]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[rmic]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[rmic]"
+                          name="rmic"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[other]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[other]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[other]"
+                          name="other"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[pmi]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[pmi]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[pmi]"
+                          name="pmi"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndA]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessEndA]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndA]"
+                          name="ProcessEndA"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndB]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessEndB]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndB]"
+                          name="ProcessEndB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Additional]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Additional]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Additional]"
+                          name="Additional"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[QCd]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[QCd]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[QCd]"
+                          name="QCd"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[creditreport]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[creditreport]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[creditreport]"
+                          name="creditreport"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Rework]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Rework]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Rework]"
+                          name="Rework"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Unassign]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Unassign]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Unassign]"
+                          name="Unassign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[CBC]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[CBC]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[CBC]"
+                          name="CBC"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[addlCBC]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[addlCBC]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[addlCBC]"
+                          name="addlCBC"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[maricount]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[maricount]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[maricount]"
+                          name="maricount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ReceivedMethod]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ReceivedMethod]"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ReceivedMethod]"
+                          name="ReceivedMethod"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Specific_Issue]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Specific_Issue]"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Specific_Issue]"
+                          name="Specific_Issue"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[EntryNumber]"
+                          dataType="i4"
+                          name="EntryNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessStartA]"
+                          dataType="dbTimeStamp"
+                          name="ProcessStartA" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessStartB]"
+                          dataType="dbTimeStamp"
+                          name="ProcessStartB" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[User]"
+                          dataType="wstr"
+                          length="50"
+                          name="User" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Cert]"
+                          dataType="i4"
+                          name="Cert" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Lender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Lender" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Task]"
+                          dataType="wstr"
+                          length="255"
+                          name="Task" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[drive]"
+                          dataType="bool"
+                          name="drive" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[trisk]"
+                          dataType="bool"
+                          name="trisk" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[mari]"
+                          dataType="bool"
+                          name="mari" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[rmic]"
+                          dataType="bool"
+                          name="rmic" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[other]"
+                          dataType="bool"
+                          name="other" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[pmi]"
+                          dataType="bool"
+                          name="pmi" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessEndA]"
+                          dataType="dbTimeStamp"
+                          name="ProcessEndA" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ProcessEndB]"
+                          dataType="dbTimeStamp"
+                          name="ProcessEndB" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Additional]"
+                          dataType="wstr"
+                          length="50"
+                          name="Additional" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[QCd]"
+                          dataType="bool"
+                          name="QCd" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[creditreport]"
+                          dataType="bool"
+                          name="creditreport" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Rework]"
+                          dataType="bool"
+                          name="Rework" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Unassign]"
+                          dataType="bool"
+                          name="Unassign" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[CBC]"
+                          dataType="bool"
+                          name="CBC" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[addlCBC]"
+                          dataType="bool"
+                          name="addlCBC" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[maricount]"
+                          dataType="i4"
+                          name="maricount" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[ReceivedMethod]"
+                          dataType="wstr"
+                          length="50"
+                          name="ReceivedMethod" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].ExternalColumns[Specific_Issue]"
+                          dataType="wstr"
+                          length="255"
+                          name="Specific_Issue" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[EntryNumber]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[EntryNumber]"
+                          name="EntryNumber" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessStartA]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessStartA]"
+                          name="ProcessStartA" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessStartB]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessStartB]"
+                          name="ProcessStartB" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[User]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[User]"
+                          name="User" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Cert]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Cert]"
+                          name="Cert" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Lender]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Lender]"
+                          name="Lender" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Task]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Task]"
+                          name="Task" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[drive]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[drive]"
+                          name="drive" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[trisk]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[trisk]"
+                          name="trisk" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[mari]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[mari]"
+                          name="mari" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[rmic]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[rmic]"
+                          name="rmic" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[other]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[other]"
+                          name="other" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[pmi]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[pmi]"
+                          name="pmi" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessEndA]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessEndA]"
+                          name="ProcessEndA" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessEndB]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ProcessEndB]"
+                          name="ProcessEndB" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Additional]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Additional]"
+                          name="Additional" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[QCd]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[QCd]"
+                          name="QCd" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[creditreport]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[creditreport]"
+                          name="creditreport" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Rework]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Rework]"
+                          name="Rework" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Unassign]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Unassign]"
+                          name="Unassign" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[CBC]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[CBC]"
+                          name="CBC" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[addlCBC]"
+                          dataType="bool"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[addlCBC]"
+                          name="addlCBC" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[maricount]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[maricount]"
+                          name="maricount" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ReceivedMethod]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ReceivedMethod]"
+                          name="ReceivedMethod" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Specific_Issue]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[Specific_Issue]"
+                          name="Specific_Issue" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt_STG_LOANREGTEAMDATA_tblRegistration"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_LOANREG_AMI_tblRegistration]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[EDW_STAGING]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[EntryNumber]"
+                          cachedDataType="i4"
+                          cachedName="EntryNumber"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[EntryNumber]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[EntryNumber]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[ProcessStartA]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ProcessStartA"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessStartA]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartA]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[ProcessStartB]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ProcessStartB"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessStartB]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessStartB]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[User]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="User"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[User]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[User]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Cert]"
+                          cachedDataType="i4"
+                          cachedName="Cert"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Cert]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Cert]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Lender]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Lender"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Lender]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Lender]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Task]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Task"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Task]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Task]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[drive]"
+                          cachedDataType="bool"
+                          cachedName="drive"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[drive]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[drive]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[trisk]"
+                          cachedDataType="bool"
+                          cachedName="trisk"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[trisk]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[trisk]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[mari]"
+                          cachedDataType="bool"
+                          cachedName="mari"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[mari]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[mari]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[rmic]"
+                          cachedDataType="bool"
+                          cachedName="rmic"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[rmic]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[rmic]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[other]"
+                          cachedDataType="bool"
+                          cachedName="other"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[other]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[other]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[pmi]"
+                          cachedDataType="bool"
+                          cachedName="pmi"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[pmi]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[pmi]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[ProcessEndA]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ProcessEndA"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessEndA]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndA]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[ProcessEndB]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ProcessEndB"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessEndB]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ProcessEndB]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Additional]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Additional"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Additional]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Additional]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[QCd]"
+                          cachedDataType="bool"
+                          cachedName="QCd"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[QCd]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[QCd]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[creditreport]"
+                          cachedDataType="bool"
+                          cachedName="creditreport"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[creditreport]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[creditreport]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Rework]"
+                          cachedDataType="bool"
+                          cachedName="Rework"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Rework]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Rework]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Unassign]"
+                          cachedDataType="bool"
+                          cachedName="Unassign"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Unassign]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Unassign]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[CBC]"
+                          cachedDataType="bool"
+                          cachedName="CBC"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[CBC]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[CBC]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[addlCBC]"
+                          cachedDataType="bool"
+                          cachedName="addlCBC"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[addlCBC]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[addlCBC]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[maricount]"
+                          cachedDataType="i4"
+                          cachedName="maricount"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[maricount]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[maricount]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[ReceivedMethod]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="ReceivedMethod"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ReceivedMethod]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[ReceivedMethod]" />
+                        <inputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].Columns[Specific_Issue]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Specific_Issue"
+                          externalMetadataColumnId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Specific_Issue]"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output].Columns[Specific_Issue]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[EntryNumber]"
+                          dataType="i4"
+                          name="EntryNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessStartA]"
+                          dataType="dbTimeStamp"
+                          name="ProcessStartA" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessStartB]"
+                          dataType="dbTimeStamp"
+                          name="ProcessStartB" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[User]"
+                          dataType="wstr"
+                          length="50"
+                          name="User" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Cert]"
+                          dataType="i4"
+                          name="Cert" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Lender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Lender" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Task]"
+                          dataType="wstr"
+                          length="255"
+                          name="Task" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[drive]"
+                          dataType="bool"
+                          name="drive" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[trisk]"
+                          dataType="bool"
+                          name="trisk" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[mari]"
+                          dataType="bool"
+                          name="mari" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[rmic]"
+                          dataType="bool"
+                          name="rmic" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[other]"
+                          dataType="bool"
+                          name="other" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[pmi]"
+                          dataType="bool"
+                          name="pmi" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessEndA]"
+                          dataType="dbTimeStamp"
+                          name="ProcessEndA" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ProcessEndB]"
+                          dataType="dbTimeStamp"
+                          name="ProcessEndB" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Additional]"
+                          dataType="wstr"
+                          length="50"
+                          name="Additional" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[QCd]"
+                          dataType="bool"
+                          name="QCd" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[creditreport]"
+                          dataType="bool"
+                          name="creditreport" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Rework]"
+                          dataType="bool"
+                          name="Rework" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Unassign]"
+                          dataType="bool"
+                          name="Unassign" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[CBC]"
+                          dataType="bool"
+                          name="CBC" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[addlCBC]"
+                          dataType="bool"
+                          name="addlCBC" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[maricount]"
+                          dataType="i4"
+                          name="maricount" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[ReceivedMethod]"
+                          dataType="wstr"
+                          length="50"
+                          name="ReceivedMethod" />
+                        <externalMetadataColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input].ExternalColumns[Specific_Issue]"
+                          dataType="wstr"
+                          length="255"
+                          name="Specific_Issue" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Extract LoanReg Data\tblRegistration.Paths[OLE DB Source Output]"
+                  endId="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Extract LoanReg Data.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{8C84C9F6-EBA8-4869-A0B0-6491836B4EBD}"
+          DTS:From="Package\Extract LoanReg Data\tblRegistration"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Extract LoanReg Data\tblEmployee_Current" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Fail"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{C985102B-26E1-4312-A87A-6F5CA56824F1}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Fail"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAILED : Loan Reg Data Extraction (" +  @[$Project::pstr_Environment] + ") Arch MI BI Data Integration"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="FAILED : Loan Reg Data Extraction (Production) Arch MI BI Data Integration"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{02D2B43E-5BF1-4885-879E-C07E6DD4B5A0}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS : Loan Reg Data Extraction (" +  @[$Project::pstr_Environment] + ") Arch MI BI Data Integration"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="SUCCESS : Loan Reg Data Extraction (Production) Arch MI BI Data Integration" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3E6F2048-D826-4264-81BF-9EBA2FFF10D8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_LOANREG_AMI_TBLREGISTRATION &#xA;GO &#xA;TRUNCATE TABLE DBO.STG_LOANREG_AMI_TBLEMPLOYEE_CURRENT&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F3B5403-8E61-479C-A976-008FAEEE71BC}"
+      DTS:From="Package\Extract LoanReg Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7788DFFC-C656-4581-B517-6B764860C13A}"
+      DTS:From="Package\Extract LoanReg Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Fail"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{0FBD9120-E7D9-40D4-A7B5-3C7348686649}"
+      DTS:From="Package\Truncate Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Extract LoanReg Data" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="297,42"
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current"
+          TopLeft="55,88" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Extract LoanReg Data\tblEmployee_Current"
+          TopLeft="194,33" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Extract LoanReg Data\tblRegistration"
+          TopLeft="16,33.5" />
+        <EdgeLayout
+          Id="Package\Extract LoanReg Data.PrecedenceConstraints[Constraint]"
+          TopLeft="165,54.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="29,0"
+              Start="0,0"
+              End="21.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="21.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="400,185"
+          Size="400,228"
+          Id="Package\Extract LoanReg Data"
+          TopLeft="379,86" />
+        <NodeLayout
+          Size="97,42"
+          Id="Package\Fail"
+          TopLeft="660,445" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Success"
+          TopLeft="428,445" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Truncate Tables"
+          TopLeft="140,153" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="513.666666666667,314">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-25.1666666666666,131"
+              Start="0,0"
+              End="-25.1666666666666,123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48.7131474103586"
+                    Point2="0,52.7131474103586"
+                    Point3="-4,52.7131474103586" />
+                  <mssgle:LineSegment
+                    End="-21.1666666666666,52.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-21.1666666666666,52.7131474103586"
+                    Point2="-25.1666666666666,52.7131474103586"
+                    Point3="-25.1666666666666,56.7131474103586" />
+                  <mssgle:LineSegment
+                    End="-25.1666666666666,123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="644.333333333333,314">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="64.1666666666667,131"
+              Start="0,0"
+              End="64.1666666666667,123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48.7131474103586"
+                    Point2="0,52.7131474103586"
+                    Point3="4,52.7131474103586" />
+                  <mssgle:LineSegment
+                    End="60.1666666666667,52.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="60.1666666666667,52.7131474103586"
+                    Point2="64.1666666666667,52.7131474103586"
+                    Point3="64.1666666666667,56.7131474103586" />
+                  <mssgle:LineSegment
+                    End="64.1666666666667,123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="16.8419856770834,57.7131474103586,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="298,174">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="81,26"
+              Start="0,0"
+              End="73.5,26">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="36.5,0"
+                    Point2="40.5,0"
+                    Point3="40.5,4" />
+                  <mssgle:LineSegment
+                    End="40.5,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="40.5,22"
+                    Point2="40.5,26"
+                    Point3="44.5,26" />
+                  <mssgle:LineSegment
+                    End="73.5,26" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current"
+          TopLeft="231,107" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\Data Conversion"
+          TopLeft="645,171" />
+        <NodeLayout
+          Size="315,42"
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current"
+          TopLeft="223,267" />
+        <EdgeLayout
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current.Paths[Excel Source Output]"
+          TopLeft="548,128">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97,64"
+              Start="0,0"
+              End="89.5,64">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="44.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44.5,0"
+                    Point2="48.5,0"
+                    Point3="48.5,4" />
+                  <mssgle:LineSegment
+                    End="48.5,60" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48.5,60"
+                    Point2="48.5,64"
+                    Point3="52.5,64" />
+                  <mssgle:LineSegment
+                    End="89.5,64" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current.Paths[Data Conversion Output]"
+          TopLeft="725.5,213">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-345,54"
+              Start="0,0"
+              End="-345,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23"
+                    Point2="0,27"
+                    Point3="-4,27" />
+                  <mssgle:LineSegment
+                    End="-341,27" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-341,27"
+                    Point2="-345,27"
+                    Point3="-345,31" />
+                  <mssgle:LineSegment
+                    End="-345,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\src_STG_LOANREG_AMI_tblEmployee_Current">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\STG_LOANREG_AMI_tblEmployee_Current\trg_STG_LOANREG_AMI_tblEmployee_Current">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Extract LoanReg Data\tblEmployee_Current">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="319,42"
+          Id="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current"
+          TopLeft="393,509" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current"
+          TopLeft="453,335" />
+        <EdgeLayout
+          Id="Package\Extract LoanReg Data\tblEmployee_Current.Paths[OLE DB Source Output]"
+          TopLeft="553.5,377">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,132"
+              Start="0,0"
+              End="0,124.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,124.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\tblEmployee_Current\src_tblEmployee_Current">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\tblEmployee_Current\trgt_STG_LOANREG_AMI_tblEmployee_Current">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Extract LoanReg Data\tblRegistration">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration"
+          TopLeft="344,180" />
+        <NodeLayout
+          Size="320,42"
+          Id="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration"
+          TopLeft="272,356" />
+        <EdgeLayout
+          Id="Package\Extract LoanReg Data\tblRegistration.Paths[OLE DB Source Output]"
+          TopLeft="430.5,222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,134"
+              Start="0,0"
+              End="0,126.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,126.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\tblRegistration\src_tblRegistration">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract LoanReg Data\tblRegistration\trgt_STG_LOANREGTEAMDATA_tblRegistration">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

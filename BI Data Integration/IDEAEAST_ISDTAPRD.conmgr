@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="IDEAEAST_ISDTAPRD"
+  DTS:DTSID="{CD4F623A-BC80-48E3-8F9A-74F2B2F51630}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_IDEAEAST_ISDTAPRD_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=RCIDEA01.cmgmi.local;User ID=COGNOS;Initial Catalog=RCIDEA01;Provider=IBMDASQL.DataSource.1;Persist Security Info=True;Default Collection=ISDTAPRD;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="Wo6XV8GUTPs="
+        p4:IV="+mFwwA5JAaYUq+c4wn7T8g=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">Jr/or53rJaY+IFc+u9a0zMJd+EKaGmQXDa7+6y7QO0N5OrEQN51ivmvFkH+rEFBz8GYw+B3cOoLBCmedynM+ooVYS/tR7JBzm3GbsqXMpAE7FtSPIvOq7CGybBnCCYeWZBS6+wsNqhsE50MalnasKiCutvzf60NP2CXR99l8yF0=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

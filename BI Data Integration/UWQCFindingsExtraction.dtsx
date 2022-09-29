@@ -1,0 +1,1234 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/24/2017 7:23:13 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-MHILARI"
+  DTS:CreatorName="CMGMI\mhilario"
+  DTS:DTSID="{9CB106CA-07E3-4976-AE24-0C49DABD14F5}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="UWQCFindingsExtraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{F1A1ED6B-B732-4AFA-8111-D24EFA1DBC19}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\FCT_UW_QC_FINDINGS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{ED81289E-8CED-43B2-98FB-F2F64E1E483B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="FCT_UW_QC_FINDINGS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DIM_MI_Certificate"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select certificate_sk, cast(certificate_nbr_bk_amiwest as int) as certificate_nbr_bk from dbo.DIM_MI_Certificate where curr_ind = 'Y'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select certificate_sk, cast(certificate_nbr_bk_amiwest as int) as certificate_nbr_bk from dbo.DIM_MI_Certificate where curr_ind = 'Y') [refTable]
+where [refTable].[certificate_nbr_bk] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="certificate_sk" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="certificate_nbr_bk" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Certificate Number]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Connections[OleDbConnection]"
+                  connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input].Columns[certificate_sk]"
+                      cachedDataType="i4"
+                      cachedName="Certificate Number"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Certificate Number]"
+                      name="certificate_sk"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">certificate_nbr_bk</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">certificate_sk</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="src_FCT_UW_QC_FINDINGS"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+a.[Certificate Number],
+year(c.[Final_Report_Date])*10000 + month(c.[Final_Report_Date])*100 + day(c.[Final_Report_Date]) as FinalReportDate_SK,
+cast(f.[Finding Type]  as varchar(160)) as FindingType,
+cast(g.Disposition as varchar(160)) as Disposition,
+cast(i.Entry as varchar(160)) as SubFinding,
+year(c.[Period_End_Date])*10000 + month(c.[Period_End_Date])*100 + day(c.[Period_End_Date]) as AuditPeriodEndDate_SK,
+cast(d.Description as varchar(160)) as QC_Review_Type
+from P_AUDITMGR_AMI_US_01.dbo.Audit a
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_Finding b on b.[Certificate Number] = a.[Certificate Number]
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_Master c on c.Audit_Master_ID = a.Audit_Master_ID
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_Type_Dictionary d on d.Audit_Type_ID = c.Audit_Type_ID
+left join P_AUDITMGR_AMI_US_01.dbo.Finding e on e.ID = b.FindingID
+left join P_AUDITMGR_AMI_US_01.dbo.[Finding Type] f on e.FindingTypeID = f.ID
+left join P_AUDITMGR_AMI_US_01.dbo.Disposition g on g.ID = b.DispositionID
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_SubFinding h on h.Audit_Finding_ID = b.ID
+left join P_AUDITMGR_AMI_US_01.dbo.Dictionary i on i.ID = h.SubFinding_ID
+Where d.Description in ('Delegated', 'Newly Delegated', 'Delegated CU', 'Newly Delegated CU','EZ Application')
+and c.[Final_Report_Date] is not null
+
+
+union all
+
+
+Select
+a.[Certificate Number],
+year(e.[Final_Report_Date])*10000 + month(e.[Final_Report_Date])*100 + day(e.[Final_Report_Date]) as FinalReportDate_SK,
+cast(c.[Finding Type]  as varchar(160)) as FindingType,
+cast('' as varchar(160)) as Disposition,
+cast(i.Entry as varchar(160)) as SubFinding,
+year(e.[Period_End_Date])*10000 + month(e.[Period_End_Date])*100 + day(e.[Period_End_Date]) as AuditPeriodEndDate_SK,
+cast(f.Description as varchar(160)) as QC_Review_Type
+from P_AUDITMGR_AMI_US_01.dbo.[UWN Audit] a
+left join P_AUDITMGR_AMI_US_01.dbo.[UWN Audit Finding] b on b.[Certificate Number] = a.[Certificate Number]
+left join P_AUDITMGR_AMI_US_01.dbo.[UWN Finding Type] c on c.ID = b.FindingTypeID
+left join P_AUDITMGR_AMI_US_01.dbo.[UWN Finding] d on d.ID = b.FindingID
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_Master e on e.Audit_Master_ID = a.Audit_Master_Id
+left join P_AUDITMGR_AMI_US_01.dbo.Audit_Type_Dictionary f on f.Audit_Type_ID = e.Audit_Type_ID
+left join P_AUDITMGR_AMI_US_01.dbo.UWN_Audit_SubFinding h on h.Audit_Finding_ID = b.ID
+left join P_AUDITMGR_AMI_US_01.dbo.Dictionary i on i.ID = h.SubFinding_ID
+Where 1=1
+and f.Description in ('Underwriting Network','Underwriting Network CU','Underwriting Network AMG')
+and isnull(e.[Final_Report_Date],'') &lt;&gt; '' -- is not null</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Connections[OleDbConnection]"
+                  connectionManagerID="{5015cfd9-2778-4a3e-b7e3-3ba6bb738052}:invalid"
+                  connectionManagerRefId="{5015cfd9-2778-4a3e-b7e3-3ba6bb738052}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Certificate Number]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[Certificate Number]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Certificate Number]"
+                      name="Certificate Number"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FinalReportDate_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[FinalReportDate_SK]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FinalReportDate_SK]"
+                      name="FinalReportDate_SK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Disposition]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[Disposition]"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Disposition]"
+                      name="Disposition"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[SubFinding]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[SubFinding]"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[SubFinding]"
+                      name="SubFinding"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[AuditPeriodEndDate_SK]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[AuditPeriodEndDate_SK]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[AuditPeriodEndDate_SK]"
+                      name="AuditPeriodEndDate_SK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[QC_Review_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[QC_Review_Type]"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[QC_Review_Type]"
+                      name="QC_Review_Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FindingType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[FindingType]"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FindingType]"
+                      name="FindingType"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[Certificate Number]"
+                      dataType="i4"
+                      name="Certificate Number" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[FinalReportDate_SK]"
+                      dataType="i4"
+                      name="FinalReportDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[Disposition]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="Disposition" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[SubFinding]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="SubFinding" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[AuditPeriodEndDate_SK]"
+                      dataType="i4"
+                      name="AuditPeriodEndDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[QC_Review_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="QC_Review_Type" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].ExternalColumns[FindingType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="FindingType" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[Certificate Number]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[Certificate Number]"
+                      name="Certificate Number" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[FinalReportDate_SK]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[FinalReportDate_SK]"
+                      name="FinalReportDate_SK" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[FindingType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[FindingType]"
+                      name="FindingType" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[Disposition]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[Disposition]"
+                      name="Disposition" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[SubFinding]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[SubFinding]"
+                      name="SubFinding" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[AuditPeriodEndDate_SK]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[AuditPeriodEndDate_SK]"
+                      name="AuditPeriodEndDate_SK" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[QC_Review_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[QC_Review_Type]"
+                      name="QC_Review_Type" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="tgt_FCT_UW_QC_FINDINGS"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FCT_UW_QC_FINDINGS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">25000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Connections[OleDbConnection]"
+                  connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[certificate_sk]"
+                      cachedDataType="i4"
+                      cachedName="certificate_sk"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_SK]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[certificate_sk]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[FinalReportDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="FinalReportDate_SK"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[FinalReportDate_SK]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FinalReportDate_SK]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[Disposition]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="Disposition"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[Disposition]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[Disposition]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[SubFinding]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="SubFinding"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[SubFinding]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[SubFinding]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[AuditPeriodEndDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="AuditPeriodEndDate_SK"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[AuditPeriodEndDate_SK]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[AuditPeriodEndDate_SK]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[QC_Review_Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="QC_Review_Type"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[QC_Review_Type]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[QC_Review_Type]" />
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].Columns[FindingType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="FindingType"
+                      externalMetadataColumnId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[FindingType]"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FindingType]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_SK]"
+                      dataType="i4"
+                      name="Certificate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[FinalReportDate_SK]"
+                      dataType="i4"
+                      name="FinalReportDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[FindingType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="FindingType" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[Disposition]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="Disposition" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[SubFinding]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="SubFinding" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[AuditPeriodEndDate_SK]"
+                      dataType="i4"
+                      name="AuditPeriodEndDate_SK" />
+                    <externalMetadataColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input].ExternalColumns[QC_Review_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      name="QC_Review_Type" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FCT_UW_QC_FINDINGS\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[Certificate Number]"
+                      cachedDataType="i4"
+                      cachedName="Certificate Number"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Certificate Number]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[certificate_sk]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[FinalReportDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="FinalReportDate_SK"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FinalReportDate_SK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FinalReportDate_SK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[Disposition]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="Disposition"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Disposition]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[Disposition]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[SubFinding]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="SubFinding"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[SubFinding]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[SubFinding]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[AuditPeriodEndDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="AuditPeriodEndDate_SK"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[AuditPeriodEndDate_SK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[AuditPeriodEndDate_SK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[QC_Review_Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="QC_Review_Type"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[QC_Review_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[QC_Review_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1].Columns[FindingType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="FindingType"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FindingType]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FindingType]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[FinalReportDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="FinalReportDate_SK"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FinalReportDate_SK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FinalReportDate_SK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[Disposition]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="Disposition"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[Disposition]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[Disposition]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[SubFinding]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="SubFinding"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[SubFinding]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[SubFinding]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[AuditPeriodEndDate_SK]"
+                      cachedDataType="i4"
+                      cachedName="AuditPeriodEndDate_SK"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[AuditPeriodEndDate_SK]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[AuditPeriodEndDate_SK]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[QC_Review_Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="QC_Review_Type"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[QC_Review_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[QC_Review_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2].Columns[FindingType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="160"
+                      cachedName="FindingType"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output].Columns[FindingType]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FindingType]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[certificate_sk]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[certificate_sk]"
+                      name="certificate_sk" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FinalReportDate_SK]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FinalReportDate_SK]"
+                      name="FinalReportDate_SK" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[Disposition]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[Disposition]"
+                      name="Disposition" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[SubFinding]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[SubFinding]"
+                      name="SubFinding" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[AuditPeriodEndDate_SK]"
+                      dataType="i4"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[AuditPeriodEndDate_SK]"
+                      name="AuditPeriodEndDate_SK" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[QC_Review_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[QC_Review_Type]"
+                      name="QC_Review_Type" />
+                    <outputColumn
+                      refId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FindingType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="160"
+                      lineageId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1].Columns[FindingType]"
+                      name="FindingType" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\FCT_UW_QC_FINDINGS.Paths[Lookup Match Output]"
+              endId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 1]"
+              name="Lookup Match Output"
+              startId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FCT_UW_QC_FINDINGS.Paths[Lookup No Match Output]"
+              endId="Package\FCT_UW_QC_FINDINGS\Union All.Inputs[Union All Input 2]"
+              name="Lookup No Match Output"
+              startId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\FCT_UW_QC_FINDINGS.Paths[OLE DB Source Output]"
+              endId="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\FCT_UW_QC_FINDINGS.Paths[Union All Output 1]"
+              endId="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS.Inputs[OLE DB Destination Input]"
+              name="Union All Output 1"
+              startId="Package\FCT_UW_QC_FINDINGS\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{49FB9038-B642-40C8-835A-604B2CBA47DD}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE dbo.FCT_UW_QC_FINDINGS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update SKs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8b6c3388-a241-4ecc-b08c-6abb46c3394f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update SKs"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="UPDATE tgt&#xA;SET Certificate_SK = src.Certificate_SK&#xA;FROM&#xA;&#x9;dbo.FCT_UW_QC_FINDINGS tgt, &#xA;&#x9;dbo.DIM_MI_CERTIFICATE src&#xA;WHERE&#xA;&#x9;tgt.Certificate_SK IS NULL&#xA;&#x9;and src.CERTIFICATE_NBR_BK = -1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{71CF4341-A886-4E35-8DC8-A1EE366F09CA}"
+      DTS:From="Package\Truncate Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\FCT_UW_QC_FINDINGS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{6DA349E2-79C1-4F78-AB89-1BA2D3B68760}"
+      DTS:From="Package\FCT_UW_QC_FINDINGS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Update SKs" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="195,42"
+          Id="Package\FCT_UW_QC_FINDINGS"
+          TopLeft="100,217" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Truncate Table"
+          TopLeft="100,116" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Update SKs"
+          TopLeft="100,319" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="197.5,158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="197.5,259">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\FCT_UW_QC_FINDINGS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="214,42"
+          Id="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS"
+          TopLeft="144.666666666667,453" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS"
+          TopLeft="144.666666666667,70" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate"
+          TopLeft="144.666666666667,192" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\FCT_UW_QC_FINDINGS\Union All"
+          TopLeft="151,321" />
+        <EdgeLayout
+          Id="Package\FCT_UW_QC_FINDINGS.Paths[OLE DB Source Output]"
+          TopLeft="252.166666666667,112">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FCT_UW_QC_FINDINGS.Paths[Lookup No Match Output]"
+          TopLeft="351.666666666667,234">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,87"
+              Start="0,0"
+              End="0,79.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,79.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,33.9453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FCT_UW_QC_FINDINGS.Paths[Lookup Match Output]"
+          TopLeft="159,234">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,87"
+              Start="0,0"
+              End="0,79.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,79.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,33.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FCT_UW_QC_FINDINGS.Paths[Union All Output 1]"
+          TopLeft="253.833333333333,363">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,90"
+              Start="0,0"
+              End="0,82.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,82.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\FCT_UW_QC_FINDINGS\tgt_FCT_UW_QC_FINDINGS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FCT_UW_QC_FINDINGS\src_FCT_UW_QC_FINDINGS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FCT_UW_QC_FINDINGS\DIM_MI_Certificate">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

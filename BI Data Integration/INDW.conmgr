@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="INDW"
+  DTS:DTSID="{DBC7333B-BD05-4DB3-9B4D-02151EE65DC3}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_UGCINDW_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=insdbdw1-vip/INDW;User ID=app_dstg_user;Provider=OraOLEDB.Oracle.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="NGBb7i4U2bo="
+        p4:IV="OAO5MpJ+8YPTNOrbQLvdWA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">Wa5IfUclo3/VfcZ+xBkYZTWuFt+LcOcF+KxOWC9vAHRYbtgSEYepbqj90KwKRZA+HvcJ37HAH495NwkIlvVhtfsPyk/+FptubDt4APuj6p1N1B1+oM+jb7un8q5LTHCxEEFoodj0URkk2Cqs2wt5SeobCAYNM6bbJN4nLIfCTaQ=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

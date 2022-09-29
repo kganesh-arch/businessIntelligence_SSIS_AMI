@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="KOFAX_STAGING"
+  DTS:DTSID="{DE1EB882-0E20-4C70-B7B2-FDE0B61865D5}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_Kofax_Staging_ConnectingString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC230\P_IMAGING_PMI_US;User ID=crn_conn;Initial Catalog=p_kofax_pmi_us_01;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="565NQJBHyy8="
+        p4:IV="3pEU5iYYLqeAybCXisdQFw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">eWOKJeOaw8Sa19BwQnRQQfkhMMva12w0S/44XBrBRc2y2DrvTSCEcjmAUFaq1zWO9Bv/+7U09la8ChDc7Iuc2wwlmkOh+yWgZZKRoQ2BIjrwLfZw0kogIhv0ZJoank9y1LLMnoBMz+JbP9UA6SSbGmYkfLGm7hp4nxwJQPegdWM=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="FORECAST"
+  DTS:DTSID="{C2926C30-9E34-4413-AC51-DC055D7F71EA}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_BA_FORECAST_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC203\P_BIA_PMI_US;User ID=ds_conn;Initial Catalog=FORECAST;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="bNLpuSrHouk="
+        p4:IV="LO/XWJ1N3V20mkOLxpP1aQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">/LfzYBEQguEru+QMqJlhTCDuT7ACPGRjl/G+SG0GttIKEfCCsVca49qGukesjwAinmcm9CPMag1bctDVJJi3n1wdCNfuVl+Pq8TczEDliV5qZO+Li56oKnJyFhLCXsDIZLi2sgW2QLtFiwuiIDrbqjzsSVNecKU5Ff0XkHD9iD8=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

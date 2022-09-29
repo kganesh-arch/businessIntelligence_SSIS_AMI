@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="OPUS_REPORTING"
+  DTS:DTSID="{285ce734-cdd6-4f17-bd5e-3251ec3c683d}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_OPUS_REPORTING_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC214\P_REPORT_AMI_US;User ID=ds_conn;Initial Catalog=P_Arch_Opus_Reporting;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="iv4KCSPBmfw="
+        p4:IV="MeJf3Ao/7ZmL8i6F1x+Oow=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">BpyLOb77ZgAdz9mnDbqS8H7zfPelMQf1vg0dY94uWTIuKILDUPvaPtKOjqMDapfeVBDm+bFlg3+l16aClXCJ5LVkZvkeZB9wTNdiqgxw5IGjRnd1aibA20auKe+4u0wTw97nRL21c+Lp2zuGK2+0l0XtRI5FNGlCYyK8bSP+9KQ=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

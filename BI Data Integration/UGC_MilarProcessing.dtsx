@@ -1,0 +1,603 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/26/2018 1:06:28 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI004"
+  DTS:CreatorName="CMGMI\aabrenica"
+  DTS:DTSID="{EF443079-3163-4096-A9A7-B08B9593AA25}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="UGC_MilarProcessing"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="31"
+  DTS:VersionGUID="{14662C75-0EC6-4E61-840A-2ADD02D61C05}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{A2E26AC5-270E-48A6-BA86-93B939124817}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{CE2BA538-9FAF-4D6C-BF19-BD6946E52FB7}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="Variable">
+          <DTS:VariableValue
+            DTS:DataType="8">v:KeepStagingTablesYN</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{B681F919-8AA8-491E-99F6-E125F37EDF68}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="v_MILAR_Record_Cnt">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Execute SQL Task"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E54B6566-33D4-4EA7-8DA9-46722FF5F9EE}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="SELECT &#xA;(SELECT COUNT(*) fROM EDW_STAGING.DBO.STG_MILAR_FULL_BL_UG ) &#xA;+ &#xA;(SELECT COUNT(*) fROM EDW_STAGING.DBO.STG_MILAR_MINI_BL_UG )&#xA;+ &#xA;(SELECT COUNT(*) fROM EDW_STAGING.DBO.STG_MILAR_MICA_BL_UG )&#xA;AS MILAR_RECORD_COUNT "
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="MILAR_RECORD_COUNT"
+                SQLTask:DtsVariableName="User::v_MILAR_Record_Cnt" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Extraction Failed"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{6E06586E-1A80-4532-BB89-80228BE1A20D}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Extraction Failed"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"MILAR - Extraction: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MILAR Files Extraction"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+              SendMailTask:Subject="MILAR - Extraction: FAIL: BI Data Integration (Production) - MILAR Files Extraction" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Extraction Successful"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{CC4FF6C7-2A39-4FE7-B643-62A6B2ACA310}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Extraction Successful"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"MILAR - Extraction: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MILAR Files Extraction"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+              SendMailTask:Subject="MILAR - Extraction: SUCCESS: BI Data Integration (Production) - MILAR Files Extraction" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load Failed"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{93621A25-435C-40D0-8287-48DAE48C3DAF}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Failed"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"MILAR - Load: FAIL: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MILAR Files Extraction"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+              SendMailTask:Subject="MILAR - Load: FAIL: BI Data Integration (Production) - MILAR Files Extraction" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load Successful"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{144B4B16-6EF2-470C-9FE1-EACE2F74B8F1}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Successful"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"MILAR - Load: SUCCESS: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MILAR Files Load"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+              SendMailTask:Subject="MILAR - Load: SUCCESS: BI Data Integration (Production) - MILAR Files Load" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\No MILAR Files"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:DTSID="{587E284C-51C0-4CE4-97C3-2DE7EBC53162}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="No MILAR Files"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"MILAR: No Files For Processing In Current Run: BI Data Integration (" +  @[$Project::pstr_Environment] + ") - MILAR File Processing"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[$Project::pstr_Email_ETLTeam]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+              SendMailTask:From="BusinessIntelligence@archmi.com"
+              SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+              SendMailTask:Subject="MILAR: No Files For Processing In Current Run: BI Data Integration (Production) - MILAR File Processing" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\UGCExtractionDaily_MilarExtract"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{41762B94-3CA0-481B-BA2D-5FA95E35DDCF}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UGCExtractionDaily_MilarExtract"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>UGC_MilarExtraction.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\UGCExtractionDaily_MilarLoad"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{622F246C-7EAF-42F5-B6B5-95B5EA7932BD}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UGCExtractionDaily_MilarLoad"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>UGC_MilarLoad.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{E91971C2-7AAF-46C5-A692-C479C660BAE9}"
+          DTS:From="Package\Sequence Container\UGCExtractionDaily_MilarExtract"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Execute SQL Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A33A1427-A6A1-4746-9052-6A8DB99843E0}"
+          DTS:From="Package\Sequence Container\UGCExtractionDaily_MilarExtract"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Sequence Container\Extraction Successful" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{2CAD93E1-2BB5-4C97-A4A7-E4F0FDCC37F5}"
+          DTS:From="Package\Sequence Container\UGCExtractionDaily_MilarExtract"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Sequence Container\Extraction Failed"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{B9E55AC9-D9B0-41E9-B603-52255B5ABF8D}"
+          DTS:From="Package\Sequence Container\UGCExtractionDaily_MilarLoad"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Sequence Container\Load Successful" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{A3799430-8EB2-4F4E-AE3D-AE815656D525}"
+          DTS:From="Package\Sequence Container\UGCExtractionDaily_MilarLoad"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Sequence Container\Load Failed"
+          DTS:Value="1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{03C8E287-4072-44D2-BE9E-124099C9CDE4}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::v_MILAR_Record_Cnt] &gt; 0"
+          DTS:From="Package\Sequence Container\Execute SQL Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\Sequence Container\UGCExtractionDaily_MilarLoad" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{524F80B3-4ED1-4DE4-9F41-A7CB184051C5}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::v_MILAR_Record_Cnt]  == 0"
+          DTS:From="Package\Sequence Container\Execute SQL Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\Sequence Container\No MILAR Files" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 7]"
+          DTS:CreationName=""
+          DTS:DTSID="{EB502BAF-A025-4398-AEBC-2FB9BD003B24}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::v_MILAR_Record_Cnt]  != 0"
+          DTS:From="Package\Sequence Container\Execute SQL Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 7"
+          DTS:To="Package\Sequence Container\Extraction Successful" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Sequence Container\Execute SQL Task"
+          TopLeft="63,209" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Sequence Container\Extraction Failed"
+          TopLeft="299.5,86.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Sequence Container\Extraction Successful"
+          TopLeft="285.5,157" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Sequence Container\Load Failed"
+          TopLeft="293.5,344.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Sequence Container\Load Successful"
+          TopLeft="293.5,271.5" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Sequence Container\No MILAR Files"
+          TopLeft="292,211" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Sequence Container\UGCExtractionDaily_MilarExtract"
+          TopLeft="25.5,89.5" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Sequence Container\UGCExtractionDaily_MilarLoad"
+          TopLeft="32,302.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="104.5,131.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,77.5"
+              Start="0,0"
+              End="41,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.3171355498721" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.3171355498721"
+                    Point2="0,31.3171355498721"
+                    Point3="4,31.3171355498721" />
+                  <mssgle:LineSegment
+                    End="37,31.3171355498721" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37,31.3171355498721"
+                    Point2="41,31.3171355498721"
+                    Point3="41,35.3171355498721" />
+                  <mssgle:LineSegment
+                    End="41,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="179.5,131.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="196,25.5"
+              Start="0,0"
+              End="196,18">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,6.30434782608696" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,6.30434782608696"
+                    Point2="0,10.304347826087"
+                    Point3="4,10.304347826087" />
+                  <mssgle:LineSegment
+                    End="192,10.304347826087" />
+                  <mssgle:CubicBezierSegment
+                    Point1="192,10.304347826087"
+                    Point2="196,10.304347826087"
+                    Point3="196,14.304347826087" />
+                  <mssgle:LineSegment
+                    End="196,18" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="258.5,109">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,0"
+              Start="0,0"
+              End="33.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="33.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="1.50865234375,5,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 3]"
+          TopLeft="254,317.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="39.5,-25.3333333333333"
+              Start="0,0"
+              End="32,-25.3333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="12.6697247706422,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12.6697247706422,0"
+                    Point2="16.6697247706422,0"
+                    Point3="16.6697247706422,-4" />
+                  <mssgle:LineSegment
+                    End="16.6697247706422,-21.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16.6697247706422,-21.3333333333333"
+                    Point2="16.6697247706422,-25.3333333333333"
+                    Point3="20.6697247706422,-25.3333333333333" />
+                  <mssgle:LineSegment
+                    End="32,-25.3333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 4]"
+          TopLeft="254,329.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="39.5,36.3333333333333"
+              Start="0,0"
+              End="32,36.3333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="12.6697247706422,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12.6697247706422,0"
+                    Point2="16.6697247706422,0"
+                    Point3="16.6697247706422,4" />
+                  <mssgle:LineSegment
+                    End="16.6697247706422,32.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16.6697247706422,32.3333333333333"
+                    Point2="16.6697247706422,36.3333333333333"
+                    Point3="20.6697247706422,36.3333333333333" />
+                  <mssgle:LineSegment
+                    End="32,36.3333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="1.42837711439223,-15.7490234375,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 5]"
+          TopLeft="144.25,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.5"
+              Start="0,0"
+              End="0,44">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,14,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 6]"
+          TopLeft="228,231">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="64,0"
+              Start="0,0"
+              End="56.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="56.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="20.25,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 7]"
+          TopLeft="228,224.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="57.5,-46.3333333333333"
+              Start="0,0"
+              End="50,-46.3333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="20.2660550458716,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="20.2660550458716,0"
+                    Point2="24.2660550458716,0"
+                    Point3="24.2660550458716,-4" />
+                  <mssgle:LineSegment
+                    End="24.2660550458716,-42.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.2660550458716,-42.3333333333333"
+                    Point2="24.2660550458716,-46.3333333333333"
+                    Point3="28.2660550458716,-46.3333333333333" />
+                  <mssgle:LineSegment
+                    End="50,-46.3333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="16.2660550458716,1,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="743,442"
+          Size="743,485"
+          Id="Package\Sequence Container"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

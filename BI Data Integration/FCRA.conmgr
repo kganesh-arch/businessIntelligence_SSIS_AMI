@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="FCRA"
+  DTS:DTSID="{C1CA70AB-B5F8-480D-8DFC-6015BF569241}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_FCRA_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0201\P_MIPS_AMI_US_02;User ID=ds_conn;Initial Catalog=P_MIFCRA_AMI_US_01;Provider=SQLNCLI11.1;Application Intent=ReadOnly;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="q2p60HgBWzg="
+        p4:IV="EPry5QxOJ5Ax48sHuwXe5g=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">f7MET9ijgSJ8S30wWgve2fY3FB6CiHF4kNjscwAOL+Vu8dcPw0kSsbilEgoCHW3W3JN+eoVRBUfwkiGo2az+NekW7APTJneea9FeB5PPwoIh58NCci0U5eC/npmvcY4QplMFCVNNFeqGr4XssLP9yxV9ITlf2ybB3u7Zl+9Uc2s=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

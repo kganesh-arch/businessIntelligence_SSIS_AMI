@@ -1,0 +1,1012 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/15/2013 2:09:59 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="US-AP-SAC131"
+  DTS:CreatorName="PMI-US\cognos.job"
+  DTS:DTSID="{934E6C3E-BD4C-424D-B8EF-7C5A43334FE1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Populate_AURA_Scores_AMI"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="29"
+  DTS:VersionGUID="{1ECC1B00-45CD-466B-877C-A861BD6B1131}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DTSTask_DTSDataPumpTask_1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="STG_AURA66_Scores"
+      DTS:DTSID="{A1B00D8C-B946-4E4F-A084-A200EA537B44}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DTSTask_DTSDataPumpTask_1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_AURA66_Scores]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">CHECK_CONSTRAINTS,ROWS_PER_BATCH = 1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[certid]"
+                      cachedDataType="numeric"
+                      cachedName="certid"
+                      cachedPrecision="11"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LRS]"
+                      cachedDataType="r8"
+                      cachedName="LRS"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[lrs6_6]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[LRS]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TRS]"
+                      cachedDataType="r8"
+                      cachedName="TRS"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[trs6_6]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRS]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                      dataType="numeric"
+                      name="certid"
+                      precision="11" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[lrs6_6]"
+                      dataType="r8"
+                      name="lrs6_6" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[trs6_6]"
+                      dataType="r8"
+                      name="trs6_6" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CMG_AURA_Scores]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}:invalid"
+                  connectionManagerRefId="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[certid]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]"
+                      name="certid"
+                      precision="11"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[LRS]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LRS]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[LRS]"
+                      name="LRS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRS]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TRS]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRS]"
+                      name="TRS"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[certid]"
+                      dataType="numeric"
+                      name="certid"
+                      precision="11" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LRS]"
+                      dataType="r8"
+                      name="LRS" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TRS]"
+                      dataType="r8"
+                      name="TRS" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[certid]"
+                      dataType="numeric"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[certid]"
+                      name="certid"
+                      precision="11" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LRS]"
+                      dataType="r8"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LRS]"
+                      name="LRS" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TRS]"
+                      dataType="r8"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TRS]"
+                      name="TRS" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DTSTask_DTSDataPumpTask_1.Paths[OLE DB Source Output]"
+              endId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DTSTask_DTSDataPumpTask_3"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="PQS Score"
+      DTS:Disabled="True"
+      DTS:DTSID="{C624983F-3F29-4F0B-87C8-FA6128B5DA93}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DTSTask_DTSDataPumpTask_3"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_PQS_SCORE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">CHECK_CONSTRAINTS,ROWS_PER_BATCH = 100000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">25000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[certid]"
+                      cachedDataType="numeric"
+                      cachedName="certid"
+                      cachedPrecision="11"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[pqs]"
+                      cachedDataType="r8"
+                      cachedName="pqs"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pqs]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[pqs]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[certid]"
+                      dataType="numeric"
+                      name="certid"
+                      precision="19" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pqs]"
+                      dataType="r8"
+                      name="pqs" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PQS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}:invalid"
+                  connectionManagerRefId="{65D93E91-DF7F-475D-9B3B-2BDB3FA9F2C2}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[certid]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[certid]"
+                      name="certid"
+                      precision="11"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[pqs]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pqs]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].Columns[pqs]"
+                      name="pqs"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[certid]"
+                      dataType="numeric"
+                      name="certid"
+                      precision="11" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pqs]"
+                      dataType="r8"
+                      name="pqs" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[certid]"
+                      dataType="numeric"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[certid]"
+                      name="certid"
+                      precision="11" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pqs]"
+                      dataType="r8"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pqs]"
+                      name="pqs" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DTSTask_DTSDataPumpTask_3.Paths[OLE DB Source Output]"
+              endId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate_STG_AURA66"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Truncate_STG_AURA66"
+      DTS:DTSID="{F673B632-A01D-48EE-9A63-E2C283FAC175}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate_STG_AURA66"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+          SQLTask:SqlStatementSource="Truncate table dbo.STG_AURA66_Scores&#xA;Truncate table dbo.STG_AURA66_Commit&#xA;--Truncate table dbo.STG_PQS_SCORE" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\update stats on dim_loan"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="update stats on dim_loan"
+      DTS:DTSID="{DFD389A5-1209-487B-A7BC-DC23AFBCD1FE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="update stats on dim_loan"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="update statistics dim_loan with fullscan" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update_Aura_Scores"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Update_Aura_Scores"
+      DTS:DTSID="{964227C1-11E1-423E-B5E2-E7B7E0C2AB65}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update_Aura_Scores"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="Update &#x9;dbo.Dim_Loan&#xA;Set&#x9;TRS_Score = aus.TRS6_6,&#xA;&#x9;LRS_Score = aus.LRS6_6,&#xA;&#x9;ACP_Score = Case &#xA;&#x9;&#x9;&#x9;When (dmc.INITIAL_PREMIUM_PCT = 0 or dmc.INITIAL_PREMIUM_PCT Is Null ) Then 99&#xA;&#x9;&#x9;&#x9;Else (0.000303426853429677 + (0.00000241459394997984 * aus.LRS6_6) + (0.024693883911269 * dmc.MI_COVERAGE_PERCENT / 100)) / (dmc.INITIAL_PREMIUM_PCT / 100)&#xA;&#x9;&#x9;         End&#xA;From&#x9;dbo.Dim_Loan dl, dbo.Dim_MI_Certificate dmc, EDW_STAGING.dbo.STG_AURA66_Scores aus&#xA;Where&#x9;dl.CERTIFICATE_NBR_BK = dmc.CERTIFICATE_NBR_BK&#xA;And&#x9;dl.CERTIFICATE_NBR_BK_amiwest = aus.certid&#xA;&#xA;&#xA;&#xA;Update &#x9;dbo.Dim_Loan&#xA;Set&#x9;LRS_Score = aus.PLRS6_6,&#xA;&#x9;ACP_Score = Case &#xA;&#x9;&#x9;&#x9;When (dmc.INITIAL_PREMIUM_PCT = 0 or dmc.INITIAL_PREMIUM_PCT Is Null ) Then 99&#xA;&#x9;&#x9;&#x9;Else (0.000303426853429677 + (0.00000241459394997984 * aus.PLRS6_6) + (0.024693883911269 * dmc.MI_COVERAGE_PERCENT / 100)) / (dmc.INITIAL_PREMIUM_PCT / 100)&#xA;&#x9;&#x9;         End&#xA;&#x9;&#xA;From&#x9;dbo.Dim_Loan dl,dbo.Dim_MI_Certificate dmc, EDW_STAGING.dbo.STG_AURA66_Commit aus&#xA;Where&#x9;dl.CERTIFICATE_NBR_BK = dmc.CERTIFICATE_NBR_BK&#xA;And&#x9;dl.CERTIFICATE_NBR_BK_amiwest = aus.certid&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9D936B15-9477-48F7-A41D-520A1361F954}"
+      DTS:From="Package\Truncate_STG_AURA66"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DTSTask_DTSDataPumpTask_3" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9DA670D3-4664-4ECC-B900-D863496DA356}"
+      DTS:From="Package\DTSTask_DTSDataPumpTask_3"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Update_Aura_Scores" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{1D926743-CEAB-4F23-9C91-125E66D67202\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{1D926743-CEAB-4F23-9C91-125E66D67202}"
+      DTS:From="Package\Update_Aura_Scores"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{1D926743-CEAB-4F23-9C91-125E66D67202}"
+      DTS:To="Package\update stats on dim_loan" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{65074C39-64C9-4514-A45D-1EA4B7C30729\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{65074C39-64C9-4514-A45D-1EA4B7C30729}"
+      DTS:From="Package\DTSTask_DTSDataPumpTask_1"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{65074C39-64C9-4514-A45D-1EA4B7C30729}"
+      DTS:To="Package\Update_Aura_Scores" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{E1A82CB3-77F7-4ABA-B83B-78949928F661\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{E1A82CB3-77F7-4ABA-B83B-78949928F661}"
+      DTS:From="Package\Truncate_STG_AURA66"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{E1A82CB3-77F7-4ABA-B83B-78949928F661}"
+      DTS:To="Package\DTSTask_DTSDataPumpTask_1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="229,42"
+          Id="Package\DTSTask_DTSDataPumpTask_1"
+          TopLeft="66.5,83.1603773584906" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\DTSTask_DTSDataPumpTask_3"
+          TopLeft="399.066037735849,82.3867924528302" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Truncate_STG_AURA66"
+          TopLeft="244.5,9.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\update stats on dim_loan"
+          TopLeft="229.5,269.481132075472" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Update_Aura_Scores"
+          TopLeft="243.5,174.820754716981" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="370.5,51.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143.566037735849,30.8867924528302"
+              Start="0,0"
+              End="143.566037735849,23.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.50866984071005" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.50866984071005"
+                    Point2="0,12.5086698407101"
+                    Point3="4,12.5086698407101" />
+                  <mssgle:LineSegment
+                    End="139.566037735849,12.5086698407101" />
+                  <mssgle:CubicBezierSegment
+                    Point1="139.566037735849,12.5086698407101"
+                    Point2="143.566037735849,12.5086698407101"
+                    Point3="143.566037735849,16.5086698407101" />
+                  <mssgle:LineSegment
+                    End="143.566037735849,23.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="514.066037735849,124.38679245283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-153.232704402516,50.4339622641508"
+              Start="0,0"
+              End="-153.232704402516,42.9339622641508">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9907971593057" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.9907971593057"
+                    Point2="0,29.9907971593057"
+                    Point3="-4,29.9907971593057" />
+                  <mssgle:LineSegment
+                    End="-149.232704402516,29.9907971593057" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-149.232704402516,29.9907971593057"
+                    Point2="-153.232704402516,29.9907971593057"
+                    Point3="-153.232704402516,33.9907971593057" />
+                  <mssgle:LineSegment
+                    End="-153.232704402516,42.9339622641508" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{1D926743-CEAB-4F23-9C91-125E66D67202\}]"
+          TopLeft="331.5,216.820754716981">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.660377358491"
+              Start="0,0"
+              End="0,45.160377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.160377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{65074C39-64C9-4514-A45D-1EA4B7C30729\}]"
+          TopLeft="181,125.160377358491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="123.166666666667,49.6603773584904"
+              Start="0,0"
+              End="123.166666666667,42.1603773584904">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5307811909063" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5307811909063"
+                    Point2="0,29.5307811909063"
+                    Point3="4,29.5307811909063" />
+                  <mssgle:LineSegment
+                    End="119.166666666667,29.5307811909063" />
+                  <mssgle:CubicBezierSegment
+                    Point1="119.166666666667,29.5307811909063"
+                    Point2="123.166666666667,29.5307811909063"
+                    Point3="123.166666666667,33.5307811909063" />
+                  <mssgle:LineSegment
+                    End="123.166666666667,42.1603773584904" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{E1A82CB3-77F7-4ABA-B83B-78949928F661\}]"
+          TopLeft="309.5,51.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-128.5,31.6603773584906"
+              Start="0,0"
+              End="-128.5,24.1603773584906">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.82195967789337" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.82195967789337"
+                    Point2="0,12.8219596778934"
+                    Point3="-4,12.8219596778934" />
+                  <mssgle:LineSegment
+                    End="-124.5,12.8219596778934" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-124.5,12.8219596778934"
+                    Point2="-128.5,12.8219596778934"
+                    Point3="-128.5,16.8219596778934" />
+                  <mssgle:LineSegment
+                    End="-128.5,24.1603773584906" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination"
+          TopLeft="5.5,87.1603773584906" />
+        <EdgeLayout
+          Id="Package\DTSTask_DTSDataPumpTask_1.Paths[OLE DB Source Output]"
+          TopLeft="73.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.7358490566038"
+              Start="0,0"
+              End="0,30.2358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.2358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DTSTask_DTSDataPumpTask_1\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DTSTask_DTSDataPumpTask_3">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_3\OLE DB Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination"
+          TopLeft="5.5,87.1603773584906" />
+        <EdgeLayout
+          Id="Package\DTSTask_DTSDataPumpTask_3.Paths[OLE DB Source Output]"
+          TopLeft="73.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.7358490566038"
+              Start="0,0"
+              End="0,30.2358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.2358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DTSTask_DTSDataPumpTask_3\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

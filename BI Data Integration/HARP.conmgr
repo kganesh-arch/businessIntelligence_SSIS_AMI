@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="HARP"
+  DTS:DTSID="{4163458B-49BF-4911-9B38-C3853083A602}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_HARP_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVDTBS007\P_SALES_AMI_US;User ID=ds_conn;Initial Catalog=HARP;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="JM4FO/8TvSE="
+        p4:IV="Npau2ILfqArW47qasTT+Gw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">IWK9+qV6wKtetTROQwtUwYb3avFyAIGmDAIKqauVfqwM4YNkg0opvUs0ktrWbBk1Hzf8epjXmJkTnoi4gyBbY1VsiTW1kBk0dsoTz3KKMT0NouywY78HPjxU4xST5gUT5gjASYkgIhhvgwK4xt0pDwBKMnMHKBjrQOo5D+tNuhg=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

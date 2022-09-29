@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CLM_DEL_STAGING"
+  DTS:DTSID="{9B3504E1-0859-4D72-98ED-8163B6D22F5D}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CLM_DEL_STAGING_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=US-DB-SAC212\P_BI_AMI_US;User ID=ds_conn;Initial Catalog=CLM_DEL_STAGING;Provider=SQLNCLI11.1;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="0+qkjiKms9c="
+        p4:IV="h0/c0PX08XIfCX5fjkbssw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">Nr3Duls2mPr5y4VyRLdX266YL+PfS9di8dBvR9lPCRvVAT3oKCRe2rD+V3YaeO1TWB7cQaSbZB6cMJVZGwa6pBeaoMqrHpvaKH7FGhsv+ZdYWhuGuyC+k/bXEl4wdTSr3/zCeD5bGQAVk94EG5UEUcd1c81vlkTAQJD4SSP+8kU=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

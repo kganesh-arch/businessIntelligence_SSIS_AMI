@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="AQUA_REPORTING"
+  DTS:DTSID="{7be9bbd9-8862-481b-bc89-2f804e395bae}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_AQUA_REPORTING_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0202\P_UWA_AMI_US_01;User ID=ds_conn;Initial Catalog=P_UWA_AMI_US_01;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;Application Intent=ReadOnly;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="wqmMLmHzZiU="
+        p4:IV="ITFKCL/Oq2lWFwAeqGi6xw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">eOvnYN21/buNMgD8MmBRWRPL8nxD9UioBzKY4tlzyFTWOyXWPcXaw4qohGPaCLxu1xE5LCHS+9gPjNdRenMLNf6y/hZY1EO83lEUjgoa7VbJdUUHAAFd6qbPwBrRcmAejY71vAitrWLN1WnJgqWqa/02f5EI1uSI9Qi8agZwIiQ=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

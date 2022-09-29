@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="AQUA_MONGODB"
+  DTS:DTSID="{9ECD3AA0-3D6A-4A62-8048-A789FA65D9C9}"
+  DTS:CreationName="ODBC">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_AQUA_MongoDB_Connection_String]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="uid=PRD_BIConnector.RO;Dsn=PRD_AquaMongo_Mongo;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="PZ549FAadxg="
+        p4:IV="uh0VzD77jishHgbpKAe3yw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">P0qfC1T8cXECz3p79BD8xtha96dlWE2etBss/tcN8RGtRvgjmyKSqXJZTCizAWzEJEgFpY+6WvnI9A6is0JQVYTjwtesrOqw+BeDRyJLn3kLnIsXVL01Oe+ixuHZbvcbstz2rgiNN1d2zIXdjKm73MyF1udfrR6LEZxCZPLB+FE=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

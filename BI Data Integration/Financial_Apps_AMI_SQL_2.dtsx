@@ -1,0 +1,524 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/27/2013 4:17:23 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="US-DV-WAL128"
+  DTS:CreatorName="PMI-US\cognos.job"
+  DTS:DTSID="{0E61C3BD-B935-49FB-87A1-4E6E714B46E9}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Financial_Apps_AMI_SQL_2"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{CAC59D5A-477E-493F-9D78-D2CB3735192D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Text File (Destination) 2]"
+      DTS:CreationName="FLATFILE"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{271FB246-4EF1-4E00-BE71-99BFB6E85E02}"
+      DTS:ObjectName="Text File (Destination) 2">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::pstr_FinancialApps_Extracts_Folder] + "\\CostCenters.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\sfofp001\mis data\IS\Business Intelligence Program\DM2SSIS\Arch MI SSIS Projects - PRODUCTION Gold Copy\External Data Sources\FinancialApps\CostCenters.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LINE0"
+              DTS:DTSID="{CD77A9B3-B31C-4AEB-935D-36EC27F65B05}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LINE1"
+              DTS:DTSID="{B221750D-D100-47BB-84EC-7A5C8CB5DB2C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LINE2"
+              DTS:DTSID="{9D3FF4A3-B818-4FBF-BA55-6B8E3F319944}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DTSTask_DTSDataPumpTask_3"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Transform Data Task: undefined"
+      DTS:DTSID="{AB19AAC5-2205-404F-BAAD-CEA737EEB51E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="9999"
+      DTS:ObjectName="DTSTask_DTSDataPumpTask_3"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="EDW_DM"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT
+	LINE0,
+	LINE1,
+	LINE2
+from  (
+	SELECT
+		DISTINCT 
+		0 as "SortCol",
+		'Cost Centers'  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		'Cost Centers'  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	Union
+	SELECT
+		DISTINCT 
+		1 as "SortCol",
+		DEPT_LVL1_CD 	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL1_CD + '|1' 	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL1_CD &lt;&gt; '«Unknown»'
+	UNION
+
+	SELECT
+		DISTINCT 
+		2 as "SortCol",
+		DEPT_LVL2_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL2_CD + '|2' 	AS "LINE2" 
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL2_CD &lt;&gt; '«Unknown»' 
+
+	UNION
+
+	SELECT
+		DISTINCT 
+		3 as "SortCol",
+		DEPT_LVL3_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL3_CD + '|3' 	AS "LINE2" 
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL3_CD &lt;&gt; '«Unknown»' 
+
+	UNION
+
+	SELECT
+		DISTINCT 
+		4 as "SortCol",
+		DEPT_LVL4_CD   	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL4_CD + '|4' 	AS "LINE2" 
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL4_CD &lt;&gt; '«Unknown»' 
+	UNION
+	SELECT
+		DISTINCT 
+		5 as "SortCol",
+		DEPT_LVL5_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL5_CD + '|5'  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL5_CD &lt;&gt; '«Unknown»'
+	Union
+	SELECT
+		DISTINCT 
+		6 as "SortCol",
+		DEPT_LVL6_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL6_CD + '|6'  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL6_CD &lt;&gt; '«Unknown»'
+	Union
+	SELECT
+		DISTINCT 
+		7 as "SortCol",
+		DEPT_LVL7_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL7_CD + '|7'  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL7_CD &lt;&gt; '«Unknown»'
+	Union
+	SELECT
+		DISTINCT 
+		8 as "SortCol",
+		DEPT_LVL8_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPT_LVL8_CD + '|8'  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPT_LVL8_CD &lt;&gt; '«Unknown»'
+	Union
+	SELECT
+		DISTINCT 
+		9 as "SortCol",
+		DEPARTMENT_CD  	AS "LINE0" ,
+		'Cost Centers'		AS "LINE1",
+		DEPARTMENT_CD  	AS "LINE2"
+	FROM dbo.DEPARTMENT
+	WHERE 
+		DEPARTMENT_CD &lt;&gt; '«Unknown»'
+) A
+order by SortCol desc</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Connections[OleDbConnection]"
+                  connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE0]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE0]"
+                      length="20"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE0]"
+                      name="LINE0"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE1]"
+                      length="12"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE1]"
+                      name="LINE1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE2]"
+                      length="22"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE2]"
+                      name="LINE2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="LINE0" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="LINE1" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].ExternalColumns[LINE2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="22"
+                      name="LINE2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE0]"
+                      name="LINE0" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE1]"
+                      name="LINE1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="22"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[LINE2]"
+                      name="LINE2" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Flat File Destination"
+              localeId="1033"
+              name="Text File (Destination) 2"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header"></property>
+                <property
+                  dataType="System.Boolean"
+                  description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                  name="EscapeQualifier">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Text File (Destination) 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[Text File (Destination) 2]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].Columns[LINE0]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="LINE0"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE0]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE0]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].Columns[LINE1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="LINE1"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE1]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE1]" />
+                    <inputColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].Columns[LINE2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="22"
+                      cachedName="LINE2"
+                      externalMetadataColumnId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE2]"
+                      lineageId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output].Columns[LINE2]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LINE0" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LINE1" />
+                    <externalMetadataColumn
+                      refId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input].ExternalColumns[LINE2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LINE2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DTSTask_DTSDataPumpTask_3.Paths[OLE DB Source Output]"
+              endId="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2.Inputs[Flat File Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DTSTask_DTSDataPumpTask_3\EDW_DM.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="229,42"
+          Id="Package\DTSTask_DTSDataPumpTask_3"
+          TopLeft="205,142" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DTSTask_DTSDataPumpTask_3">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="125,42"
+          Id="Package\DTSTask_DTSDataPumpTask_3\EDW_DM"
+          TopLeft="35,35" />
+        <NodeLayout
+          Size="194,42"
+          Id="Package\DTSTask_DTSDataPumpTask_3\Text File (Destination) 2"
+          TopLeft="11,189" />
+        <EdgeLayout
+          Id="Package\DTSTask_DTSDataPumpTask_3.Paths[OLE DB Source Output]"
+          TopLeft="97.5,77">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.5,112"
+              Start="0,0"
+              End="10.5,104.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,52"
+                    Point2="0,56"
+                    Point3="4,56" />
+                  <mssgle:LineSegment
+                    End="6.5,56" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.5,56"
+                    Point2="10.5,56"
+                    Point3="10.5,60" />
+                  <mssgle:LineSegment
+                    End="10.5,104.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

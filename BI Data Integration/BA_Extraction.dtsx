@@ -1,0 +1,1285 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/6/2019 7:52:49 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVR-BI006"
+  DTS:CreatorName="CMGMI\award"
+  DTS:DTSID="{2AB6815F-6EA9-495C-957A-ED0C59746FB0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BA_Extraction"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{6EE7CEF6-2321-466C-BC13-778D41D5DC1F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{EE2D5EC3-91DE-4DAB-9FF0-F4BBBE9E3F24}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAILURE: BA Tables Extraction (" + @[$Project::pstr_Environment]  + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="FAILURE: BA Tables Extraction (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load BA Tables to BI"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{8C9CA4C0-41BA-4B97-8EB8-06AC22308A8A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load BA Tables to BI">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{CC6661E5-A541-40E0-93FB-EE9768C0ECDC}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load stg_BA_CycleTimeData"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_BA_CycleTimeData"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select 
+
+Decision
+,CTUGLN
+,CTRDT
+,CTSTUS
+,CTILIN
+,Initial_Decision
+,RCVD_1003_TIME
+,SLAClockStart
+, Date
+
+from   dbo.CycleTimeData</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Connections[OleDbConnection]"
+                      connectionManagerID="{3FC17681-C986-4DD5-A2EA-EC89C7B54EC5}:invalid"
+                      connectionManagerRefId="{3FC17681-C986-4DD5-A2EA-EC89C7B54EC5}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Decision]"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Decision]"
+                          name="Decision"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTUGLN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTUGLN]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTUGLN]"
+                          name="CTUGLN"
+                          precision="28"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTRDT]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTRDT]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTRDT]"
+                          name="CTRDT"
+                          precision="27"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTSTUS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTSTUS]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTSTUS]"
+                          name="CTSTUS"
+                          precision="26"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTILIN]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTILIN]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTILIN]"
+                          name="CTILIN"
+                          precision="26"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Initial_Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Initial_Decision]"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Initial_Decision]"
+                          name="Initial_Decision"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[RCVD_1003_TIME]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[RCVD_1003_TIME]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[RCVD_1003_TIME]"
+                          name="RCVD_1003_TIME"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[SLAClockStart]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[SLAClockStart]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[SLAClockStart]"
+                          name="SLAClockStart"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Date]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Date]"
+                          name="Date"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Decision" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTUGLN]"
+                          dataType="numeric"
+                          name="CTUGLN"
+                          precision="28" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTRDT]"
+                          dataType="numeric"
+                          name="CTRDT"
+                          precision="27" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTSTUS]"
+                          dataType="numeric"
+                          name="CTSTUS"
+                          precision="26" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[CTILIN]"
+                          dataType="numeric"
+                          name="CTILIN"
+                          precision="26" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Initial_Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Initial_Decision" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[RCVD_1003_TIME]"
+                          dataType="dbTimeStamp"
+                          name="RCVD_1003_TIME" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[SLAClockStart]"
+                          dataType="dbTimeStamp"
+                          name="SLAClockStart" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          dataType="r8"
+                          name="Date" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Decision]"
+                          name="Decision" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTUGLN]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTUGLN]"
+                          name="CTUGLN"
+                          precision="28" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTRDT]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTRDT]"
+                          name="CTRDT"
+                          precision="27" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTSTUS]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTSTUS]"
+                          name="CTSTUS"
+                          precision="26" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTILIN]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[CTILIN]"
+                          name="CTILIN"
+                          precision="26" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Initial_Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Initial_Decision]"
+                          name="Initial_Decision" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[RCVD_1003_TIME]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[RCVD_1003_TIME]"
+                          name="RCVD_1003_TIME" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[SLAClockStart]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[SLAClockStart]"
+                          name="SLAClockStart" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Date]"
+                          dataType="r8"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[Date]"
+                          name="Date" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt_STG_BA_CycleTimeData"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[stg_BA_CycleTimeData]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[Decision]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Decision"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Decision]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Decision]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[CTUGLN]"
+                          cachedDataType="numeric"
+                          cachedName="CTUGLN"
+                          cachedPrecision="28"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTUGLN]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTUGLN]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[CTRDT]"
+                          cachedDataType="numeric"
+                          cachedName="CTRDT"
+                          cachedPrecision="27"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTRDT]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTRDT]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[CTSTUS]"
+                          cachedDataType="numeric"
+                          cachedName="CTSTUS"
+                          cachedPrecision="26"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTSTUS]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTSTUS]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[CTILIN]"
+                          cachedDataType="numeric"
+                          cachedName="CTILIN"
+                          cachedPrecision="26"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTILIN]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[CTILIN]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[Initial_Decision]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Initial_Decision"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Initial_Decision]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Initial_Decision]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[RCVD_1003_TIME]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="RCVD_1003_TIME"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[RCVD_1003_TIME]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[RCVD_1003_TIME]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[SLAClockStart]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="SLAClockStart"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[SLAClockStart]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[SLAClockStart]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].Columns[Date]"
+                          cachedDataType="r8"
+                          cachedName="Date"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output].Columns[Date]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Decision" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTUGLN]"
+                          dataType="numeric"
+                          name="CTUGLN"
+                          precision="28" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTRDT]"
+                          dataType="numeric"
+                          name="CTRDT"
+                          precision="27" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTSTUS]"
+                          dataType="numeric"
+                          name="CTSTUS"
+                          precision="26" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[CTILIN]"
+                          dataType="numeric"
+                          name="CTILIN"
+                          precision="26" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Initial_Decision]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Initial_Decision" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[RCVD_1003_TIME]"
+                          dataType="dbTimeStamp"
+                          name="RCVD_1003_TIME" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[SLAClockStart]"
+                          dataType="dbTimeStamp"
+                          name="SLAClockStart" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          dataType="i4"
+                          name="Date" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData.Paths[OLE DB Source Output]"
+                  endId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{364CE8CE-E722-41DD-985A-7053BFBB27F8}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load stg_BA_FaxTimeHistory"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_FaxTimeHistory"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+UG_LN_NBR,
+EVNT_TMST,
+EVNT_TYPE,
+EU_LOANS
+FROM 
+DBO.FAXTIMEHISTORY</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Connections[OleDbConnection]"
+                      connectionManagerID="{3FC17681-C986-4DD5-A2EA-EC89C7B54EC5}:invalid"
+                      connectionManagerRefId="{3FC17681-C986-4DD5-A2EA-EC89C7B54EC5}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[UG_LN_NBR]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[UG_LN_NBR]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[UG_LN_NBR]"
+                          name="UG_LN_NBR"
+                          precision="11"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TMST]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EVNT_TMST]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TMST]"
+                          name="EVNT_TMST"
+                          scale="6"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EVNT_TYPE]"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TYPE]"
+                          name="EVNT_TYPE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EU_LOANS]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EU_LOANS]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EU_LOANS]"
+                          name="EU_LOANS"
+                          precision="25"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[UG_LN_NBR]"
+                          dataType="numeric"
+                          name="UG_LN_NBR"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EVNT_TMST]"
+                          dataType="dbTimeStamp2"
+                          name="EVNT_TMST"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EVNT_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="EVNT_TYPE" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].ExternalColumns[EU_LOANS]"
+                          dataType="numeric"
+                          name="EU_LOANS"
+                          precision="25" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[UG_LN_NBR]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[UG_LN_NBR]"
+                          name="UG_LN_NBR"
+                          precision="11" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EVNT_TMST]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EVNT_TMST]"
+                          name="EVNT_TMST"
+                          scale="6" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EVNT_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EVNT_TYPE]"
+                          name="EVNT_TYPE" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EU_LOANS]"
+                          dataType="numeric"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[EU_LOANS]"
+                          name="EU_LOANS"
+                          precision="25" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt_stg_BA_FaxTimeHistory"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[STG_BA_FAXTIMEHISTORY]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].Columns[UG_LN_NBR]"
+                          cachedDataType="numeric"
+                          cachedName="UG_LN_NBR"
+                          cachedPrecision="11"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[UG_LN_NBR]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[UG_LN_NBR]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].Columns[EVNT_TMST]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="EVNT_TMST"
+                          cachedScale="6"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EVNT_TMST]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TMST]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].Columns[EVNT_TYPE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="EVNT_TYPE"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EVNT_TYPE]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EVNT_TYPE]" />
+                        <inputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].Columns[EU_LOANS]"
+                          cachedDataType="numeric"
+                          cachedName="EU_LOANS"
+                          cachedPrecision="25"
+                          externalMetadataColumnId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EU_LOANS]"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output].Columns[EU_LOANS]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[UG_LN_NBR]"
+                          dataType="numeric"
+                          name="UG_LN_NBR"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EVNT_TMST]"
+                          dataType="dbTimeStamp2"
+                          name="EVNT_TMST"
+                          scale="6" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EVNT_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="EVNT_TYPE" />
+                        <externalMetadataColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input].ExternalColumns[EU_LOANS]"
+                          dataType="numeric"
+                          name="EU_LOANS"
+                          precision="25" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory.Paths[OLE DB Source Output]"
+                  endId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load BA Tables to BI\truncate stg_BA_CycleTimeData"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3B5B23D1-EB3D-43E4-B35C-95DCBF700C24}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate stg_BA_CycleTimeData"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="truncate table DBO.[stg_BA_CycleTimeData]&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load BA Tables to BI\truncate stg_BA_FaxTimeHistory"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{318A5F78-DADA-4558-887E-E6454DB6E02A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate stg_BA_FaxTimeHistory"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.STG_BA_FAXTIMEHISTORY" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load BA Tables to BI.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{09C0B5DC-C71C-459B-A48C-9C5932E4F145}"
+          DTS:From="Package\Load BA Tables to BI\truncate stg_BA_CycleTimeData"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load BA Tables to BI.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{D63A3D73-343C-4825-B4FD-256FAAD3345D}"
+          DTS:From="Package\Load BA Tables to BI\truncate stg_BA_FaxTimeHistory"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sucess"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{53C8F383-FE15-4F67-ABA9-6CF9D5EFBF05}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sucess"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS: BA Tables Extraction (" + @[$Project::pstr_Environment]  + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com"
+          SendMailTask:Subject="SUCCESS: BA Tables Extraction (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BB24B43F-4F0E-4416-8343-D6506C163462}"
+      DTS:From="Package\Load BA Tables to BI"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sucess" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1CFBEB51-20C4-4024-9ABC-5935C19F2F99}"
+      DTS:From="Package\Load BA Tables to BI"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Failure"
+          TopLeft="362,535" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData"
+          TopLeft="31.5,152.5" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory"
+          TopLeft="307,154" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\Load BA Tables to BI\truncate stg_BA_CycleTimeData"
+          TopLeft="19.5,21.5" />
+        <NodeLayout
+          Size="234,42"
+          Id="Package\Load BA Tables to BI\truncate stg_BA_FaxTimeHistory"
+          TopLeft="304,16" />
+        <EdgeLayout
+          Id="Package\Load BA Tables to BI.PrecedenceConstraints[Constraint]"
+          TopLeft="137.25,63.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,89"
+              Start="0,0"
+              End="0,81.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,81.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load BA Tables to BI.PrecedenceConstraints[Constraint 1]"
+          TopLeft="418.5,58">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,96"
+              Start="0,0"
+              End="0,88.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,88.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="543,260"
+          Size="543,303"
+          Id="Package\Load BA Tables to BI"
+          TopLeft="64,157" />
+        <NodeLayout
+          Size="113,42"
+          Id="Package\Sucess"
+          TopLeft="183,535" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="242.916666666667,460">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="421.333333333333,460">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.24134765625,28.87548828125,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData"
+          TopLeft="248,351" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData"
+          TopLeft="261,193" />
+        <EdgeLayout
+          Id="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData.Paths[OLE DB Source Output]"
+          TopLeft="356,235">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,116"
+              Start="0,0"
+              End="0,108.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,108.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\src_BA_CycleTimeData">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_CycleTimeData\trgt_STG_BA_CycleTimeData">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory"
+          TopLeft="323,72" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory"
+          TopLeft="297,218" />
+        <EdgeLayout
+          Id="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory.Paths[OLE DB Source Output]"
+          TopLeft="407,114">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,104"
+              Start="0,0"
+              End="0,96.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,96.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\src_FaxTimeHistory">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BA Tables to BI\Load stg_BA_FaxTimeHistory\trgt_stg_BA_FaxTimeHistory">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

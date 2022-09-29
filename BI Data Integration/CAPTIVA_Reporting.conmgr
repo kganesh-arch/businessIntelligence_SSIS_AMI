@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CAPTIVA_Reporting"
+  DTS:DTSID="{936FC74F-88F8-4DAC-A22E-8889F8A39EAA}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CAPTIVA_Reporting_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVSQLL0101\P_EDMS_AMI_US_01;User ID=ds_conn;Initial Catalog=P_IADBREPORTS_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;Application Intent=ReadOnly;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="JHpgDIlS3pc="
+        p4:IV="9Z9cBvHG1JDbrbVz7HoS2A=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">PiQOCfw1Kc7Z/kKD+qLs47/HJZg+ZtT1WeVZtao6bndFhCPQOtbPZOKUJ+6v0V0Pk5LqJ+HdoS5IDGJx0JyPXYS0YT7f3tzxc9iemhEIndOAYn4BV0BbfIehawR9sIhn5WChZArvdSvkZHwP8gAdev5fE1pitpwAzZ/xP8HBEzo=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

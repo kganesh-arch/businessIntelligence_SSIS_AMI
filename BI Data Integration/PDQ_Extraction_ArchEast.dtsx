@@ -1,0 +1,860 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/30/2017 9:27:35 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-KGANESH"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{8F2B3EA5-EF5E-4CE9-B5AB-914B0A54E6E7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="PDQ_Extraction_ArchEast"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{EF812054-932F-499C-BD03-3A9B407F1C06}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{92333694-B3FE-4887-B5B4-6D91E8C2C1D4}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">@[$Project::pstr_Environment] + ": Daily Arch East PDQ Extraction Job Has Failed"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;vvegesana@archmi.com"
+          SendMailTask:Subject="Production: Daily Arch East PDQ Extraction Job Has Failed" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load PDQ Information - Arch East"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{00A6C6F5-53C5-4091-BF35-1D29552763DA}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load PDQ Information - Arch East"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_ORIG_INSD_SBM_INFO_UG]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Connections[OleDbConnection]"
+                  connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[ORIG_INSD_SBM_INFO_ID]"
+                      cachedDataType="i8"
+                      cachedName="ORIG_INSD_SBM_INFO_ID"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[ORIG_INSD_SBM_INFO_ID]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[ORIG_INSD_SBM_INFO_ID]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[LDR_ID]"
+                      cachedDataType="decimal"
+                      cachedName="LDR_ID"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LDR_ID]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LDR_ID]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[SBM_MTHD_TYP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="SBM_MTHD_TYP"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[SBM_MTHD_TYP]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[SBM_MTHD_TYP]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[EFF_DT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="EFF_DT"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[EFF_DT]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EFF_DT]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[EXPR_DT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="EXPR_DT"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[EXPR_DT]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EXPR_DT]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[CRT_BY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="CRT_BY"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[CRT_BY]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_BY]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[CRT_TMST]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="26"
+                      cachedName="CRT_TMST"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[CRT_TMST]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_TMST]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[LAST_UPD_BY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="LAST_UPD_BY"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LAST_UPD_BY]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_BY]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[LAST_UPD_TMST]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="26"
+                      cachedName="LAST_UPD_TMST"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LAST_UPD_TMST]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_TMST]" />
+                    <inputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].Columns[APVL_CMNT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4000"
+                      cachedName="APVL_CMNT"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[APVL_CMNT]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[APVL_CMNT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[ORIG_INSD_SBM_INFO_ID]"
+                      dataType="numeric"
+                      name="ORIG_INSD_SBM_INFO_ID"
+                      precision="28" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LDR_ID]"
+                      dataType="numeric"
+                      name="LDR_ID"
+                      precision="11" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[SBM_MTHD_TYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="SBM_MTHD_TYP" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[EFF_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="EFF_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[EXPR_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="EXPR_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[CRT_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="CRT_BY" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[CRT_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="CRT_TMST" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LAST_UPD_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LAST_UPD_BY" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[LAST_UPD_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="LAST_UPD_TMST" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input].ExternalColumns[APVL_CMNT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4000"
+                      name="APVL_CMNT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="UGCMIRR_Extract_ORIG_INSD_SBM_INFO"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+ORIG_INSD_SBM_INFO_ID AS ORIG_INSD_SBM_INFO_ID
+,LDR_ID	 	 	AS LDR_ID
+,SBM_MTHD_TYP	AS SBM_MTHD_TYP
+,EFF_DT	 	 	AS EFF_DT
+,EXPR_DT	 	AS EXPR_DT
+,CRT_BY	 	 	AS CRT_BY
+,CRT_TMST	 	AS CRT_TMST
+,LAST_UPD_BY	AS LAST_UPD_BY
+,LAST_UPD_TMST	AS LAST_UPD_TMST
+,APVL_CMNT	 	AS APVL_CMNT
+FROM ORIG_INSD_SBM_INFO</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Connections[OleDbConnection]"
+                  connectionManagerID="{8C829422-4917-4120-AC6B-2AF46EF090B6}:invalid"
+                  connectionManagerRefId="{8C829422-4917-4120-AC6B-2AF46EF090B6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[ORIG_INSD_SBM_INFO_ID]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[ORIG_INSD_SBM_INFO_ID]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[ORIG_INSD_SBM_INFO_ID]"
+                      name="ORIG_INSD_SBM_INFO_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LDR_ID]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LDR_ID]"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LDR_ID]"
+                      name="LDR_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[SBM_MTHD_TYP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[SBM_MTHD_TYP]"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[SBM_MTHD_TYP]"
+                      name="SBM_MTHD_TYP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EFF_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[EFF_DT]"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EFF_DT]"
+                      name="EFF_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EXPR_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[EXPR_DT]"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[EXPR_DT]"
+                      name="EXPR_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[CRT_BY]"
+                      length="255"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_BY]"
+                      name="CRT_BY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[CRT_TMST]"
+                      length="26"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[CRT_TMST]"
+                      name="CRT_TMST"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LAST_UPD_BY]"
+                      length="255"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_BY]"
+                      name="LAST_UPD_BY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LAST_UPD_TMST]"
+                      length="26"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[LAST_UPD_TMST]"
+                      name="LAST_UPD_TMST"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[APVL_CMNT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[APVL_CMNT]"
+                      length="4000"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].Columns[APVL_CMNT]"
+                      name="APVL_CMNT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[ORIG_INSD_SBM_INFO_ID]"
+                      dataType="i8"
+                      name="ORIG_INSD_SBM_INFO_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LDR_ID]"
+                      dataType="decimal"
+                      name="LDR_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[SBM_MTHD_TYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="SBM_MTHD_TYP" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[EFF_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="EFF_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[EXPR_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="EXPR_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[CRT_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="CRT_BY" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[CRT_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="CRT_TMST" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LAST_UPD_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="LAST_UPD_BY" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[LAST_UPD_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      name="LAST_UPD_TMST" />
+                    <externalMetadataColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output].ExternalColumns[APVL_CMNT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4000"
+                      name="APVL_CMNT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ORIG_INSD_SBM_INFO_ID]"
+                      dataType="i8"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ORIG_INSD_SBM_INFO_ID]"
+                      name="ORIG_INSD_SBM_INFO_ID" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LDR_ID]"
+                      dataType="decimal"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LDR_ID]"
+                      name="LDR_ID" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[SBM_MTHD_TYP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[SBM_MTHD_TYP]"
+                      name="SBM_MTHD_TYP" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[EFF_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[EFF_DT]"
+                      name="EFF_DT" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[EXPR_DT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[EXPR_DT]"
+                      name="EXPR_DT" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[CRT_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[CRT_BY]"
+                      name="CRT_BY" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[CRT_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[CRT_TMST]"
+                      name="CRT_TMST" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LAST_UPD_BY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LAST_UPD_BY]"
+                      name="LAST_UPD_BY" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LAST_UPD_TMST]"
+                      codePage="1252"
+                      dataType="str"
+                      length="26"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[LAST_UPD_TMST]"
+                      name="LAST_UPD_TMST" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[APVL_CMNT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4000"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[APVL_CMNT]"
+                      name="APVL_CMNT" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load PDQ Information - Arch East.Paths[OLE DB Source Output]"
+              endId="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Successful"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{9E93511A-42C4-4856-A9D9-77A9BDDCDED8}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Successful"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">@[$Project::pstr_Environment] + ": Daily Arch East PDQ Extraction Job Completed Successfully"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;vvegesana@archmi.com"
+          SendMailTask:Subject="Production: Daily Arch East PDQ Extraction Job Completed Successfully" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate EDW_STAGING STG_ORIG_INSD_SBM_INFO_UG"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ED801474-53F7-4437-AE40-DD6EF6CE03FE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate EDW_STAGING STG_ORIG_INSD_SBM_INFO_UG"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[STG_ORIG_INSD_SBM_INFO_UG]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AAF579D5-95EB-4A63-8BA5-397876880700}"
+      DTS:From="Package\Load PDQ Information - Arch East"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Successful" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{FE2BCCDC-F451-4274-8923-3B334DA3B5C0}"
+      DTS:From="Package\Load PDQ Information - Arch East"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{6A9126C3-B029-4A48-BCA6-9F26023A1833}"
+      DTS:From="Package\Truncate EDW_STAGING STG_ORIG_INSD_SBM_INFO_UG"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Load PDQ Information - Arch East" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Failure"
+          TopLeft="411,243" />
+        <NodeLayout
+          Size="365,42"
+          Id="Package\Load PDQ Information - Arch East"
+          TopLeft="211,115" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Successful"
+          TopLeft="231,246" />
+        <NodeLayout
+          Size="365,42"
+          Id="Package\Truncate EDW_STAGING STG_ORIG_INSD_SBM_INFO_UG"
+          TopLeft="207,38" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="296.5,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,89"
+              Start="0,0"
+              End="0,81.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,81.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="476.5,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,86"
+              Start="0,0"
+              End="0,78.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,78.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.24134765625,34.37548828125,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="391.5,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load PDQ Information - Arch East">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="339,42"
+          Id="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO"
+          TopLeft="247,109" />
+        <NodeLayout
+          Size="345,42"
+          Id="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG"
+          TopLeft="243,231" />
+        <EdgeLayout
+          Id="Package\Load PDQ Information - Arch East.Paths[OLE DB Source Output]"
+          TopLeft="416,151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load PDQ Information - Arch East\EDW_STAGING_Load_STG_ORIG_INSD_SBM_INFO_UG">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load PDQ Information - Arch East\UGCMIRR_Extract_ORIG_INSD_SBM_INFO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

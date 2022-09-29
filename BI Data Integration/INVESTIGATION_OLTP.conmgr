@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="INVESTIGATION_OLTP"
+  DTS:DTSID="{361249C8-6EF8-49AE-B0AB-E94B0DB6D9B7}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_Investigation_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=PINVCM1;User ID=biappcmg;Provider=IBMDADB2.DB2COPY1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="2GCtnPjgKZo="
+        p4:IV="55bShK2kLLpz6qp+CKaYbw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">G+ubWJpt5COiHjtdjyQWR5w28MK2ACgtp8rj7579wJ/mcCnIUSticfunYhE3Z6NgKJTuJYKgQ36U4Nh0gKt3VxCWv8oJdGQVthnoOZa6y09Y5Prn0c/G2xeAD0D1Ba41Umwec7ln+veHbIDttF0ksvUs8obbZBA2Lm+eJxsak2I=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

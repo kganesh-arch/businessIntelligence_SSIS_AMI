@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="Cognos_AUBI_AIG"
+  DTS:DTSID="{F3D21BA1-558F-4807-9A01-BFF9C3DF2E44}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_COGNOS_AUBI_AIG]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVDTBV003\P_COGNOS_AMI_US;User ID=bi_conn;Initial Catalog=P_AUBI_AIG_US_01;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="uLoij479PQU="
+        p4:IV="v7EjirtBpLnt1mdSlDS6XA=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">Mvz/4eAAnPmQ5bbJhc5B8h+R3lv9w5kBQwmnd7txaUnu2umqoZ/H2Ehl6nPT+3974B1/rRhcU1L+Cj6iz8u5rfUPAHnxNFoQoUJx3B532F1jOyCQDDh2bA3jcT7p8EA9mpMftgmiZClb4p7Z+wnEPP+gFeG2j3OCYF3qgCesrKE=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

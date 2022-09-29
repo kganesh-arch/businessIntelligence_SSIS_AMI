@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="FRAUD_CREDIT_DATA"
+  DTS:DTSID="{A77490BE-7BE3-4C93-94FF-9F703F0A0E06}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_CRDFRD_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=us-db-sac212\p_bi_ami_us;User ID=ds_conn;Initial Catalog=P_CRDFRD_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="XN78qQABfG4="
+        p4:IV="H/sp/UCYkNjE8RxoSgY5Fw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">8Sfn6KanrBLm8FMtQOfF5fLmGFeM+vAAvp634W/tXMHDrwUbJpQNacPC69FGi0WxtJTcJQWlEtBbwSzGbzZC5bAFa3gE6td1JCtzJKqtX+uQsvXwtZTgClzr6ZPG6dNZKjZpYW8v1eiunFUR5tWQHWg2+rLtSGR6DNvAWmffNx0=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

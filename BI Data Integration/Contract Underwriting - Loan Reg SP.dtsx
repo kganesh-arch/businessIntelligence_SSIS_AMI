@@ -1,0 +1,1006 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2020 8:12:14 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="PVDI-DVM0112"
+  DTS:CreatorName="CMGMI\rdelacruz"
+  DTS:DTSID="{3150F05C-FA9E-406D-95A8-2D1CF461ED0D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Contract Underwriting - Loan Reg SP"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="51"
+  DTS:VersionGUID="{00BC211A-260B-4246-A81F-2161D92083FA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Fail"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{49717418-edd4-4e66-b55e-c06f0f1ab895}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Fail"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"FAILED: SCUBA Loan Reg SP (" + @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="FAILED: SCUBA Loan Reg SP (Production)"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{4449F60D-7029-45CB-8492-079D5D4C0789}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"SUCCESS: SCUBA Loan Reg SP (" + @[$Project::pstr_Environment] + ")"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailyIDEA_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;award@archmi.com;aalston@archmi.com;mthangavel@archmi.com"
+          SendMailTask:Subject="SUCCESS: SCUBA Loan Reg SP (Production)" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Workflow For Daily Loan Registration Volume Report"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{58C0724D-458D-422D-BBC1-6B453C8AA71D}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Workflow For Daily Loan Registration Volume Report">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Workflow For Daily Loan Registration Volume Report\Execute SP for Loan Registration Volume Report Helper Tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{44543995-4276-4C13-B11D-12C7F27CA479}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SP for Loan Registration Volume Report Helper Tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="EXEC DBO.SP_HLP_SCUBA_LOAN_REGISTRATION" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{39FB2076-76B8-479B-827F-188545FFF9FB}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select        
+	cast(c.Cuw_Reference_Number as nvarchar(50)) as Certificate_Number,
+    w.Inbasket_Id,
+    i.In_Basket_Name,
+    w.Action,
+    w.Assigned_To,
+    w.Locked_User,
+    w.Modified_User,
+    w.Modified_Timestamp,
+    cast(w.Create_Timestamp as datetime2) as Create_Timestamp,
+    --case
+    --        when c.Business_Division in ('AMI', 'AMG', 'ACU', 'AMGCU') then 'West'
+    --        when c.Business_Division in ('URIC','URI', 'URICU') then 'East'
+    --        else 'MISS'
+    --end as Company_Text,
+	'MISS' as Company_Text,
+    dateadd(minute,DATEPART(TZoffset, w.Modified_Timestamp at time zone 'Eastern Standard Time'),w.Modified_Timestamp) as Modified_Timestamp_ET,--Convert UTC to EST
+    dateadd(minute,DATEPART(TZoffset, cast(w.Create_Timestamp as datetime2) at time zone 'Eastern Standard Time'),cast(w.Create_Timestamp as datetime2)) as Create_Timestamp_ET -- Convert UTC to EST
+	-- ,c.branch_name as Branch_Name
+from 
+	EDw_STAGING.DBO.STG_SCUBA_WORK_ITEM_AUD w,
+	EDw_STAGING.DBO.STG_SCUBA_CERTIFICATE c,
+	EDw_STAGING.DBO.STG_SCUBA_IN_BASKET i
+where 
+	w.Certificate_Id=c.Certificate_Id  
+	and i.Inbasket_Id=w.Inbasket_Id 
+	--and left(CAST(c.Create_Timestamp AS DATETIME2),10)  between left(cast--(DATEADD(D,-120,GETDATE()) as datetime2),10)  and left(cast(DATEADD--(D,-1,GETDATE()) as datetime2),10)  
+	and w.Action is not null
+	--AND W.MODIFIED_USER NOT IN (SELECT USERID FROM EDW_STAGING.DBO.HLP_AQUA_TEST_USERS)</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          length="50"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          name="Certificate_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Inbasket_Id]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Inbasket_Id]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Inbasket_Id]"
+                          name="Inbasket_Id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[In_Basket_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[In_Basket_Name]"
+                          length="50"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[In_Basket_Name]"
+                          name="In_Basket_Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Action]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Action]"
+                          length="1024"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Action]"
+                          name="Action"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Assigned_To]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Assigned_To]"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Assigned_To]"
+                          name="Assigned_To"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Locked_User]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Locked_User]"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Locked_User]"
+                          name="Locked_User"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_User]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_User]"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_User]"
+                          name="Modified_User"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_Timestamp]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp]"
+                          name="Modified_Timestamp"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Create_Timestamp]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp]"
+                          name="Create_Timestamp"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Company_Text]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Company_Text]"
+                          length="4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Company_Text]"
+                          name="Company_Text"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_Timestamp_ET]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp_ET]"
+                          name="Modified_Timestamp_ET"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Create_Timestamp_ET]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp_ET]"
+                          name="Create_Timestamp_ET"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Number" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Inbasket_Id]"
+                          dataType="i4"
+                          name="Inbasket_Id" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[In_Basket_Name]"
+                          dataType="wstr"
+                          length="50"
+                          name="In_Basket_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Action]"
+                          dataType="wstr"
+                          length="1024"
+                          name="Action" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Assigned_To]"
+                          dataType="wstr"
+                          length="255"
+                          name="Assigned_To" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Locked_User]"
+                          dataType="wstr"
+                          length="255"
+                          name="Locked_User" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_User]"
+                          dataType="wstr"
+                          length="255"
+                          name="Modified_User" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          name="Modified_Timestamp"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Create_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          name="Create_Timestamp"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Company_Text]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Company_Text" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Modified_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          name="Modified_Timestamp_ET"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].ExternalColumns[Create_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          name="Create_Timestamp_ET"
+                          scale="7" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          name="Certificate_Number" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Inbasket_Id]"
+                          dataType="i4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Inbasket_Id]"
+                          name="Inbasket_Id" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[In_Basket_Name]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[In_Basket_Name]"
+                          name="In_Basket_Name" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Action]"
+                          dataType="wstr"
+                          length="1024"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Action]"
+                          name="Action" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Assigned_To]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Assigned_To]"
+                          name="Assigned_To" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Locked_User]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Locked_User]"
+                          name="Locked_User" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_User]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_User]"
+                          name="Modified_User" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_Timestamp]"
+                          name="Modified_Timestamp"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Create_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Create_Timestamp]"
+                          name="Create_Timestamp"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Company_Text]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Company_Text]"
+                          name="Company_Text" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Modified_Timestamp_ET]"
+                          name="Modified_Timestamp_ET"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Create_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[Create_Timestamp_ET]"
+                          name="Create_Timestamp_ET"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 25000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">100000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Certificate_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Certificate_Number"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Certificate_Number]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Inbasket_Id]"
+                          cachedDataType="i4"
+                          cachedName="Inbasket_Id"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Inbasket_Id]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Inbasket_Id]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[In_Basket_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="In_Basket_Name"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[In_Basket_Name]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[In_Basket_Name]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Action]"
+                          cachedDataType="wstr"
+                          cachedLength="1024"
+                          cachedName="Action"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Action]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Action]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Assigned_To]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Assigned_To"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Assigned_To]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Assigned_To]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Locked_User]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Locked_User"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Locked_User]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Locked_User]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Modified_User]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Modified_User"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_User]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_User]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Modified_Timestamp]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="Modified_Timestamp"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_Timestamp]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Create_Timestamp]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="Create_Timestamp"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Create_Timestamp]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Company_Text]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="4"
+                          cachedName="Company_Text"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Company_Text]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Company_Text]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Modified_Timestamp_ET]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="Modified_Timestamp_ET"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_Timestamp_ET]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Modified_Timestamp_ET]" />
+                        <inputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].Columns[Create_Timestamp_ET]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="Create_Timestamp_ET"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Create_Timestamp_ET]"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output].Columns[Create_Timestamp_ET]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Number" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Inbasket_Id]"
+                          dataType="i4"
+                          name="Inbasket_Id" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[In_Basket_Name]"
+                          dataType="wstr"
+                          length="50"
+                          name="In_Basket_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Action]"
+                          dataType="wstr"
+                          length="1024"
+                          name="Action" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Assigned_To]"
+                          dataType="wstr"
+                          length="255"
+                          name="Assigned_To" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Locked_User]"
+                          dataType="wstr"
+                          length="255"
+                          name="Locked_User" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_User]"
+                          dataType="wstr"
+                          length="255"
+                          name="Modified_User" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          name="Modified_Timestamp"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Create_Timestamp]"
+                          dataType="dbTimeStamp2"
+                          name="Create_Timestamp"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Company_Text]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Company_Text" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Modified_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          name="Modified_Timestamp_ET"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input].ExternalColumns[Create_Timestamp_ET]"
+                          dataType="dbTimeStamp2"
+                          name="Create_Timestamp_ET"
+                          scale="7" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Paths[OLE DB Source Output]"
+                  endId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Workflow For Daily Loan Registration Volume Report\Truncate HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BFEF8652-628F-49F8-975A-DBC6B518297A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE DBO.HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Workflow For Daily Loan Registration Volume Report.PrecedenceConstraints[Constraint 24]"
+          DTS:CreationName=""
+          DTS:DTSID="{D05ADE4F-DAC8-4195-917E-FA750400924C}"
+          DTS:From="Package\Workflow For Daily Loan Registration Volume Report\Truncate HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 24"
+          DTS:To="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Workflow For Daily Loan Registration Volume Report.PrecedenceConstraints[Constraint 25]"
+          DTS:CreationName=""
+          DTS:DTSID="{5ED0DC81-8CDC-4187-84B5-6E41315C583C}"
+          DTS:From="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 25"
+          DTS:To="Package\Workflow For Daily Loan Registration Volume Report\Execute SP for Loan Registration Volume Report Helper Tables" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{88F852B1-2B53-45A2-AA8A-09C628B6740B}"
+      DTS:From="Package\Workflow For Daily Loan Registration Volume Report"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A50F6504-3518-485F-815C-9888C538ABD2}"
+      DTS:From="Package\Workflow For Daily Loan Registration Volume Report"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Fail"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="97,42"
+          Id="Package\Fail"
+          TopLeft="140.583333333333,616" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Success"
+          TopLeft="400,625" />
+        <NodeLayout
+          Size="398,42"
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Execute SP for Loan Registration Volume Report Helper Tables"
+          TopLeft="36.4444444444446,183.5" />
+        <NodeLayout
+          Size="398,42"
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          TopLeft="36.4444444444446,100.5" />
+        <NodeLayout
+          Size="363,42"
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Truncate HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          TopLeft="36.4444444444446,17.5" />
+        <EdgeLayout
+          Id="Package\Workflow For Daily Loan Registration Volume Report.PrecedenceConstraints[Constraint 24]"
+          TopLeft="217.944444444445,59.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="17.5,41"
+              Start="0,0"
+              End="17.5,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.5"
+                    Point2="0,20.5"
+                    Point3="4,20.5" />
+                  <mssgle:LineSegment
+                    End="13.5,20.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="13.5,20.5"
+                    Point2="17.5,20.5"
+                    Point3="17.5,24.5" />
+                  <mssgle:LineSegment
+                    End="17.5,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Workflow For Daily Loan Registration Volume Report.PrecedenceConstraints[Constraint 25]"
+          TopLeft="235.444444444445,142.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="463,281"
+          Size="463,324"
+          Id="Package\Workflow For Daily Loan Registration Volume Report"
+          TopLeft="140.583333333333,59.9166666666666" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="447.916666666666,383.916666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12.5833333333337,241.083333333333"
+              Start="0,0"
+              End="12.5833333333337,233.583333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.9314822786627" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,92.9314822786627"
+                    Point2="0,96.9314822786627"
+                    Point3="4,96.9314822786627" />
+                  <mssgle:LineSegment
+                    End="8.58333333333366,96.9314822786627" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8.58333333333366,96.9314822786627"
+                    Point2="12.5833333333337,96.9314822786627"
+                    Point3="12.5833333333337,100.931482278663" />
+                  <mssgle:LineSegment
+                    End="12.5833333333337,233.583333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="296.25,383.916666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-107.166666666667,232.083333333333"
+              Start="0,0"
+              End="-107.166666666667,224.583333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,89.3128856363897" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,89.3128856363897"
+                    Point2="0,93.3128856363897"
+                    Point3="-4,93.3128856363897" />
+                  <mssgle:LineSegment
+                    End="-103.166666666667,93.3128856363897" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-103.166666666667,93.3128856363897"
+                    Point2="-107.166666666667,93.3128856363897"
+                    Point3="-107.166666666667,97.3128856363897" />
+                  <mssgle:LineSegment
+                    End="-107.166666666667,224.583333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-68.8246809895833,98.3128856363897,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="369,42"
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\trg_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          TopLeft="266,307" />
+        <NodeLayout
+          Size="370,42"
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA"
+          TopLeft="268,160" />
+        <EdgeLayout
+          Id="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA.Paths[OLE DB Source Output]"
+          TopLeft="451.75,202">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,105"
+              Start="0,0"
+              End="0,97.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,97.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Workflow For Daily Loan Registration Volume Report\Load Into HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA\src_HLP_SCUBA_LOAN_REGISTRATION_ARCHLRDATA">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

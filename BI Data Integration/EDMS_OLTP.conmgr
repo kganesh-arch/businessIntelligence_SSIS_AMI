@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="EDMS_OLTP"
+  DTS:DTSID="{013B69C9-BF3D-4FB8-9803-34214EBD7A77}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_EDMS_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=RFLNWWD;User ID=biappcmg;Provider=IBMDADB2.DB2COPY1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="YocUmQi2l6U="
+        p4:IV="ZLhqt4IvWBkd2+QZ8RwAqw=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">KLCyeKrTrIuFtpPvDBUv/x5jN0cnMRJit1n3vOlgsgtFoJDb6a/wGz7MuM9eQS3y10KmFGT9NY9OWO3XnMsMsGQvZfB+61Z69S8ww/mTR8AACOxSvXamCtboi1Lhd8tl2FdGe2O/2EKoBrnJlw2jkar+iH7lAAQkfC0C9pOvtIM=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,497 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/14/2017 9:44:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-KGANESH"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{9AA43DD2-8026-4B69-8500-CDEC5A9D7E72}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ETLDataValidation"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="60"
+  DTS:VersionGUID="{D761E4C1-7808-48D3-A7EC-E42050C95732}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1339F042-032C-4BC1-B433-EF1E2C6C0EC9}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\archdata\archuserdata\kganesh\Documents\SQL Server Management Studio\BI Data Integration_Test\Stats.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0C7B7853-3CC0-458E-836A-EBD2E0C265D1}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CreditDiscrepancy">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{693221B7-B824-4136-9546-77BF2FECDB37}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="DLODups">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B2CEB52C-B6CB-4448-830C-8320F417BA88}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="FDVDups">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Abnormal Discrepancy - SalesCredit"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{2EA26CA1-C1DA-4A07-8002-D9F33FDB1B89}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Abnormal Discrepancy - SalesCredit"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="5">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="BusinessIntelligence@archmi.com"
+          SendMailTask:Subject="BI ETL Prod: Unusual Number Of Mismatches Between SalesForce &amp; EDW"
+          SendMailTask:MessageSource="Alert: There is an unusually high(&gt;2) number of certs which are either not accounted for crediting in SFDC or missing in the FCT_SALES_CREDIT  table. Please notify current support person from Business Intelligence team." xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Check Discrepancies"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{08DABBD6-AFF8-40C4-A2C0-FFDF02464C3A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Check Discrepancies"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+          SQLTask:SqlStatementSource="Declare @startdate INT, @enddate INT&#xA;if DATEPART(dw,Dateadd(Day,-1,GETDATE())) = 1&#xA;SET @startdate = CAST(convert(varchar(10),Dateadd(Day,-3,GETDATE()),112) AS INT);&#xA;else &#xA;SET @startdate = CAST(convert(VARCHAR(10),Dateadd(Day,-1,GETDATE()),112) AS INT);&#xA;SET @enddate = CAST(convert(varchar(10),Dateadd(Day,-1,GETDATE()),112) AS INT);&#xA;--select @startdate&#xA;select 'SALES CREDIT VARIANCES' AS CREDIT_HEADER,(&#xA;(SELECT COUNT(*) AS STATS FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_UG IS NOT NULL AND APPLICATION_STATUS_DT_SK BETWEEN @startdate AND @enddate  and current_certificate_status_cd &lt;&gt; 'T')&#xA;-&#xA;(select count(distinct(certificate_number)) &#xA;from edw_dm.dbo.fct_sales_credit WITH (NOLOCK) &#xA;where certificate_number in &#xA;(SELECT CERTIFICATE_NBR_BK FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_UG IS NOT NULL AND APPLICATION_STATUS_DT_SK BETWEEN @startdate AND @enddate  and current_certificate_status_cd &lt;&gt; 'T'))&#xA;)&#xA;+&#xA;(&#xA;(SELECT COUNT(*) AS STATS FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_UG IS NOT NULL AND NIW_BOOK_YEAR_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T')&#xA;-&#xA;(select count(distinct(certificate_number)) &#xA;from edw_dm.dbo.fct_sales_credit WITH (NOLOCK) where certificate_number in &#xA;(SELECT CERTIFICATE_NBR_BK FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_UG IS NOT NULL AND NIW_BOOK_YEAR_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T'))&#xA;)&#xA;+&#xA;(&#xA;(SELECT COUNT(*) AS STATS FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_AMIWEST IS NOT NULL AND APPLICATION_STATUS_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T')&#xA;-&#xA;(select count(distinct(certificate_number)) &#xA;from edw_dm.dbo.fct_sales_credit WITH (NOLOCK) where certificate_number in &#xA;(SELECT CERTIFICATE_NBR_BK FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_AMIWEST IS NOT NULL AND APPLICATION_STATUS_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T'))&#xA;)&#xA;+&#xA;(&#xA;(SELECT COUNT(*) AS STATS FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_AMIWEST IS NOT NULL AND NIW_BOOK_YEAR_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T')&#xA;-&#xA;(select count(distinct(certificate_number)) &#xA;from edw_dm.dbo.fct_sales_credit WITH (NOLOCK) where certificate_number in &#xA;(SELECT CERTIFICATE_NBR_BK FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) &#xA;WHERE CERTIFICATE_NBR_BK_AMIWEST IS NOT NULL AND NIW_BOOK_YEAR_DT_SK BETWEEN @startdate AND @enddate   and current_certificate_status_cd &lt;&gt; 'T'))&#xA;) AS CREDIT_VARIANCES&#xA;,&#xA;'FDV EAST DUPLICATE CERTS' AS FDVDUPS_HEADER,&#xA;(SELECT COUNT(*) FROM &#xA;(SELECT CERTIFICATE_NBR_BK_UG FROM EDW_DM.DBO.FCT_DAILY_VOLUME WITH (NOLOCK) WHERE CERTIFICATE_NBR_BK_UG IS NOT NULL GROUP BY CERTIFICATE_NBR_BK_UG HAVING COUNT(*) &gt; 1) A) AS FDV_DUPE_COUNTS&#xA;,&#xA;'DIM_LENDER DUP ACCOUNT IDS' AS DIMLENDERDUPS_HEADER,&#xA;(SELECT COUNT(*) FROM &#xA;(SELECT ACCOUNTID FROM EDW_DM.DBO.DIM_LENDER WITH (NOLOCK)&#xA;WHERE CURR_IND = 'Y' AND ACCOUNTID IS NOT NULL&#xA;GROUP BY ACCOUNTID HAVING COUNT(*) &gt; 1) AS B) AS DIMLENDER_DUP_COUNTS"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="CREDIT_VARIANCES"
+            SQLTask:DtsVariableName="User::CreditDiscrepancy" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="FDV_DUPE_COUNTS"
+            SQLTask:DtsVariableName="User::FDVDups" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="DIMLENDER_DUP_COUNTS"
+            SQLTask:DtsVariableName="User::DLODups" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Duplicate AccountID in DIM_LENDER"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{12cd2e73-0cad-4661-b2c1-cd1ca621e74a}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Duplicate AccountID in DIM_LENDER"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com;dshete@archmi.com;vvegesana@archmi.com"
+          SendMailTask:Subject="BI ETL Prod (Internal): Duplicate AccountID in DIM_LENDER"
+          SendMailTask:MessageSource="Message: There are duplicate records having same AccountID for CURR_IND = 'Y' in DIM_LENDER table. Please locate duplicate AccountID and work with Sales team to identify the invalid duplicate and make the AccountID NULL for the invalid duplicate record in DIM_LENDER." xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Duplicates In FDV"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{EF7F0F57-3683-48B2-ACA6-19F647656083}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Duplicates In FDV"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="BusinessIntelligence@archmi.com"
+          SendMailTask:Subject="BI ETL Prod: Duplicate East Certificates In FDV"
+          SendMailTask:MessageSource="Alert: There are duplicate East certificate recordss seen in FCT_DAILY_VOLUME table. Please notify current support contact from Business Intelligence Team." xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Email Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{5336C5E7-D1EC-4EDB-90AD-FBCA11C1D7A8}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Email Failure"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="BusinessIntelligence@archmi.com"
+          SendMailTask:Subject="BI ETL Prod - CheckData Step Failed"
+          SendMailTask:MessageSource="Alert: The daily BI ETL data validation has failed today. Please notify current support person from the Business Intelligence Team for manual validation.&#xA;" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Minimum Discrepancy - SalesCredit"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{E434AF14-05C1-42EC-B679-2F549F80F3B8}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Minimum Discrepancy - SalesCredit"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="BusinessIntelligence@archmi.com"
+          SendMailTask:Subject="BI ETL Prod (Internal): Missing Lender In SFDC ?"
+          SendMailTask:MessageSource="Message: There is &lt; 3 certficates which are not reconciling between FCT_SALES_CREDIT and SFDC. Please take a look and notify Sales team if this is due to missing lender in SFDC." xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{ADE30AC5-8F9C-4E83-BDCF-5276419DC906}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="4">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="BusinessIntelligence@archmi.com"
+          SendMailTask:Subject="BI ETL Prod: Sales Credit, FDV Spot Checks Look Good"
+          SendMailTask:MessageSource="Message: BI ETL loads have completed for FDV and Sales Crediting, and spot checks on the data looks good. " xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{43F6A541-5C52-4F6F-86F5-B2F5FCD0CB41}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::CreditDiscrepancy]  &lt;= 2 &amp;&amp; @[User::FDVDups] == 0"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{13745154-E579-4EDD-8173-AD569A50275A}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::CreditDiscrepancy] &gt; 2"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Abnormal Discrepancy - SalesCredit" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{83FDA540-DD66-459D-AEB4-3DC2393A8FC1}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::FDVDups] != 0"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Duplicates In FDV" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{73E62BE3-6C03-4B40-B4BD-032404FD02B3}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::DLODups] &gt; 0"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Duplicate AccountID in DIM_LENDER" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{88BCA900-4DD9-4D7D-85BD-547AD8338534}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::CreditDiscrepancy] &gt; 0 &amp;&amp;  @[User::CreditDiscrepancy] &lt;= 2"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Minimum Discrepancy - SalesCredit" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{8E9A8D22-450D-44CA-B554-E66DC7525556}"
+      DTS:From="Package\Check Discrepancies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Email Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Abnormal Discrepancy - SalesCredit"
+          TopLeft="159,247" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Check Discrepancies"
+          TopLeft="417,47" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Duplicate AccountID in DIM_LENDER"
+          TopLeft="127,44" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Duplicates In FDV"
+          TopLeft="436.5,245.25" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Email Failure"
+          TopLeft="693,49" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Minimum Discrepancy - SalesCredit"
+          TopLeft="621.25,243.75" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Success"
+          TopLeft="23,248" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="454.8,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-372.8,159"
+              Start="0,0"
+              End="-372.8,151.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5866983372922" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,43.5866983372922"
+                    Point2="0,47.5866983372922"
+                    Point3="-4,47.5866983372922" />
+                  <mssgle:LineSegment
+                    End="-368.8,47.5866983372922" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-368.8,47.5866983372922"
+                    Point2="-372.8,47.5866983372922"
+                    Point3="-372.8,51.5866983372922" />
+                  <mssgle:LineSegment
+                    End="-372.8,151.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-194.4,52.5866983372922,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="477.333333333333,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-194.333333333333,158"
+              Start="0,0"
+              End="-194.333333333333,150.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.0492721164614" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,60.0492721164614"
+                    Point2="0,64.0492721164614"
+                    Point3="-4,64.0492721164614" />
+                  <mssgle:LineSegment
+                    End="-190.333333333333,64.0492721164614" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-190.333333333333,64.0492721164614"
+                    Point2="-194.333333333333,64.0492721164614"
+                    Point3="-194.333333333333,68.0492721164614" />
+                  <mssgle:LineSegment
+                    End="-194.333333333333,150.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-105.166666666667,69.0492721164614,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="520.7,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,156.25"
+              Start="0,0"
+              End="0,148.75">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,148.75" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,66.375,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="417,66.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-35,0"
+              Start="0,0"
+              End="-27.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-27.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.75,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="556.2,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="188.05,154.75"
+              Start="0,0"
+              End="188.05,147.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.3147268408551" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.3147268408551"
+                    Point2="0,46.3147268408551"
+                    Point3="4,46.3147268408551" />
+                  <mssgle:LineSegment
+                    End="184.05,46.3147268408551" />
+                  <mssgle:CubicBezierSegment
+                    Point1="184.05,46.3147268408551"
+                    Point2="188.05,46.3147268408551"
+                    Point3="188.05,50.3147268408551" />
+                  <mssgle:LineSegment
+                    End="188.05,147.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="86.025,51.3147268408551,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="594,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="99,0"
+              Start="0,0"
+              End="91.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="91.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="30.50865234375,5,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

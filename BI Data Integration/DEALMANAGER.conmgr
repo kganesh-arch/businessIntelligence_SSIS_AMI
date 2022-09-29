@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DEALMANAGER"
+  DTS:DTSID="{5B3BF363-791E-4397-B886-B72DFD6A73A3}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_DealManager_AMI_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=AMI-PWVDTBS005\P_UTIL_AMI_US_01;User ID=ds_conn;Initial Catalog=DEALMANAGER;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="M5qnd+8N0ag="
+        p4:IV="jueMpQ6UcSONws71dBQqkQ=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">EyjgevR/xIjFNzaHhVahAR5y+FuyEHFsUzY4Bqs7tMvdtdP8px2YJ80tFjovy2Sc7quLKLw58T86yo5xNOiABLD6Q9bs0WqSz00fhAmiujB/GNitzHNyPkeZCw2ZYY1tpX+WKmPEv6pNW9DPZ5Elbx43YPH6yszFA08yTKWGqSo=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

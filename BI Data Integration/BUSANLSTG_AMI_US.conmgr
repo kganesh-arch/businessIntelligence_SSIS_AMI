@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="BUSANLSTG_AMI_US"
+  DTS:DTSID="{3FC17681-C986-4DD5-A2EA-EC89C7B54EC5}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::pstr_BUSANLSTG_ConnectionString]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=us-db-sac235\p_rptanl_ami_us;User ID=ds_conn;Initial Catalog=P_BUSANLSTG_AMI_US_01;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1"
+        p4:Salt="9bVoxDMQ0Ko="
+        p4:IV="rHs+4BiE96Jjm3zUDgFHBg=="
+        p4:Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" xmlns:p4="www.microsoft.com/SqlServer/SSIS">rhQVkxI9B2YbY0eoRLP3TCsWLUrL/FGDNKPPyD0pCBiraI2ePtLjrYk84Y+iYVrKHKUuz+oZaNxh307O7lTrUd8rJniT5FJ2HTAQZ+aWaJZLqES5YgvZltYrGoZscjWj1T/TnojxTXnz19Z6713u6p9LOHShZsQjrEQIolhwvr4=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

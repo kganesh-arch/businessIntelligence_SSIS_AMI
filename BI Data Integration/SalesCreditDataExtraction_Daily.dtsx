@@ -1,0 +1,1874 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/6/2017 12:23:10 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ARCH-BI-KGANESH"
+  DTS:CreatorName="CMGMI\kganesh"
+  DTS:DTSID="{B3208B2C-7FE0-40C6-9E8B-1C9FA7759E41}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="SalesCreditDataExtraction_Daily"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="71"
+  DTS:VersionGUID="{D6E3C5C8-E4A1-4E38-AF42-27D8A2C58E0C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{A4632E7C-5E72-43CC-9836-FD752AB163FA}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">@[$Project::pstr_Environment] + ": Daily Sales Credit Data Extraction From SFDC ETL Job Has Failed"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailySFDCExtraction_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com"
+          SendMailTask:Subject="STAGING: Daily Sales Credit Data Extraction From SFDC ETL Job Has Failed" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data SFDC To EDW"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{AFAA79D0-0DAB-4557-92AA-E8BB13A0C652}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data SFDC To EDW">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{F99A9882-0B66-457A-AF7B-7120DE94433D}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load FCT_SALES_CREDIT">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src EDW_STAGING STG_FCT_SALES_CREDIT"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+CASE WHEN [Business_Unit_ID] IN ('00217','00260','00207','00250') THEN Certificate_Number END AS CERTIFICATE_NBR_BK_AMIWEST,
+CASE WHEN [Business_Unit_ID] IN ('00522','00525') THEN Certificate_Number END AS CERTIFICATE_NBR_BK_UG,
+CASE 
+WHEN [Business_Unit_ID] IN ('00217','00260','00207','00250') THEN LEFT(cast(Certificate_Number as varchar(10)) + '*' + isnull(cast([Business_Unit_ID] as varchar),'') + '*' + cast(FDV_W.Insurance_Line_Code as varchar) + '*' + FDV_W.Loan_Line_Code, 20) 
+WHEN [Business_Unit_ID] IN ('00522','00525') THEN LEFT(cast(Certificate_Number as varchar(10)) + '*' + isnull(cast([Business_Unit_ID] as varchar),'') + '*' + cast(FDV_E.Insurance_Line_Code as varchar) + '*' + FDV_E.Loan_Line_Code, 20)
+END AS Certificate_Number,
+Specified_Credit AS Specified_Credit,
+Applied_Credit AS Applied_Credit,
+Credit_Level AS Credit_Level,
+Credit_Percent AS Credit_Percent,
+OUPB AS OUPB,
+Credited_Amount AS Credited_Amount,
+Credited_Rep AS Credited_Rep,
+Certificate_Status AS Certificate_Status,
+AsOf AS AsOf,
+Credit_Status AS Credit_Status,
+Credited_Branch AS Credited_Branch,
+Sales_Rep_Email AS Sales_Rep_Email,
+Business_Unit_ID AS Business_Unit_ID
+FROM DBO.STG_FCT_SALES_CREDIT FSC 
+LEFT JOIN EDW_DM.DBO.FCT_DAILY_VOLUME FDV_E  
+ON FSC.CERTIFICATE_NUMBER = FDV_E.CERTIFICATE_NBR_BK_UG
+AND FDV_E.CERTIFICATE_NBR_BK_UG IS NOT NULL
+LEFT JOIN EDW_DM.DBO.FCT_DAILY_VOLUME FDV_W 
+ON FSC.CERTIFICATE_NUMBER = FDV_W.CERTIFICATE_NBR_BK_AMIWEST
+AND FDV_W.CERTIFICATE_NBR_BK_AMIWEST IS NOT NULL;</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          name="Certificate_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Specified_Credit]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Specified_Credit]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Specified_Credit]"
+                          name="Specified_Credit"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Applied_Credit]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Applied_Credit]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Applied_Credit]"
+                          name="Applied_Credit"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Level]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Level]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Level]"
+                          name="Credit_Level"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Percent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Percent]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Percent]"
+                          name="Credit_Percent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          name="OUPB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Amount]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Amount]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Amount]"
+                          name="Credited_Amount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Rep]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Rep]"
+                          length="100"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Rep]"
+                          name="Credited_Rep"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Status]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Status]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Status]"
+                          name="Certificate_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[AsOf]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[AsOf]"
+                          name="AsOf"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Status]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Status]"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Status]"
+                          name="Credit_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Branch]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Branch]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Branch]"
+                          name="Credited_Branch"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Sales_Rep_Email]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]"
+                          name="Sales_Rep_Email"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Business_Unit_ID]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]"
+                          name="Business_Unit_ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          length="8"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          name="CERTIFICATE_NBR_BK_AMIWEST"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_UG]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR_BK_UG]"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_UG]"
+                          name="CERTIFICATE_NBR_BK_UG"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="Certificate_Number" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Specified_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Applied_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credit_Level" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Percent]"
+                          dataType="r8"
+                          name="Credit_Percent" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          dataType="r8"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Amount]"
+                          dataType="r8"
+                          name="Credited_Amount" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          name="Credited_Rep" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                          dataType="i4"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          name="Credit_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credited_Branch" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          name="Sales_Rep_Email" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="Business_Unit_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          dataType="numeric"
+                          name="CERTIFICATE_NBR_BK_AMIWEST"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].ExternalColumns[CERTIFICATE_NBR_BK_UG]"
+                          dataType="numeric"
+                          name="CERTIFICATE_NBR_BK_UG"
+                          precision="11" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          dataType="numeric"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          name="CERTIFICATE_NBR_BK_AMIWEST"
+                          precision="11" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR_BK_UG]"
+                          dataType="numeric"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[CERTIFICATE_NBR_BK_UG]"
+                          name="CERTIFICATE_NBR_BK_UG"
+                          precision="11" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          name="Certificate_Number" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Specified_Credit]"
+                          name="Specified_Credit" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Applied_Credit]"
+                          name="Applied_Credit" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Level]"
+                          name="Credit_Level" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Percent]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Percent]"
+                          name="Credit_Percent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          name="OUPB" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Amount]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Amount]"
+                          name="Credited_Amount" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Rep]"
+                          name="Credited_Rep" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Certificate_Status]"
+                          name="Certificate_Status" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                          name="AsOf" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credit_Status]"
+                          name="Credit_Status" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Credited_Branch]"
+                          name="Credited_Branch" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Sales_Rep_Email]"
+                          name="Sales_Rep_Email" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[Business_Unit_ID]"
+                          name="Business_Unit_ID" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt EDW_DM FCT_SALES_CREDIT"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[fct_sales_credit]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Connections[OleDbConnection]"
+                      connectionManagerID="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      connectionManagerRefId="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Certificate_Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="Certificate_Number"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Number]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Specified_Credit]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Specified_Credit"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Specified_Credit]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Specified_Credit]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Applied_Credit]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Applied_Credit"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Applied_Credit]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Applied_Credit]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Level]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Credit_Level"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Level]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Level]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Percent]"
+                          cachedDataType="r8"
+                          cachedName="Credit_Percent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Percent]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Percent]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[OUPB]"
+                          cachedDataType="r8"
+                          cachedName="OUPB"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[OUPB]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Amount]"
+                          cachedDataType="r8"
+                          cachedName="Credited_Amount"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Amount]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Amount]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Rep]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Credited_Rep"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Rep]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Rep]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Certificate_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Certificate_Status"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Status]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Certificate_Status]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[AsOf]"
+                          cachedDataType="i4"
+                          cachedName="AsOf"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[AsOf]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="Credit_Status"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Status]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credit_Status]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Branch]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Credited_Branch"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Branch]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Credited_Branch]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Sales_Rep_Email]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Sales_Rep_Email"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Sales_Rep_Email]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Business_Unit_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Business_Unit_ID"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Business_Unit_ID]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[CERTIFICATE_NBR_BK_AMIWEST]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8"
+                          cachedName="CERTIFICATE_NBR_BK_AMIWEST"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[certificate_nbr_bk_amiwest]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_AMIWEST]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[CERTIFICATE_NBR_BK_UG]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="CERTIFICATE_NBR_BK_UG"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[certificate_nbr_bk_ug]"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output].Columns[CERTIFICATE_NBR_BK_UG]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="Certificate_Number" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Specified_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Applied_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credit_Level" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Percent]"
+                          dataType="r8"
+                          name="Credit_Percent" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          dataType="r8"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Amount]"
+                          dataType="r8"
+                          name="Credited_Amount" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          name="Credited_Rep" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          dataType="i4"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          name="Credit_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credited_Branch" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          name="Sales_Rep_Email" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="Business_Unit_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[certificate_nbr_bk_amiwest]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8"
+                          name="certificate_nbr_bk_amiwest" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[certificate_nbr_bk_ug]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="certificate_nbr_bk_ug" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT.Paths[OLE DB Source Output]"
+                  endId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{B9A59DC7-C793-48A0-AAF4-65357FBACC05}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load STG_FCT_SALES_CREDIT">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="src SFDC factCredit"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+[Certificate Number] AS Certificate_Number,
+[Specified Credit] AS Specified_Credit,
+[Applied Credit] AS Applied_Credit,
+[Credit Level] AS Credit_Level,
+[Credit Percent] AS Credit_Percent,
+[OUPB] AS OUPB,
+[Credited Amount] AS Credited_Amount,
+[Credited Rep] AS Credited_Rep,
+[Certificate Status] AS Certificate_Status,
+[AsOf] AS AsOf,
+[Credit Status] AS Credit_Status,
+[Credited Branch] AS Credited_Branch,
+[Sales Rep Email] AS Sales_Rep_Email,
+[Business Unit ID] AS Business_Unit_ID
+FROM DBO.FACTCREDIT;</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Connections[OleDbConnection]"
+                      connectionManagerID="{A3B29634-0C0C-44AF-9D41-84A8FC650C36}:invalid"
+                      connectionManagerRefId="{A3B29634-0C0C-44AF-9D41-84A8FC650C36}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Number]"
+                          name="Certificate_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Specified_Credit]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Specified_Credit]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Specified_Credit]"
+                          name="Specified_Credit"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Applied_Credit]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Applied_Credit]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Applied_Credit]"
+                          name="Applied_Credit"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Level]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Level]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Level]"
+                          name="Credit_Level"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Percent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Percent]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Percent]"
+                          name="Credit_Percent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[OUPB]"
+                          name="OUPB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Amount]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Amount]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Amount]"
+                          name="Credited_Amount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Rep]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Rep]"
+                          length="100"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Rep]"
+                          name="Credited_Rep"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Status]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Status]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Status]"
+                          name="Certificate_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[AsOf]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[AsOf]"
+                          name="AsOf"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Status]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Status]"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Status]"
+                          name="Credit_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Branch]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Branch]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Branch]"
+                          name="Credited_Branch"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Sales_Rep_Email]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]"
+                          name="Sales_Rep_Email"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Business_Unit_ID]"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]"
+                          name="Business_Unit_ID"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Number]"
+                          dataType="numeric"
+                          name="Certificate_Number"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Specified_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Applied_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credit_Level" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Percent]"
+                          dataType="r8"
+                          name="Credit_Percent" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[OUPB]"
+                          dataType="r8"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Amount]"
+                          dataType="r8"
+                          name="Credited_Amount" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          name="Credited_Rep" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[AsOf]"
+                          dataType="i4"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          name="Credit_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credited_Branch" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          name="Sales_Rep_Email" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].ExternalColumns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="Business_Unit_ID" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          dataType="numeric"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Certificate_Number]"
+                          name="Certificate_Number"
+                          precision="11" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Specified_Credit]"
+                          name="Specified_Credit" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Applied_Credit]"
+                          name="Applied_Credit" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Level]"
+                          name="Credit_Level" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Percent]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Percent]"
+                          name="Credit_Percent" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[OUPB]"
+                          name="OUPB" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Amount]"
+                          dataType="r8"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Amount]"
+                          name="Credited_Amount" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Rep]"
+                          name="Credited_Rep" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Certificate_Status]"
+                          name="Certificate_Status" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[AsOf]"
+                          name="AsOf" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credit_Status]"
+                          name="Credit_Status" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Credited_Branch]"
+                          name="Credited_Branch" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Sales_Rep_Email]"
+                          name="Sales_Rep_Email" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[Business_Unit_ID]"
+                          name="Business_Unit_ID" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="trgt EDW_STAGING STG_FCT_SALES_CREDIT"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[stg_fct_sales_credit]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,ROWS_PER_BATCH = 100000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">25000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Connections[OleDbConnection]"
+                      connectionManagerID="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      connectionManagerRefId="{6198266F-E4D0-4DE1-A995-F4CBD87D6D1D}:invalid"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Certificate_Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="Certificate_Number"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Number]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Specified_Credit]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Specified_Credit"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Specified_Credit]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Specified_Credit]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Applied_Credit]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Applied_Credit"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Applied_Credit]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Applied_Credit]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Level]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Credit_Level"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Level]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Level]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Percent]"
+                          cachedDataType="r8"
+                          cachedName="Credit_Percent"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Percent]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Percent]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[OUPB]"
+                          cachedDataType="r8"
+                          cachedName="OUPB"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[OUPB]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Amount]"
+                          cachedDataType="r8"
+                          cachedName="Credited_Amount"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Amount]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Amount]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Rep]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Credited_Rep"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Rep]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Rep]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Certificate_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Certificate_Status"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Status]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Certificate_Status]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[AsOf]"
+                          cachedDataType="i4"
+                          cachedName="AsOf"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[AsOf]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credit_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="Credit_Status"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Status]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credit_Status]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Credited_Branch]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Credited_Branch"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Branch]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Credited_Branch]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Sales_Rep_Email]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Sales_Rep_Email"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Sales_Rep_Email]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Sales_Rep_Email]" />
+                        <inputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].Columns[Business_Unit_ID]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Business_Unit_ID"
+                          externalMetadataColumnId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Business_Unit_ID]"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output].Columns[Business_Unit_ID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Number]"
+                          dataType="numeric"
+                          name="Certificate_Number"
+                          precision="11" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Specified_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Specified_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Applied_Credit]"
+                          dataType="wstr"
+                          length="50"
+                          name="Applied_Credit" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Level]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credit_Level" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Percent]"
+                          dataType="r8"
+                          name="Credit_Percent" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[OUPB]"
+                          dataType="r8"
+                          name="OUPB" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Amount]"
+                          dataType="r8"
+                          name="Credited_Amount" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Rep]"
+                          dataType="wstr"
+                          length="100"
+                          name="Credited_Rep" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Certificate_Status]"
+                          dataType="wstr"
+                          length="50"
+                          name="Certificate_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[AsOf]"
+                          dataType="i4"
+                          name="AsOf" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credit_Status]"
+                          dataType="wstr"
+                          length="20"
+                          name="Credit_Status" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Credited_Branch]"
+                          dataType="wstr"
+                          length="50"
+                          name="Credited_Branch" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Sales_Rep_Email]"
+                          dataType="wstr"
+                          length="50"
+                          name="Sales_Rep_Email" />
+                        <externalMetadataColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input].ExternalColumns[Business_Unit_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="Business_Unit_ID" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT.Paths[OLE DB Source Output]"
+                  endId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Data SFDC To EDW\SP_SFDC_SalesCredit_BuildCreditTable"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{67451750-4A47-4F43-8EA7-6A5DBC2E9CA5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SP_SFDC_SalesCredit_BuildCreditTable"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A3B29634-0C0C-44AF-9D41-84A8FC650C36}"
+              SQLTask:SqlStatementSource="EXEC DBO.BuildCreditTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Data SFDC To EDW\Truncate FCT_ SALES_CREDIT"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{D47469D2-2460-477B-AF25-3B0DF4E0E82C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate FCT_ SALES_CREDIT"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9284C16E-813C-438E-9FF5-12E7BACCA1A9}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[FCT_SALES_CREDIT]&#xA;GO&#xA;TRUNCATE TABLE [EDW_STAGING].[DBO].[STG_FCT_SALES_CREDIT]&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{5B61D105-5104-42E2-AED9-F2C8174F27A0}"
+          DTS:From="Package\Load Data SFDC To EDW\Truncate FCT_ SALES_CREDIT"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{3C10274D-D577-4B53-BCA1-BEEF15011F4A}"
+          DTS:From="Package\Load Data SFDC To EDW\SP_SFDC_SalesCredit_BuildCreditTable"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load Data SFDC To EDW\Truncate FCT_ SALES_CREDIT" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{F35F8DE0-EA73-4683-874A-DFD3DFACD7EA}"
+          DTS:From="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Successful"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{FFD260CF-0C42-4C78-9DB6-82DBC41B9C93}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Successful"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FromLine">@[$Project::pstr_Email_sender]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">@[$Project::pstr_Environment] + ": Daily Sales Credit Data Extraction From SFDC ETL Job Completed Successfully"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="ToLine">@[$Project::pstr_DailySFDCExtraction_Notification_List]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AA0090B6-9B11-4A12-A208-245F865C2BE4}"
+          SendMailTask:From="BusinessIntelligence@archmi.com"
+          SendMailTask:To="kganesh@archmi.com"
+          SendMailTask:Subject="STAGING: Daily Sales Credit Data Extraction From SFDC ETL Job Completed Successfully" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{03997119-7EBD-4231-B746-23F24C1D5394}"
+      DTS:From="Package\Load Data SFDC To EDW"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Successful" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{C984F1F4-D6D9-48AE-8EC3-9A3C4892BF02}"
+      DTS:From="Package\Load Data SFDC To EDW"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Failure"
+          TopLeft="611,303" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT"
+          TopLeft="26,276" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT"
+          TopLeft="26,183" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Load Data SFDC To EDW\SP_SFDC_SalesCredit_BuildCreditTable"
+          TopLeft="26,34" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Load Data SFDC To EDW\Truncate FCT_ SALES_CREDIT"
+          TopLeft="26,99.5" />
+        <EdgeLayout
+          Id="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint]"
+          TopLeft="165.5,141.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.5"
+              Start="0,0"
+              End="0,34">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint 1]"
+          TopLeft="165.5,76">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.5"
+              Start="0,0"
+              End="0,16">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Data SFDC To EDW.PrecedenceConstraints[Constraint 2]"
+          TopLeft="165.5,225">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51"
+              Start="0,0"
+              End="0,43.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="379,373"
+          Size="379,416"
+          Id="Package\Load Data SFDC To EDW"
+          TopLeft="82,52" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Successful"
+          TopLeft="602,171" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="461,192">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="141,0"
+              Start="0,0"
+              End="133.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="133.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="461,326">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="150,0"
+              Start="0,0"
+              End="142.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="142.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="56.00865234375,5,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT"
+          TopLeft="279,233" />
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT"
+          TopLeft="282,103" />
+        <EdgeLayout
+          Id="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT.Paths[OLE DB Source Output]"
+          TopLeft="428,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88"
+              Start="0,0"
+              End="0,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\src EDW_STAGING STG_FCT_SALES_CREDIT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data SFDC To EDW\Load FCT_SALES_CREDIT\trgt EDW_DM FCT_SALES_CREDIT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="298,42"
+          Id="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT"
+          TopLeft="279,233" />
+        <NodeLayout
+          Size="298,42"
+          Id="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit"
+          TopLeft="279,103" />
+        <EdgeLayout
+          Id="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT.Paths[OLE DB Source Output]"
+          TopLeft="428,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88"
+              Start="0,0"
+              End="0,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\src SFDC factCredit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data SFDC To EDW\Load STG_FCT_SALES_CREDIT\trgt EDW_STAGING STG_FCT_SALES_CREDIT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
